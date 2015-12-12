@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Requests</string>
+    <string name="drawer_opened">Request</string>
+    <string name="drawer_closed">Requests</string>
+    <string-array name="planet">
+        <item>  </item>
+        <item> Mercury</item>
+    </string-array>
+
+</resources>

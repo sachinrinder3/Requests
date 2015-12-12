@@ -1,0 +1,11 @@
+<resources>
+    <!-- Base application theme. -->
+
+
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- target specifically for API 21 Or above  -->
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+</resources>
