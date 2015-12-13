@@ -10,4 +10,12 @@
         android:layout_height="match_parent"
         android:text="@string/hello_blank_fragment" />
 
+    <TextView
+        android:layout_width="136dp"
+        android:layout_height="77dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Hello Fragment 1"
+        android:id="@+id/textView"
+        android:layout_gravity="center" />
+
 </FrameLayout>
