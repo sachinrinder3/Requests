@@ -2,17 +2,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:id="@+id/tulsi1"
     tools:context="com.example.tuljain.requests.MyFragment1">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:text="@string/hello_blank_fragment"
+        android:gravity="center"/>
 
     <TextView
         android:layout_width="136dp"
-        android:layout_height="77dp"
+        android:layout_height="131dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Hello Fragment 1"
         android:id="@+id/textView"

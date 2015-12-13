@@ -1,11 +1,11 @@
 package com.example.tuljain.requests;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
+import android.support.v4.app.Fragment;
+
 import android.os.PersistableBundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,8 +26,9 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mdrawerlayout;
     private ListView listview;
     private  MyAdapter myAdapter;
+    private android.support.v4.app.FragmentManager  fragmentManager;
     private android.support.v4.app.FragmentTransaction fragmentTransaction;
-    //private String[] planets;
+    private String r;
     private ActionBarDrawerToggle drawerListener;
 
     @Override
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mdrawerlayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         //planets= getResources().getStringArray(R.array.planets);
         listview = (ListView) findViewById(R.id.drawer);
-        listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+      //  listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         myAdapter = new MyAdapter(this);
         listview.setAdapter(myAdapter);
         //listview.setOnItemClickListener(this);
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                getSupportActionBar().setTitle("Reach out to us");
+                //getSupportActionBar().setTitle("Reach out to us");
 //                Toast.makeText(MainActivity.this,  "is closed", Toast.LENGTH_SHORT).show();
             }
         };
@@ -78,19 +78,41 @@ public class MainActivity extends AppCompatActivity {
 //        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        fragmentManager = getSupportFragmentManager();
 
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        loadSelection(0);
     }
 
     private void loadSelection(int i){
-        Toast.makeText(MainActivity.this, "load_selection_is_being_called", Toast.LENGTH_SHORT).show();
-        listview.setItemChecked(i, true);
-        if(i==1){
-            MyFragment1 myFragment1 = new MyFragment1();
-            fragmentTransaction.replace(R.id.frameholder, myFragment1);
-            fragmentTransaction.commit();
+        getSupportActionBar().setTitle(myAdapter.getItem(i).toString());
+        Toast.makeText(MainActivity.this, "hey", Toast.LENGTH_SHORT).show();
+        //listview.setItemChecked(i, true);
+        switch (i) {
+            case 0:
+                MyFragment1 myFragment0 = new MyFragment1();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameholder,myFragment0);
+                fragmentTransaction.commit();
+                break;
+            case 1:
+                fragmentTransaction = fragmentManager.beginTransaction();
+                MyFragment2 myFragment1 = new MyFragment2();
+                fragmentTransaction.replace(R.id.frameholder, myFragment1);
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.commit();
+                break;
+            case 2:
+                MyFragment3 myFragment2 = new MyFragment3();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameholder, myFragment2);
+                fragmentTransaction.commit();
+                break;
+            case 3:
+                MyFragment4 myFragment3 = new MyFragment4();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameholder, myFragment3);
+                fragmentTransaction.commit();
+                break;
+
         }
     }
 

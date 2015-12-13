@@ -1,7 +1,6 @@
 package com.example.tuljain.requests;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,13 +12,11 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyFragment1 extends Fragment {
+public class MyFragment2 extends Fragment {
 
 
-    public MyFragment1() {
+    public MyFragment2() {
         // Required empty public constructor
-
-
     }
 
     @Override
@@ -36,7 +33,7 @@ public class MyFragment1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_fragment1, container, false);
+        return inflater.inflate(R.layout.fragment_my_fragment2, container, false);
     }
 
     @Override
@@ -53,4 +50,5 @@ public class MyFragment1 extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
 }

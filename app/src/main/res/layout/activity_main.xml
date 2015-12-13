@@ -5,7 +5,7 @@
     android:id="@+id/scrollView1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#e8e8e7"
+
     android:orientation="vertical"
     tools:context="com.example.tuljain.requests.MainActivity">
 
@@ -26,9 +26,9 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#000000"
             android:layout_gravity="center_horizontal"
             android:id="@+id/frameholder">
-
         </FrameLayout>
         <ListView
             android:layout_width="240dp"
