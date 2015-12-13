@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mdrawerlayout;
     private ListView listview;
     private  MyAdapter myAdapter;
-    private FragmentTransaction fragmentTransaction;
+    private android.support.v4.app.FragmentTransaction fragmentTransaction;
     //private String[] planets;
     private ActionBarDrawerToggle drawerListener;
 
@@ -51,13 +51,14 @@ public class MainActivity extends AppCompatActivity {
         listview.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
                                             @Override
                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                Toast.makeText(MainActivity.this, "was selected", Toast.LENGTH_SHORT).show();
                                                 switch (position){
                                                     case 0:
+                                                        Toast.makeText(MainActivity.this, "Fragment 1 selected", Toast.LENGTH_SHORT).show();
                                                         break;
 
                                                     case 1:
-
+                                                        Toast.makeText(MainActivity.this, "Fragment 2 selected", Toast.LENGTH_SHORT).show();
+                                                        loadSelection(position);
                                                         break;
                                                 }
                                                 mdrawerlayout.closeDrawer(listview);
@@ -70,14 +71,14 @@ public class MainActivity extends AppCompatActivity {
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 getSupportActionBar().setTitle("Select an option");
-                Toast.makeText(MainActivity.this,  "is opened", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this,  "is opened", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 getSupportActionBar().setTitle("Reach out to us");
-                Toast.makeText(MainActivity.this,  "is closed", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this,  "is closed", Toast.LENGTH_SHORT).show();
             }
         };
         mdrawerlayout.setDrawerListener(drawerListener);
@@ -85,13 +86,20 @@ public class MainActivity extends AppCompatActivity {
 //        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         loadSelection(0);
     }
 
     private void loadSelection(int i){
+        Toast.makeText(MainActivity.this, "was selected", Toast.LENGTH_SHORT).show();
         listview.setItemChecked(i, true);
+        if(i==1){
+            MyFragment1 myFragment1 = new MyFragment1();
+            fragmentTransaction.replace(R.id.frameholder, myFragment1);
+            fragmentTransaction.commit();
+        }
     }
 
     @Override
