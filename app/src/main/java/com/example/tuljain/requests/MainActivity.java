@@ -1,5 +1,7 @@
 package com.example.tuljain.requests;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mdrawerlayout;
     private ListView listview;
     private  MyAdapter myAdapter;
+    private FragmentTransaction fragmentTransaction;
     //private String[] planets;
     private ActionBarDrawerToggle drawerListener;
 
@@ -40,15 +43,25 @@ public class MainActivity extends AppCompatActivity {
         mdrawerlayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         //planets= getResources().getStringArray(R.array.planets);
         listview = (ListView) findViewById(R.id.drawer);
+        listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         myAdapter = new MyAdapter(this);
         listview.setAdapter(myAdapter);
+        //listview.setOnItemClickListener(this);
         //listview.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, planets));
         listview.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
                                             @Override
                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                Toast.makeText(MainActivity.this, "was selected", Toast.LENGTH_SHORT).show();
+                                                switch (position){
+                                                    case 0:
+                                                        break;
 
-                                                //Toast.makeText(MainActivity.this, planets[position] + "was selected", Toast.LENGTH_LONG).show();
-                                                selectItem(position);
+                                                    case 1:
+
+                                                        break;
+                                                }
+                                                mdrawerlayout.closeDrawer(listview);
+
                                             }
                                         }
         );
@@ -57,20 +70,28 @@ public class MainActivity extends AppCompatActivity {
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 getSupportActionBar().setTitle("Select an option");
-                Toast.makeText(MainActivity.this,  "is opened", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this,  "is opened", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 getSupportActionBar().setTitle("Reach out to us");
-                Toast.makeText(MainActivity.this,  "is closed", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this,  "is closed", Toast.LENGTH_SHORT).show();
             }
         };
         mdrawerlayout.setDrawerListener(drawerListener);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
-        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
+//        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        loadSelection(0);
+    }
+
+    private void loadSelection(int i){
+        listview.setItemChecked(i, true);
     }
 
     @Override
@@ -80,16 +101,20 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     public void selectItem(int position){
         listview.setItemChecked(position, true);
         //setTitle(planets[position]);
     }
+
     @Override
-    public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onPostCreate(savedInstanceState, persistentState);
+    public void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         drawerListener.syncState();
     }
+
     public void setTitle (String title){
+
         getSupportActionBar().setTitle(title);
     }
 
@@ -99,6 +124,20 @@ public class MainActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         drawerListener.onConfigurationChanged(newConfig);
     }
+
+//    @Override
+//    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+//        Toast.makeText(MainActivity.this, "was selected", Toast.LENGTH_SHORT).show();
+//        switch (position){
+//            case 0:
+//                break;
+//
+//            case 1:
+//
+//                break;
+//        }
+//        mdrawerlayout.closeDrawer(listview);
+//    }
 }
 
 

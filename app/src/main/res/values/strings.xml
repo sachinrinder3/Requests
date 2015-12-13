@@ -3,8 +3,11 @@
     <string name="drawer_opened">Request</string>
     <string name="drawer_closed">Requests</string>
     <string-array name="planet">
-        <item>  </item>
-        <item> Mercury</item>
+        <item> Fragment 1 </item>
+        <item> Fragment 2</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
