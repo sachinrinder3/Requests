@@ -85,14 +85,14 @@ public class MainActivity extends AppCompatActivity {
 //        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        loadSelection(0);
+        //FragmentManager fragmentManager = getSupportFragmentManager();
+        //fragmentTransaction = fragmentManager.beginTransaction();
+        //loadSelection(0);
     }
 
-    private void loadSelection(int i){
-        listview.setItemChecked(i, true);
-    }
+    //private void loadSelection(int i){
+        //listview.setItemChecked(i, true);
+   // }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 class MyAdapter extends BaseAdapter{
     private  Context context;
     String[] galaxy;
-    int[] images= {R.drawable.hamburger, R.drawable.hamburger};
+    int[] images= {R.drawable.hamburger, R.drawable.user, R.drawable.exit, R.drawable.ic_action_name2};
     public MyAdapter(Context context){
         this.context = context;
         galaxy = context.getResources().getStringArray(R.array.planet);

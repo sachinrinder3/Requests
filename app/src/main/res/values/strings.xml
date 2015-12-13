@@ -3,8 +3,10 @@
     <string name="drawer_opened">Request</string>
     <string name="drawer_closed">Requests</string>
     <string-array name="planet">
-        <item> Fragment 1 </item>
-        <item> Fragment 2</item>
+        <item> About us </item>
+        <item> Profile</item>
+        <item> Logout </item>
+        <item> Share </item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->

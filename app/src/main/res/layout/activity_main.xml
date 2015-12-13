@@ -13,9 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/hey"
-        android:background="@color/colorPrimary"
+        android:background="@color/toolbarTransparent"
         android:minHeight="?android:attr/actionBarSize">
-
     </android.support.v7.widget.Toolbar>
 
 
@@ -38,8 +37,8 @@
             android:id="@+id/drawer"
             android:dividerHeight="1dp"
             android:entries="@array/planet"
-            android:divider="#ce2580"
-            android:background="@color/colorPrimary">
+            android:divider="#d3d3d3"
+            android:background="@color/drawerlayouttransparent">
         </ListView>
 
     </android.support.v4.widget.DrawerLayout>
