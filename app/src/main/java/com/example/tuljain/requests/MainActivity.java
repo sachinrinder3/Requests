@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.hey);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Reach out to us");
+        getSupportActionBar().setTitle("Chat with us");
         mdrawerlayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         frameLayout = (FrameLayout)findViewById(R.id.frameholder);
         //planets= getResources().getStringArray(R.array.planets);
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (i) {
             case 0:
-                Intent chatwithus = new Intent("com.example.tuljain.requests.AboutUs");
+                Intent chatwithus = new Intent("com.example.tuljain.requests.ChatWithUs");
                 startActivity(chatwithus);
 //                MyFragment1 myFragment0 = new MyFragment1();
 //                fragmentTransaction = fragmentManager.beginTransaction();
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent aboutus = new Intent("com.example.tuljain.requests.AboutUs");
                 startActivity(aboutus);
             case 2:
-                Intent profile = new Intent("com.example.tuljain.requests.AboutUs");
+                Intent profile = new Intent("com.example.tuljain.requests.Profile");
                 startActivity(profile);
 //                MyFragment3 myFragment2 = new MyFragment3();
 //                fragmentTransaction = fragmentManager.beginTransaction();
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 //                fragmentTransaction.commit();
 //                break;
             case 3:
-                Intent logout = new Intent("com.example.tuljain.requests.AboutUs");
+                Intent logout = new Intent("com.example.tuljain.requests.Logout");
                 startActivity(logout);
 //                MyFragment4 myFragment3 = new MyFragment4();
 //                fragmentTransaction = fragmentManager.beginTransaction();
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 //                fragmentTransaction.commit();
 //                break;
             case 4:
-                Intent share = new Intent("com.example.tuljain.requests.AboutUs");
+                Intent share = new Intent("com.example.tuljain.requests.Share");
                 startActivity(share);
 //                MyFragment4 myFragment4 = new MyFragment4();
 //                fragmentTransaction = fragmentManager.beginTransaction();

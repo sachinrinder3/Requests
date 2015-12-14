@@ -11,6 +11,7 @@ public class AboutUs extends MainActivity {
         getSupportActionBar().setTitle(myAdapter.getItem(position).toString());
         getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
         listview.setItemChecked(position, true);
+        setContentView(R.layout.activity_about_us);
 
     }
 }

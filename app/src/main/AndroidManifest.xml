@@ -43,10 +43,34 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Share" />
-        <activity android:name=".Profile" />
-        <activity android:name=".Logout" />
-        <activity android:name=".ChatWithUs"></activity>
+        <activity android:name=".Share" >
+            <intent-filter>
+                <action android:name="com.example.tuljain.requests.Share" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            </activity>
+        <activity android:name=".Profile">
+            <intent-filter>
+                <action android:name="com.example.tuljain.requests.Profile" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Logout" >
+            <intent-filter>
+                <action android:name="com.example.tuljain.requests.Logout" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            </activity>
+        <activity android:name=".ChatWithUs">
+            <intent-filter>
+                <action android:name="com.example.tuljain.requests.ChatWithUS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
