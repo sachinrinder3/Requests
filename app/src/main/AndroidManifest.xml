@@ -66,7 +66,7 @@
             </activity>
         <activity android:name=".ChatWithUs">
             <intent-filter>
-                <action android:name="com.example.tuljain.requests.ChatWithUS" />
+                <action android:name="com.example.tuljain.requests.ChatWithUs" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

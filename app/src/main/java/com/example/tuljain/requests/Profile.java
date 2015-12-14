@@ -11,6 +11,6 @@ public class Profile extends MainActivity {
         getSupportActionBar().setTitle(myAdapter.getItem(position).toString());
         getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
         listview.setItemChecked(position, true);
-        setContentView(R.layout.activity_profile);
+        //setContentView(R.layout.activity_profile);
     }
 }

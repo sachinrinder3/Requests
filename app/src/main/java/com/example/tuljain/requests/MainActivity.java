@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Chat with us");
         mdrawerlayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         frameLayout = (FrameLayout)findViewById(R.id.frameholder);
-        //planets= getResources().getStringArray(R.array.planets);
+        //  planets= getResources().getStringArray(R.array.planets);
         listview = (ListView) findViewById(R.id.drawer);
-      //  listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        //  listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         myAdapter = new MyAdapter(this);
         listview.setAdapter(myAdapter);
         //listview.setOnItemClickListener(this);
@@ -57,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                                                 loadSelection(position);
-                                                mdrawerlayout.closeDrawer(listview);
-
                                             }
                                         }
         );
@@ -82,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 //        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        fragmentManager = getSupportFragmentManager();
+        fragmentManager = this.getSupportFragmentManager();
 
     }
 
@@ -95,12 +93,12 @@ public class MainActivity extends AppCompatActivity {
 
         switch (i) {
             case 0:
-                Intent chatwithus = new Intent("com.example.tuljain.requests.ChatWithUs");
-                startActivity(chatwithus);
-//                MyFragment1 myFragment0 = new MyFragment1();
-//                fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(R.id.frameholder,myFragment0);
-//                fragmentTransaction.commit();
+                //Intent chatwithus = new Intent("com.example.tuljain.requests.ChatWithUs");
+                //startActivity(chatwithus);
+               MyFragment1 myFragment0 = new MyFragment1();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameholder,myFragment0);
+                fragmentTransaction.commit();
                 break;
             case 1:
                 Intent aboutus = new Intent("com.example.tuljain.requests.AboutUs");

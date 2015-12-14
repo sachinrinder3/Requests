@@ -11,6 +11,6 @@ public class Logout extends MainActivity {
         getSupportActionBar().setTitle(myAdapter.getItem(position).toString());
         getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
         listview.setItemChecked(position, true);
-        setContentView(R.layout.activity_logout);
+        //setContentView(R.layout.activity_logout);
     }
 }

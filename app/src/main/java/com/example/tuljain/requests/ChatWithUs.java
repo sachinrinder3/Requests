@@ -11,6 +11,6 @@ public class ChatWithUs extends MainActivity {
         getSupportActionBar().setTitle(myAdapter.getItem(position).toString());
         getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
         listview.setItemChecked(position, true);
-        setContentView(R.layout.activity_chat_with_us);
+        //setContentView(R.layout.activity_chat_with_us);
     }
 }
