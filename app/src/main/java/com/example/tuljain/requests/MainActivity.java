@@ -1,6 +1,7 @@
 package com.example.tuljain.requests;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
@@ -23,13 +25,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private DrawerLayout mdrawerlayout;
-    private ListView listview;
+    protected DrawerLayout mdrawerlayout;
+    protected ListView listview;
     private  MyAdapter myAdapter;
     private android.support.v4.app.FragmentManager  fragmentManager;
     private android.support.v4.app.FragmentTransaction fragmentTransaction;
     private String r;
     private ActionBarDrawerToggle drawerListener;
+    protected FrameLayout frameLayout;
+    protected static int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Reach out to us");
         mdrawerlayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        frameLayout = (FrameLayout)findViewById(R.id.frameholder);
         //planets= getResources().getStringArray(R.array.planets);
         listview = (ListView) findViewById(R.id.drawer);
       //  listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -83,9 +88,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadSelection(int i){
-        getSupportActionBar().setTitle(myAdapter.getItem(i).toString());
-        Toast.makeText(MainActivity.this, "hey", Toast.LENGTH_SHORT).show();
+        //getSupportActionBar().setTitle(myAdapter.getItem(i).toString());
+        //Toast.makeText(MainActivity.this, "hey", Toast.LENGTH_SHORT).show();
         //listview.setItemChecked(i, true);
+        MainActivity.position = i;
+        mdrawerlayout.closeDrawer(listview);
+
         switch (i) {
             case 0:
                 MyFragment1 myFragment0 = new MyFragment1();
@@ -94,12 +102,8 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.commit();
                 break;
             case 1:
-                fragmentTransaction = fragmentManager.beginTransaction();
-                MyFragment2 myFragment1 = new MyFragment2();
-                fragmentTransaction.replace(R.id.frameholder, myFragment1);
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                fragmentTransaction.commit();
-                break;
+                Intent intent = new Intent("com.example.tuljain.requests.AboutUs");
+                startActivity(intent);
             case 2:
                 MyFragment3 myFragment2 = new MyFragment3();
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -110,6 +114,12 @@ public class MainActivity extends AppCompatActivity {
                 MyFragment4 myFragment3 = new MyFragment4();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frameholder, myFragment3);
+                fragmentTransaction.commit();
+                break;
+            case 4:
+                MyFragment4 myFragment4 = new MyFragment4();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameholder, myFragment4);
                 fragmentTransaction.commit();
                 break;
 
@@ -166,47 +176,4 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-class MyAdapter extends BaseAdapter{
-    private  Context context;
-    String[] galaxy;
-    int[] images= {R.drawable.hamburger, R.drawable.user, R.drawable.exit, R.drawable.ic_action_name2};
-    public MyAdapter(Context context){
-        this.context = context;
-        galaxy = context.getResources().getStringArray(R.array.planet);
-    }
-    @Override
-    public int getCount() {
-        return galaxy.length;
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return galaxy[position];
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View row = null;
-        if (convertView == null){
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(R.layout.customlayout,parent,false);
-        }
-        else{
-            row = convertView;
-        }
-        TextView titleTextView = (TextView)row.findViewById(R.id.t1);
-        ImageView titleImageView = (ImageView)row.findViewById(R.id.im1);
-        titleTextView.setText(galaxy[position]);
-        //titleTextView.setHeight(5);
-        titleImageView.setImageResource(images[position]);
-        //titleTextView.setHeight(5);
-        row.setMinimumHeight(100);
-        return row;
-    }
-}
 

@@ -3,6 +3,7 @@
     <string name="drawer_opened">Request</string>
     <string name="drawer_closed">Requests</string>
     <string-array name="planet">
+        <item> Chat with us </item>
         <item> About us </item>
         <item> Profile</item>
         <item> Logout </item>
