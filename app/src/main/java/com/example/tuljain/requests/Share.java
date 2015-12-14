@@ -3,7 +3,7 @@ package com.example.tuljain.requests;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class AboutUs extends MainActivity {
+public class Share extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -11,6 +11,6 @@ public class AboutUs extends MainActivity {
         getSupportActionBar().setTitle(myAdapter.getItem(position).toString());
         getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
         listview.setItemChecked(position, true);
-
+        setContentView(R.layout.activity_share);
     }
 }

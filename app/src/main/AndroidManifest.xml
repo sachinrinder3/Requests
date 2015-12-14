@@ -43,6 +43,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".Share" />
+        <activity android:name=".Profile" />
+        <activity android:name=".Logout" />
+        <activity android:name=".ChatWithUs"></activity>
     </application>
 
 </manifest>

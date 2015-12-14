@@ -27,10 +27,9 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     protected DrawerLayout mdrawerlayout;
     protected ListView listview;
-    private  MyAdapter myAdapter;
+    protected   MyAdapter myAdapter;
     private android.support.v4.app.FragmentManager  fragmentManager;
     private android.support.v4.app.FragmentTransaction fragmentTransaction;
-    private String r;
     private ActionBarDrawerToggle drawerListener;
     protected FrameLayout frameLayout;
     protected static int position;
@@ -96,32 +95,40 @@ public class MainActivity extends AppCompatActivity {
 
         switch (i) {
             case 0:
-                MyFragment1 myFragment0 = new MyFragment1();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameholder,myFragment0);
-                fragmentTransaction.commit();
+                Intent chatwithus = new Intent("com.example.tuljain.requests.AboutUs");
+                startActivity(chatwithus);
+//                MyFragment1 myFragment0 = new MyFragment1();
+//                fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.frameholder,myFragment0);
+//                fragmentTransaction.commit();
                 break;
             case 1:
-                Intent intent = new Intent("com.example.tuljain.requests.AboutUs");
-                startActivity(intent);
+                Intent aboutus = new Intent("com.example.tuljain.requests.AboutUs");
+                startActivity(aboutus);
             case 2:
-                MyFragment3 myFragment2 = new MyFragment3();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameholder, myFragment2);
-                fragmentTransaction.commit();
-                break;
+                Intent profile = new Intent("com.example.tuljain.requests.AboutUs");
+                startActivity(profile);
+//                MyFragment3 myFragment2 = new MyFragment3();
+//                fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.frameholder, myFragment2);
+//                fragmentTransaction.commit();
+//                break;
             case 3:
-                MyFragment4 myFragment3 = new MyFragment4();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameholder, myFragment3);
-                fragmentTransaction.commit();
-                break;
+                Intent logout = new Intent("com.example.tuljain.requests.AboutUs");
+                startActivity(logout);
+//                MyFragment4 myFragment3 = new MyFragment4();
+//                fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.frameholder, myFragment3);
+//                fragmentTransaction.commit();
+//                break;
             case 4:
-                MyFragment4 myFragment4 = new MyFragment4();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameholder, myFragment4);
-                fragmentTransaction.commit();
-                break;
+                Intent share = new Intent("com.example.tuljain.requests.AboutUs");
+                startActivity(share);
+//                MyFragment4 myFragment4 = new MyFragment4();
+//                fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.frameholder, myFragment4);
+//                fragmentTransaction.commit();
+//                break;
 
         }
     }
@@ -137,18 +144,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void selectItem(int position){
         listview.setItemChecked(position, true);
-        //setTitle(planets[position]);
     }
 
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerListener.syncState();
-    }
-
-    public void setTitle (String title){
-
-        getSupportActionBar().setTitle(title);
     }
 
     @Override
