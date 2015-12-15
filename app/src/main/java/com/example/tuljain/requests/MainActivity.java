@@ -1,6 +1,5 @@
 package com.example.tuljain.requests;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -70,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         fragmentManager = this.getSupportFragmentManager();
-        MyFragment1 myFragment0 = new MyFragment1();
+        ChatWithUs myFragment0 = new ChatWithUs();
         //Bundle args = new Bundle();
-        //args.putInt(MyFragment1.ARG_PLANET_NUMBER, position);
+        //args.putInt(ChatWithUs.ARG_PLANET_NUMBER, position);
         //myFragment0.setArguments(args);
         fragmentManager.beginTransaction().replace(R.id.frameholder, myFragment0).commit();
 
@@ -88,42 +87,26 @@ public class MainActivity extends AppCompatActivity {
 
         switch (i) {
             case 0:
-                //Intent chatwithus = new Intent("com.example.tuljain.requests.ChatWithUs");
-                //startActivity(chatwithus);
-               MyFragment1 myFragment0 = new MyFragment1();
-                Bundle args = new Bundle();
-                //args.putInt(MyFragment1.ARG_PLANET_NUMBER, position);
-                myFragment0.setArguments(args);
-                fragmentManager.beginTransaction().replace(R.id.frameholder, myFragment0).commit();
+               ChatWithUs chatwithus = new ChatWithUs();
+                fragmentManager.beginTransaction().replace(R.id.frameholder, chatwithus).commit();
                 break;
             case 1:
-                //Intent aboutus = new Intent("com.example.tuljain.requests.AboutUs");
-                //startActivity(aboutus);
-            case 2:
-                //Intent profile = new Intent("com.example.tuljain.requests.Profile");
-                //startActivity(profile);
-//                MyFragment3 myFragment2 = new MyFragment3();
-//                fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(R.id.frameholder, myFragment2);
-//                fragmentTransaction.commit();
-//                break;
-            case 3:
-                //Intent logout = new Intent("com.example.tuljain.requests.Logout");
-                //startActivity(logout);
-//                MyFragment4 myFragment3 = new MyFragment4();
-//                fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(R.id.frameholder, myFragment3);
-//                fragmentTransaction.commit();
-//                break;
-            case 4:
-                //Intent share = new Intent("com.example.tuljain.requests.Share");
-                //startActivity(share);
-//                MyFragment4 myFragment4 = new MyFragment4();
-//                fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(R.id.frameholder, myFragment4);
-//                fragmentTransaction.commit();
-//                break;
+                AboutUs aboutus  = new AboutUs();
+                fragmentManager.beginTransaction().replace(R.id.frameholder, aboutus).commit();
+                break;
 
+            case 2:
+                Profile profile  = new Profile();
+                fragmentManager.beginTransaction().replace(R.id.frameholder, profile).commit();
+                break;
+            case 3:
+               Logout logout = new Logout();
+                fragmentManager.beginTransaction().replace(R.id.frameholder, logout).commit();
+               break;
+            case 4:
+                Share share = new Share();
+                fragmentManager.beginTransaction().replace(R.id.frameholder, share).commit();
+                break;
         }
     }
 

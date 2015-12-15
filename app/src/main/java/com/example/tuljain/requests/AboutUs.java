@@ -1,22 +1,54 @@
 package com.example.tuljain.requests;
 
-import android.support.v7.app.AppCompatActivity;
+
+import android.content.Context;
 import android.os.Bundle;
-import android.widget.RelativeLayout;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-public class AboutUs extends MainActivity {
 
-    RelativeLayout r;
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class AboutUs extends Fragment {
+
+
+    public AboutUs() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle(myAdapter.getItem(position).toString());
-        getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
-//        r = (RelativeLayout)findViewById(R.id.about);
-//        getLayoutInflater().inflate(r);
-        listview.setItemChecked(position, true);
-//        setContentView(R.layout.activity_about_us);
-
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.about_us, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
 }

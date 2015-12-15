@@ -29,48 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Register">
-            <intent-filter>
-                <action android:name="com.example.tuljain.requests.Register" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".AboutUs">
-            <intent-filter>
-                <action android:name="com.example.tuljain.requests.AboutUs" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Share" >
-            <intent-filter>
-                <action android:name="com.example.tuljain.requests.Share" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-            </activity>
-        <activity android:name=".Profile">
-            <intent-filter>
-                <action android:name="com.example.tuljain.requests.Profile" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Logout" >
-            <intent-filter>
-                <action android:name="com.example.tuljain.requests.Logout" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-            </activity>
-        <activity android:name=".ChatWithUs">
-            <intent-filter>
-                <action android:name="com.example.tuljain.requests.ChatWithUs" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
