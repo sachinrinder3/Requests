@@ -21,4 +21,34 @@
         android:id="@+id/textView"
         android:layout_gravity="center" />
 
+
+    <TextView
+        android:layout_width="136dp"
+        android:layout_height="131dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Hello Fragment 1"
+        android:id="@+id/textw"
+        android:layout_gravity="center" />
+    <TextView
+        android:layout_width="136dp"
+        android:layout_height="131dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Hello Fragment 1"
+        android:id="@+id/teew"
+        android:layout_gravity="center" />
+    <TextView
+        android:layout_width="136dp"
+        android:layout_height="131dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Hello Fragment 1"
+        android:id="@+id/textew"
+        android:layout_gravity="center" />
+    <TextView
+        android:layout_width="216dp"
+        android:layout_height="188dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Hello Fragment 1"
+        android:id="@+id/textVie"
+        android:layout_gravity="center" />
+
 </FrameLayout>

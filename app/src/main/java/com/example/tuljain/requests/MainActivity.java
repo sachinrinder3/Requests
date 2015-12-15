@@ -1,38 +1,28 @@
 package com.example.tuljain.requests;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.support.v4.app.Fragment;
-
-import android.os.PersistableBundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     protected DrawerLayout mdrawerlayout;
     protected ListView listview;
     protected   MyAdapter myAdapter;
     private android.support.v4.app.FragmentManager  fragmentManager;
-    private android.support.v4.app.FragmentTransaction fragmentTransaction;
+    //private android.support.v4.app.FragmentTransaction fragmentTransaction;
     private ActionBarDrawerToggle drawerListener;
     protected FrameLayout frameLayout;
     protected static int position;
+    protected Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
          */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.hey);
+        toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Chat with us");
         mdrawerlayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -55,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         listview.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
                                             @Override
                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                                                 loadSelection(position);
                                             }
                                         }
@@ -81,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         fragmentManager = this.getSupportFragmentManager();
+        MyFragment1 myFragment0 = new MyFragment1();
+        //Bundle args = new Bundle();
+        //args.putInt(MyFragment1.ARG_PLANET_NUMBER, position);
+        //myFragment0.setArguments(args);
+        fragmentManager.beginTransaction().replace(R.id.frameholder, myFragment0).commit();
+
 
     }
 
@@ -96,32 +91,33 @@ public class MainActivity extends AppCompatActivity {
                 //Intent chatwithus = new Intent("com.example.tuljain.requests.ChatWithUs");
                 //startActivity(chatwithus);
                MyFragment1 myFragment0 = new MyFragment1();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameholder,myFragment0);
-                fragmentTransaction.commit();
+                Bundle args = new Bundle();
+                //args.putInt(MyFragment1.ARG_PLANET_NUMBER, position);
+                myFragment0.setArguments(args);
+                fragmentManager.beginTransaction().replace(R.id.frameholder, myFragment0).commit();
                 break;
             case 1:
-                Intent aboutus = new Intent("com.example.tuljain.requests.AboutUs");
-                startActivity(aboutus);
+                //Intent aboutus = new Intent("com.example.tuljain.requests.AboutUs");
+                //startActivity(aboutus);
             case 2:
-                Intent profile = new Intent("com.example.tuljain.requests.Profile");
-                startActivity(profile);
+                //Intent profile = new Intent("com.example.tuljain.requests.Profile");
+                //startActivity(profile);
 //                MyFragment3 myFragment2 = new MyFragment3();
 //                fragmentTransaction = fragmentManager.beginTransaction();
 //                fragmentTransaction.replace(R.id.frameholder, myFragment2);
 //                fragmentTransaction.commit();
 //                break;
             case 3:
-                Intent logout = new Intent("com.example.tuljain.requests.Logout");
-                startActivity(logout);
+                //Intent logout = new Intent("com.example.tuljain.requests.Logout");
+                //startActivity(logout);
 //                MyFragment4 myFragment3 = new MyFragment4();
 //                fragmentTransaction = fragmentManager.beginTransaction();
 //                fragmentTransaction.replace(R.id.frameholder, myFragment3);
 //                fragmentTransaction.commit();
 //                break;
             case 4:
-                Intent share = new Intent("com.example.tuljain.requests.Share");
-                startActivity(share);
+                //Intent share = new Intent("com.example.tuljain.requests.Share");
+                //startActivity(share);
 //                MyFragment4 myFragment4 = new MyFragment4();
 //                fragmentTransaction = fragmentManager.beginTransaction();
 //                fragmentTransaction.replace(R.id.frameholder, myFragment4);
@@ -156,20 +152,6 @@ public class MainActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         drawerListener.onConfigurationChanged(newConfig);
     }
-
-//    @Override
-//    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//        Toast.makeText(MainActivity.this, "was selected", Toast.LENGTH_SHORT).show();
-//        switch (position){
-//            case 0:
-//                break;
-//
-//            case 1:
-//
-//                break;
-//        }
-//        mdrawerlayout.closeDrawer(listview);
-//    }
 }
 
 
