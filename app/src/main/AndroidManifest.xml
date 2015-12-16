@@ -29,6 +29,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".FrontPage">
+            <action android:name="com.example.tuljain.requests.FrontPage" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </activity>
+
+        <activity android:name=".Register">
+            <action android:name="com.example.tuljain.requests.Register" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </activity>
     </application>
 
 </manifest>
