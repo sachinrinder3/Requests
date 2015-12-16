@@ -13,34 +13,28 @@ import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
-    protected DrawerLayout mdrawerlayout;
-    protected ListView listview;
-    protected   MyAdapter myAdapter;
+    private DrawerLayout mdrawerlayout;
+    private ListView listview;
+    private   MyAdapter myAdapter;
     private android.support.v4.app.FragmentManager  fragmentManager;
     //private android.support.v4.app.FragmentTransaction fragmentTransaction;
     private ActionBarDrawerToggle drawerListener;
-    protected FrameLayout frameLayout;
-    protected static int position;
-    protected Toolbar toolbar;
+    private FrameLayout frameLayout;
+    private static int position;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /** setTheme(R.style.MyTheme);
-         */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Chat with us");
+        getSupportActionBar().setTitle(myAdapter.getItem(0).toString());
         mdrawerlayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         frameLayout = (FrameLayout)findViewById(R.id.frameholder);
-        //  planets= getResources().getStringArray(R.array.planets);
         listview = (ListView) findViewById(R.id.drawer);
-        //  listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         myAdapter = new MyAdapter(this);
         listview.setAdapter(myAdapter);
-        //listview.setOnItemClickListener(this);
-        //listview.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, planets));
         listview.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
                                             @Override
                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -53,26 +47,18 @@ public class MainActivity extends AppCompatActivity {
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 getSupportActionBar().setTitle("Select an option");
-//                Toast.makeText(MainActivity.this,  "is opened", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                //getSupportActionBar().setTitle("Reach out to us");
-//                Toast.makeText(MainActivity.this,  "is closed", Toast.LENGTH_SHORT).show();
             }
         };
         mdrawerlayout.setDrawerListener(drawerListener);
-//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
-//        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        fragmentManager = this.getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         ChatWithUs myFragment0 = new ChatWithUs();
-        //Bundle args = new Bundle();
-        //args.putInt(ChatWithUs.ARG_PLANET_NUMBER, position);
-        //myFragment0.setArguments(args);
         fragmentManager.beginTransaction().replace(R.id.frameholder, myFragment0).commit();
 
 
@@ -83,11 +69,12 @@ public class MainActivity extends AppCompatActivity {
         //Toast.makeText(MainActivity.this, "hey", Toast.LENGTH_SHORT).show();
         //listview.setItemChecked(i, true);
         MainActivity.position = i;
+        getSupportActionBar().setTitle(myAdapter.getItem(i).toString());
         mdrawerlayout.closeDrawer(listview);
 
         switch (i) {
             case 0:
-               ChatWithUs chatwithus = new ChatWithUs();
+                ChatWithUs chatwithus = new ChatWithUs();
                 fragmentManager.beginTransaction().replace(R.id.frameholder, chatwithus).commit();
                 break;
             case 1:
