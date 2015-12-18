@@ -13,6 +13,12 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.*;
 
 public class MainActivity extends AppCompatActivity {
 //    private DrawerLayout mdrawerlayout;
@@ -24,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 //    private FrameLayout frameLayout;
 //    private static int position;
 //    private Toolbar toolbar;
+    public  String parsedString = "";
+
     private Button loginbtn;
     private Button registerbtn;
     private Button forgotpasswordbtn;
@@ -39,8 +47,24 @@ public class MainActivity extends AppCompatActivity {
         loginbtn.setOnClickListener(new View.OnClickListener() {
 
                                          public void onClick(View v) {
-                                             Intent intentlogin = new Intent(MainActivity.this, FrontPage.class);
-                                             startActivity(intentlogin);
+
+                                             try {
+                                                 URL url = new URL("http://maps.googleapis.com/maps/api/geocode/json?address=tohana");
+                                                 HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+                                                 httpConn.setAllowUserInteraction(false);
+                                                 httpConn.setInstanceFollowRedirects(true);
+                                                 httpConn.setRequestMethod("GET");
+                                                 httpConn.connect();
+
+                                                 InputStream in = httpConn.getInputStream();
+                                                 parsedString = in.toString();
+
+                                                 System.out.println(parsedString);
+                                                 Toast.makeText(MainActivity.this, parsedString, Toast.LENGTH_SHORT).show();
+                                             }catch (Exception e) {
+                                                 e.printStackTrace();
+                                             }
+
                                          }
                                      }
 
