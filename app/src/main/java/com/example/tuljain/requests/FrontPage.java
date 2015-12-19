@@ -13,8 +13,6 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 
 public class FrontPage extends AppCompatActivity {
-
-
         private DrawerLayout mdrawerlayout;
         private ListView listview;
         private   MyAdapter myAdapter;

@@ -4,6 +4,8 @@ package com.example.tuljain.requests;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,6 @@ import android.view.ViewGroup;
  * A simple {@link Fragment} subclass.
  */
 public class ChatWithUs extends Fragment {
-
 
     public ChatWithUs() {
         // Required empty public constructor
@@ -25,7 +26,6 @@ public class ChatWithUs extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +36,11 @@ public class ChatWithUs extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.chat_with_us, container, false);
+//        RecyclerView recList = (RecyclerView) findViewById(R.id.message_list);
+//        recList.setHasFixedSize(true);
+//        LinearLayoutManager llm = new LinearLayoutManager();
+//        llm.setOrientation(LinearLayoutManager.VERTICAL);
+//        recList.setLayoutManager(llm);
     }
 
     @Override

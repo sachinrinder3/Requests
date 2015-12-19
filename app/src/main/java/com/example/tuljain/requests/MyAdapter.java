@@ -38,13 +38,14 @@ class MyAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View row = null;
+        View row = convertView;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.customlayout, parent, false);
-        } else {
-            row = convertView;
         }
+        //else {
+            //row = convertView;
+        //}
         TextView titleTextView = (TextView) row.findViewById(R.id.t1);
         ImageView titleImageView = (ImageView) row.findViewById(R.id.im1);
         titleTextView.setText(galaxy[position]);
