@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.tuljain.requests.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,13 +24,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".FrontPage">
-            <action android:name="com.example.tuljain.requests.FrontPage" />
+        <activity android:name="com.example.tuljain.requests.activity.FrontPage">
+            <action android:name="com.example.tuljain.requests.activity.FrontPage" />
             <category android:name="android.intent.category.DEFAULT" />
         </activity>
 
-        <activity android:name=".Register">
-            <action android:name="com.example.tuljain.requests.Register" />
+        <activity android:name="com.example.tuljain.requests.activity.Register">
+            <action android:name="com.example.tuljain.requests.activity.Register" />
             <category android:name="android.intent.category.DEFAULT" />
         </activity>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
