@@ -1,4 +1,4 @@
-package com.example.tuljain.requests;
+package com.example.android.requests.fragments;
 
 
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.android.requests.R;
 
 
 /**

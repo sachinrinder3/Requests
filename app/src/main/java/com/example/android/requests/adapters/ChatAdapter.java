@@ -1,4 +1,4 @@
-package com.example.tuljain.requests.chat;
+package com.example.android.requests.adapters;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -6,15 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.tuljain.requests.R;
+import com.example.android.requests.R;
+import com.example.android.requests.chat.ChatViewHolder;
+import com.example.android.requests.models.ChatMessage;
 
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<ChatMessage> chatList;
+    private  ChatMessage[] chatList;
 
-    public ChatAdapter(List<ChatMessage> chatList) {
+    public ChatAdapter(ChatMessage[] chatList) {
         this.chatList = chatList;
     }
 
@@ -30,9 +32,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return chatList.size();
-    }
 
+        return chatList.length;
+    }
 
 
 
@@ -41,8 +43,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
-        ChatMessage cm = chatList.get(position);
-        ((ChatViewHolder) holder).showMessageText(cm.toString());
+        //((ChatViewHolder) holder).ch
+        ((ChatViewHolder) holder).chatmessage.setText(chatList[position].getChatmessage());
+
     }
 
 

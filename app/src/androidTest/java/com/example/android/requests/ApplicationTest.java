@@ -1,4 +1,4 @@
-package com.example.tuljain.requests;
+package com.example.android.requests;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

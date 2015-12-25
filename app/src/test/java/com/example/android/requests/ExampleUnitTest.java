@@ -1,4 +1,4 @@
-package com.example.tuljain.requests;
+package com.example.android.requests;
 
 import org.junit.Test;
 

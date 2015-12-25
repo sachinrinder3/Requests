@@ -1,9 +1,9 @@
-package com.example.tuljain.requests.activity;
+package com.example.android.requests.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.tuljain.requests.R;
+import com.example.android.requests.R;
 
 /**
  * Created by tuljain on 12/16/2015.

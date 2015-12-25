@@ -1,8 +1,5 @@
-package com.example.tuljain.requests.activity;
+package com.example.android.requests.activities;
 
-/**
- * Created by tuljain on 12/20/2015.
- */
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,14 +12,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import com.example.android.requests.fragments.Share;
+import com.example.android.requests.fragments.Logout;
+import com.example.android.requests.fragments.ChatWithUs;
+import com.example.android.requests.fragments.Profile;
+import com.example.android.requests.fragments.AboutUs;
 
-import com.example.tuljain.requests.AboutUs;
-import com.example.tuljain.requests.ChatWithUs;
-import com.example.tuljain.requests.Logout;
-import com.example.tuljain.requests.Profile;
-import com.example.tuljain.requests.R;
-import com.example.tuljain.requests.Share;
-import com.example.tuljain.requests.adapter.DrawerLayoutAdapter;
+
+import com.example.android.requests.R;
+import com.example.android.requests.adapters.DrawerLayoutAdapter;
 
 
 
@@ -34,7 +32,6 @@ public class FrontPage extends AppCompatActivity {
     private android.support.v4.app.FragmentManager  fragmentManager;
     private ActionBarDrawerToggle drawerListener;
     private FrameLayout frameLayout;
-    private static int position;
     private Toolbar toolbar;
 
     @Override

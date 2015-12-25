@@ -8,7 +8,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    tools:context="com.example.tuljain.requests.MainActivity">
+    tools:context="com.example.android.requests.activities.MainActivity">
 
 
 </LinearLayout>

@@ -1,5 +1,6 @@
-package com.example.tuljain.requests.activity;
+package com.example.android.requests.activities;
 
+import android.app.VoiceInteractor;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,10 +10,16 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.widget.TextView;
 
-import com.example.tuljain.requests.R;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.example.android.requests.R;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,11 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private Button registerbtn;
     private Button forgotpasswordbtn;
     private TextView email;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +42,39 @@ public class MainActivity extends AppCompatActivity {
 
         loginbtn.setOnClickListener(new View.OnClickListener() {
                                         public void onClick(View v) {
-                                            Toast.makeText(MainActivity.this, "Working launde", Toast.LENGTH_SHORT).show();
-                                            Intent intentlogin = new Intent(MainActivity.this, FrontPage.class);
-                                            startActivity(intentlogin);
+                                            Toast.makeText(MainActivity.this, "all", Toast.LENGTH_SHORT).show();
+//                                            Intent intentlogin = new Intent(MainActivity.this, FrontPage.class);
+//                                            startActivity(intentlogin);
+//                                            BufferedReader reader = null;
+//                                            String uri = "http://192.168.0.2:3000/users/login?email=jaintulsi&password=tulsi";
+//                                            try {
+//                                                URL url = new URL (uri);
+                                               OkHttpClient client = new OkHttpClient();
+//                                                HttpURLConnection con =  client.open(url);
+//                                                StringBuilder sb = new StringBuilder();
+//                                                reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+//                                                String line;
+//                                                while ((line = reader.readLine()) != null) {
+//
+//                                                    sb.append(line + "\n");
+//                                                }
+//
+//                                            }catch(Exception e){
+//                                                e.printStackTrace();
+//                                            }
+                                            Request request = new Request.Builder()
+                                                    .url("http://192.168.0.2:3000/users/login?email=jaintulsi&password=tulsi")
+                                                    .build();
+                                            try {
+                                                Call call = client.newCall(request);
+
+                                                Response response = call.execute();
+                                                String hey = response.body().toString();
+                                                //System.println
+                                                Toast.makeText(MainActivity.this, hey, Toast.LENGTH_SHORT).show();
+                                            }catch (Exception e){
+                                                e.printStackTrace();
+                                            }
 //                                            int len = 500;
 //                                            email.setText("set the e-mail");
 //                                            try {
@@ -92,49 +124,6 @@ public class MainActivity extends AppCompatActivity {
                                        }
 
         );
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.example.tuljain.requests/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.example.tuljain.requests/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
     }
 }
 

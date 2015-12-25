@@ -1,4 +1,4 @@
-package com.example.tuljain.requests.adapter;
+package com.example.android.requests.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.tuljain.requests.R;
+import com.example.android.requests.R;
 
 /**
  * Created by tuljain on 12/20/2015.

@@ -1,49 +1,42 @@
-package com.example.tuljain.requests;
+package com.example.android.requests.fragments;
 
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import com.example.android.requests.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChatWithUs extends Fragment {
+public class Profile extends Fragment {
 
-    public ChatWithUs() {
+
+    public Profile() {
         // Required empty public constructor
-
-
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.chat_with_us, container, false);
-        RecyclerView recList = (RecyclerView) rootView.findViewById(R.id.message_list);
-        recList.setHasFixedSize(true);
-        LinearLayoutManager llm = (new LinearLayoutManager(getActivity()));
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        recList.setLayoutManager(llm);
-        return rootView;
+        return inflater.inflate(R.layout.profile, container, false);
     }
 
     @Override
@@ -60,4 +53,5 @@ public class ChatWithUs extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
 }
