@@ -16,7 +16,7 @@ import com.example.android.requests.R;
 public class DrawerLayoutAdapter extends BaseAdapter {
         private Context context;
         String[] galaxy;
-        int[] images = {R.drawable.hamburger, R.drawable.hamburger, R.drawable.user, R.drawable.exit, R.drawable.ic_action_name2};
+        int[] images = {R.drawable.hamburger, R.drawable.hamburger, R.drawable.user, R.drawable.exit, R.drawable.ic_action_name2, R.drawable.ic_action_name2};
 
         public DrawerLayoutAdapter(Context context) {
             this.context = context;

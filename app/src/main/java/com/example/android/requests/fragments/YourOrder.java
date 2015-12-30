@@ -14,10 +14,10 @@ import com.example.android.requests.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AboutUs extends Fragment {
+public class YourOrder extends Fragment {
 
 
-    public AboutUs() {
+    public YourOrder() {
         // Required empty public constructor
     }
 
@@ -35,7 +35,7 @@ public class AboutUs extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.about_us, container, false);
+        return inflater.inflate(R.layout.your_order, container, false);
     }
 
     @Override

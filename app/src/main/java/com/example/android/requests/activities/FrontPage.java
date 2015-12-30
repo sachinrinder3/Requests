@@ -1,6 +1,7 @@
 package com.example.android.requests.activities;
 
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -13,16 +14,14 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import com.example.android.requests.fragments.Share;
-import com.example.android.requests.fragments.Logout;
 import com.example.android.requests.fragments.ChatWithUs;
 import com.example.android.requests.fragments.Profile;
-import com.example.android.requests.fragments.AboutUs;
+import com.example.android.requests.fragments.YourOrder;
 
 
 import com.example.android.requests.R;
 import com.example.android.requests.adapters.DrawerLayoutAdapter;
-
-
+import com.example.android.requests.fragments.Wallet;
 
 
 public class FrontPage extends AppCompatActivity {
@@ -68,8 +67,11 @@ public class FrontPage extends AppCompatActivity {
             }
         };
         mdrawerlayout.setDrawerListener(drawerListener);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //getSupportActionBar().setIcon(R.drawable.user);
+        getSupportActionBar().setLogo(R.drawable.user);
         fragmentManager = getSupportFragmentManager();
         ChatWithUs myFragment0 = new ChatWithUs();
         fragmentManager.beginTransaction().replace(R.id.frameholder, myFragment0).commit();
@@ -78,28 +80,40 @@ public class FrontPage extends AppCompatActivity {
     }
 
     private void loadSelection(int i){
-        getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
-        mdrawerlayout.closeDrawer(listview);
+
 
         switch (i) {
             case 0:
+                mdrawerlayout.closeDrawer(listview);
+                getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
                 ChatWithUs chatwithus = new ChatWithUs();
                 fragmentManager.beginTransaction().replace(R.id.frameholder, chatwithus).commit();
                 break;
             case 1:
-                AboutUs aboutus  = new AboutUs();
-                fragmentManager.beginTransaction().replace(R.id.frameholder, aboutus).commit();
+                mdrawerlayout.closeDrawer(listview);
+                getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
+                YourOrder yourOrder  = new YourOrder();
+                fragmentManager.beginTransaction().replace(R.id.frameholder, yourOrder).commit();
+                break;
+            case 2:
+                mdrawerlayout.closeDrawer(listview);
+                getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
+                Wallet wallet = new Wallet();
+                fragmentManager.beginTransaction().replace(R.id.frameholder, wallet).commit();
                 break;
 
-            case 2:
+            case 3:
+                mdrawerlayout.closeDrawer(listview);
+                getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
                 Profile profile  = new Profile();
                 fragmentManager.beginTransaction().replace(R.id.frameholder, profile).commit();
                 break;
-            case 3:
-                Logout logout = new Logout();
-                fragmentManager.beginTransaction().replace(R.id.frameholder, logout).commit();
-                break;
             case 4:
+                Intent logout = new Intent(this, MainActivity.class);
+                startActivity(logout);
+            case 5:
+                mdrawerlayout.closeDrawer(listview);
+                getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
                 Share share = new Share();
                 fragmentManager.beginTransaction().replace(R.id.frameholder, share).commit();
                 break;

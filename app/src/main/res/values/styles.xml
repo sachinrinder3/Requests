@@ -5,7 +5,7 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- target specifically for API 21 Or above  -->
-        <item name="colorAccent">@color/colorAccent</item>
+
         <item name="android:buttonStyle">@style/button</item>
     </style>
         <style name="button" parent="@android:style/Widget.Button">

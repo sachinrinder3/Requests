@@ -3,16 +3,20 @@
     <string name="drawer_opened">Request</string>
     <string name="drawer_closed">Requests</string>
     <string-array name="planet">
-        <item> Chat with us </item>
-        <item> About us </item>
+        <item> Chat With Us </item>
+        <item> Your Order </item>
+        <item> Wallet </item>
         <item> Profile</item>
         <item> Logout </item>
         <item> Share </item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="chat_message_hint">Whats in your mind</string>
     <string name="desc_contact_image">Sender</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="facebook_app_id">830631a2210afa92a176f3bc5e80e467 </string>
 
 </resources>

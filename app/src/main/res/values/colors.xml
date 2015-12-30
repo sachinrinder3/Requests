@@ -3,9 +3,11 @@
     <color name="colorPrimaryDark">#FF4081</color>
     <color name="colorPrimary">#FF4081</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="hey">#FF4081</color>
-    <color name="toolbarTransparent">#7323dc</color>
-    <color name="drawerlayouttransparent">#800080</color>
+
+    <color name="fragment_frame_color">#FFFFFF</color>
+    <color name="toolbarcolor">#7323dc</color>
+    <color name="drawerlayoutcolor">#800080</color>
+
     <color name="widget_background">#a4c639</color>
     <color name="widget_border">#a52a2a</color>
     <color name="chat_text_color">#a52a2a</color>

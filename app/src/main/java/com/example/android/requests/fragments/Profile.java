@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 import com.example.android.requests.R;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class Profile extends Fragment {
 
 

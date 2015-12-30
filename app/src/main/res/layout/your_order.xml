@@ -3,17 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="10dp"
-    tools:context=".AboutUs"
+    tools:context=".YourOrder"
     >
-
-    <!-- TODO: Update blank fragment layout -->
-    <ImageView
-        android:id="@+id/contact_image"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_gravity="top"
-        android:contentDescription="@string/desc_contact_image"
-        android:src="@drawable/placeholder_profile"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -24,14 +15,6 @@
         android:layout_marginTop="15dp"
         android:background="@drawable/chatreceived"
         android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/message_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/chat_text_color"
-            />
     </LinearLayout>
 
 
