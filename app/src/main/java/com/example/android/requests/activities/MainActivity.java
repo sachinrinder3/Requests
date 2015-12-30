@@ -11,13 +11,24 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.TextView;
 
 import com.example.android.requests.R;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.login.widget.LoginButton;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -46,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private Button registerbtn;
     private Button forgotpasswordbtn;
     private TextView email;
+    CallbackManager callbackManager;
+    com.facebook.login.widget.LoginButton loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +66,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.login);
+        callbackManager = CallbackManager.Factory.create();
+        loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions("user_friends");
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                AccessToken accessToken = loginResult.getAccessToken();
+                Profile profile = Profile.getCurrentProfile();
+                if (profile != null){
+                    TextView tv = (TextView) findViewById(R.id.email);
+                    tv.setText(profile.getName());
+                }
+                else {
+                    TextView tv = (TextView) findViewById(R.id.email);
+                    tv.setText("did not get the name");
+
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });
         loginbtn = (Button) findViewById(R.id.login);
         email = (TextView) findViewById(R.id.email);
         registerbtn = (Button) findViewById(R.id.register);
@@ -76,6 +118,11 @@ public class MainActivity extends AppCompatActivity {
                                        }
 
         );
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
     public void showNotification (View v){
         NotificationCompat.Builder nb = new NotificationCompat.Builder(this).setContentTitle("hey whats up").setContentText("hey").setTicker("heybidshcb").setSmallIcon(R.drawable.hamburger);
@@ -122,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 
 }
 

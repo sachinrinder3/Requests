@@ -2,13 +2,16 @@ package com.example.android.requests.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.android.requests.R;
+import android.widget.ImageView;
 
+import com.example.android.requests.R;
+import com.facebook.share.model.ShareLinkContent;
 
 
 public class Share extends Fragment {
@@ -31,39 +34,51 @@ public class Share extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View rootview = inflater.inflate(R.layout.share, container, false);
+        ImageView whatsapp = (ImageView)rootview.findViewById(R.id.whatseapp);
+        ImageView message = (ImageView)rootview.findViewById(R.id.messaege);
+        ImageView facebook = (ImageView)rootview.findViewById(R.id.facebook);
+        ImageView twitter = (ImageView)rootview.findViewById(R.id.twitter);
+        whatsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                sendIntent.setType("text/plain");
+                sendIntent.setPackage("com.whatsapp");
+                startActivity(sendIntent);
 
+            }
+        });
+        message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String smsBody="Sms Body";
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                sendIntent.putExtra("sms_body", smsBody);
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
 
+            }
+        });
+        facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareLinkContent content = new ShareLinkContent.Builder()
+                        .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                        .build();
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.share, container, false);
+            }
+        });
+        twitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        return rootview;
     }
-    public void message () {
-
-        String smsBody="Sms Body";
-        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-        sendIntent.putExtra("sms_body", smsBody);
-        sendIntent.setType("vnd.android-dir/mms-sms");
-        startActivity(sendIntent);
-
-    };
-    public void facebook () {
-
-    };
-    public void whatsapp () {
-
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
-        sendIntent.setType("text/plain");
-        sendIntent.setPackage("com.whatsapp");
-        startActivity(sendIntent);
-
-    }; public void googleplus () {
-
-    };
-    public void twitter () {
-
-    };
 
 
 

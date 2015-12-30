@@ -22,7 +22,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/messaege1"
+                android:id="@+id/messaege"
                 android:layout_marginBottom="40dp"
                 android:layout_marginTop="80dp"
                 android:layout_marginLeft="90dp"
@@ -35,7 +35,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/whatseapp1"
+                android:id="@+id/whatseapp"
                 android:layout_marginBottom="40dp"
                 android:layout_marginTop="80dp"
                 android:layout_marginLeft="45dp"
@@ -57,7 +57,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/messaege"
+                android:id="@+id/facebook"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="80dp"
                 android:layout_marginTop="40dp"
@@ -69,7 +69,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/whatseapp"
+                android:id="@+id/twitter"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="80dp"
                 android:layout_marginLeft="45dp"
