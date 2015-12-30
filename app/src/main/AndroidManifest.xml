@@ -12,6 +12,15 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <provider
+        android:name="com.facebook.FacebookContentProvider"
+        android:authorities="com.facebook.app.FacebookContentProvider190365014646527"
+        android:exported="true" />
+
+    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/images"
@@ -25,30 +34,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.example.android.requests.activities.FrontPage">
+        <activity android:name=".activities.FrontPage">
             <action android:name="com.example.android.requests.activities.FrontPage" />
-            <category android:name="android.intent.category.DEFAULT" />
-        </activity>
 
-        <activity android:name="com.example.android.requests.activities.Register">
-            <action android:name="com.example.android.requests.activities.Register" />
             <category android:name="android.intent.category.DEFAULT" />
         </activity>
-        <activity android:name="com.facebook.FacebookActivity"
+        <activity android:name=".activities.Register">
+            <action android:name="com.example.android.requests.activities.Register" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
     </application>
-    <provider android:authorities="com.facebook.app.FacebookContentProvider190365014646527"
-        android:name="com.facebook.FacebookContentProvider"
-        android:exported="true" />
 
 </manifest>

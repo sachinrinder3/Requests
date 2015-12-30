@@ -7,12 +7,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.android.requests.R;
+import android.widget.Button;
+import android.widget.Button;
+
 
 
 
 public class Profile extends Fragment {
 
+    private Button edit_button;
 
     public Profile() {
         // Required empty public constructor
@@ -35,11 +38,16 @@ public class Profile extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.profile, container, false);
+
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    public void onClick(final View v){
+        edit_button = (Button) v.findViewById(R.id)
     }
 
     @Override
