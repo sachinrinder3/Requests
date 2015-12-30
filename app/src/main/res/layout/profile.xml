@@ -24,34 +24,52 @@
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:textSize="15dp"
-            android:text="First Name"
-            android:inputType="text"/>
+            android:hint="First name"
+            android:inputType="text"
+            android:text="Geetika"
+            android:enabled="false"/>
         <EditText
             android:layout_margin="15dp"
             android:id="@+id/lastname"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:textSize="15dp"
-            android:text="Last Name"
-            android:inputType="text"/>
+            android:hint="Last name"
+            android:inputType="text"
+            android:text="Jain"
+            android:enabled="false"/>
         <EditText
             android:layout_margin="15dp"
             android:id="@+id/email"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:textSize="15dp"
-            android:text="Email"
-            android:inputType="text"/>
+            android:hint="Email"
+            android:inputType="text"
+            android:text="geet@com"
+            android:enabled="false"
+            android:visibility="visible" />
         <EditText
             android:layout_margin="15dp"
             android:id="@+id/phonenumber"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:textSize="15dp"
-            android:text="Phone Number"
-            android:inputType="text"/>
+            android:hint="Phone Number"
+            android:inputType="text"
+            android:text="1234567890"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="Edit"
+            android:id="@+id/edit_button"
+            android:layout_gravity="center_horizontal|bottom" />
 
     </LinearLayout>
+
+
 
 
 </FrameLayout>
