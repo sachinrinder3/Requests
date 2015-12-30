@@ -8,14 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Button;
 
-
+import com.example.android.requests.EditableProfile;
+import com.example.android.requests.R;
 
 
 public class Profile extends Fragment {
 
     private Button edit_button;
+    private android.support.v4.app.FragmentManager  fragmentManager;
 
     public Profile() {
         // Required empty public constructor
@@ -39,6 +40,7 @@ public class Profile extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.profile, container, false);
 
+
     }
 
     @Override
@@ -47,7 +49,15 @@ public class Profile extends Fragment {
     }
 
     public void onClick(final View v){
-        edit_button = (Button) v.findViewById(R.id)
+        edit_button = (Button) v.findViewById(R.id.edit_button);
+        edit_button.setOnClickListener(new View.OnClickListener() {
+                                        public void onClick(View v) {
+                                            EditableProfile editableProfile = new EditableProfile();
+                                            fragmentManager.beginTransaction().replace(R.id.frameholder, editableProfile).commit();
+                                        }
+                                    }
+
+        );
     }
 
     @Override
