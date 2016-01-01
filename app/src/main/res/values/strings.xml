@@ -2,14 +2,7 @@
     <string name="app_name">Requests</string>
     <string name="drawer_opened">Request</string>
     <string name="drawer_closed">Requests</string>
-    <string-array name="planet">
-        <item> Chat With Us </item>
-        <item> Your Order </item>
-        <item> Wallet </item>
-        <item> Profile</item>
-        <item> Logout </item>
-        <item> Share </item>
-    </string-array>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="chat_message_hint">Whats in your mind</string>

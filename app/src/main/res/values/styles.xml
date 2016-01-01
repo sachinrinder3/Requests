@@ -1,12 +1,132 @@
 <resources>
     <!-- Base application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+
+        <item name="android:textColorHint">@color/default_hint_color</item>
+        <item name="android:textAppearance">@style/text_appearance</item>
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:radioButtonStyle">@style/MyRadioButton</item>
+        <item name="android:buttonStyleToggle">@style/toggle_button_style</item>
+        <item name="editTextStyle">@style/edit_text_style</item>
+        <item name="actionBarStyle">@style/action_bar_style</item>
+        <item name="checkboxStyle">@style/checkbox_style</item>
+        <item name="android:cursorVisible">true</item>
 
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- target specifically for API 21 Or above  -->
-
-        <item name="android:buttonStyle">@style/button</item>
     </style>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+
+    <style name="checkbox_style" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:textColor">@drawable/text_highlighter</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="MyRadioButton" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:textColor">@drawable/text_highlighter</item>
+        <item name="android:textSize">14sp</item>
+
+    </style>
+    <style name="WhiteStickyButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/white_submit_button</item>
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="PurpleRoundButton" parent="MyButtonRounded">
+        <item name="android:background">@drawable/login_button</item>
+        <item name="android:color">@color/accent</item>
+    </style>
+    <style name="MyButtonRounded" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/purple_submit_button</item>
+        <item name="android:textColor">@color/widget_background</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="message_text_style">
+        <item name="android:textColor">@color/light_gray_font</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="message_text_bold_style">
+        <item name="android:textColor">@color/black_font</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="reminder_button">
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">17dp</item>
+        <item name="android:paddingBottom">17dp</item>
+    </style>
+
+
+    <style name="reminder_button_text" parent="roboto_medium_font">
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/gray_accent</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="image_button_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/widget_background</item>
+        <item name="android:paddingLeft">8dp</item>
+    </style>
+
+    <style name="MyButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/purple_submit_button_without_round_corners</item>
+        <item name="android:textColor">@color/widget_background</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="toggle_button_style" parent="android:Widget.CompoundButton">
+        <item name="android:textColor">@drawable/text_highlighter</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="edit_text_style" parent="@style/Widget.AppCompat.EditText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
+    </style>
+    <style name="action_bar_style" parent="Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="titleTextStyle">@style/action_bar_text_style</item>
+        <item name="displayOptions">useLogo|showHome|showTitle|homeAsUp</item>
+    </style>
+
+
+    <style name="text_appearance" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/default_font_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="action_bar_text_style" parent="Base.Widget.AppCompat.ActionBar">
+        <item name="android:textColor">@android:color/primary_text_dark</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="roboto_light_font">
+        <item name="android:typeface">normal</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="roboto_medium_font">
+        <item name="android:typeface">sans</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="roboto_regular_font">
+        <item name="android:typeface">sans</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
+
+
+
+
+
+    <!-- unused -->
+
 
     <style name="button" parent="@android:style/Widget.Button">
         <item name="android:gravity">center_vertical|center_horizontal</item>

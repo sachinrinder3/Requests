@@ -4,16 +4,20 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
 
 import com.example.android.requests.R;
 
+import java.security.acl.LastOwnerException;
 
-public class Wallet extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+public class Startup extends Fragment {
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -23,21 +27,13 @@ public class Wallet extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public Wallet() {
+    public Startup() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Wallet.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Wallet newInstance(String param1, String param2) {
-        Wallet fragment = new Wallet();
+
+    public static Startup newInstance(String param1, String param2) {
+        Startup fragment = new Startup();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -58,7 +54,31 @@ public class Wallet extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wallet, container, false);
+        View v= inflater.inflate(R.layout.fragment_startup, container, false);
+        Button signin = (Button) v.findViewById(R.id.signin);
+        Button register = (Button) v.findViewById(R.id.register);
+        signin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Login login = new Login();
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                manager.beginTransaction().replace(R.id.frameholder1, login).commit();
+
+            }
+        });
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Register register = new Register();
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                manager.beginTransaction().replace(R.id.frameholder1, register).commit();
+
+
+            }
+        });
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -66,17 +86,6 @@ public class Wallet extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
     }
 
     @Override

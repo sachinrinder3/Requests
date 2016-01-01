@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.android.requests.R;
@@ -61,7 +60,7 @@ public class ChatWithUs extends Fragment implements View.OnClickListener {
 
 
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.chat_with_us, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_chat_with_us, container, false);
         RecyclerView recList = (RecyclerView) rootView.findViewById(R.id.message_list);
         recList.setHasFixedSize(true);
         LinearLayoutManager llm = (new LinearLayoutManager(getActivity()));

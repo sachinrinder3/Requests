@@ -34,7 +34,7 @@ public class Share extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.share, container, false);
+        View rootview = inflater.inflate(R.layout.fragment_share, container, false);
         ImageView whatsapp = (ImageView)rootview.findViewById(R.id.whatseapp);
         ImageView message = (ImageView)rootview.findViewById(R.id.messaege);
         ImageView facebook = (ImageView)rootview.findViewById(R.id.facebook);
@@ -46,7 +46,7 @@ public class Share extends Fragment {
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
                 sendIntent.setType("text/plain");
-                sendIntent.setPackage("com.whatsapp");
+                sendIntent.setPackage("com.facebook.katana");
                 startActivity(sendIntent);
 
             }

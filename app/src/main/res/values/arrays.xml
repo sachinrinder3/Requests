@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="drawer_layout_list">
+        <item> Chat With Us </item>
+        <item> Your Order </item>
+        <item> Wallet </item>
+        <item> Profile</item>
+        <item> Logout </item>
+        <item> Share </item>
+    </string-array>
+</resources>

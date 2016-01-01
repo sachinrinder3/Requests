@@ -41,7 +41,7 @@ public class FrontPage extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //String s = myAdapter.getItem(0).toString();
         //getSupportActionBar().setTitle(s);
-        getSupportActionBar().setTitle("Chat with us");
+        getSupportActionBar().setTitle("Chat With us");
         mdrawerlayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         frameLayout = (FrameLayout)findViewById(R.id.frameholder);
         listview = (ListView) findViewById(R.id.drawer);
@@ -110,6 +110,8 @@ public class FrontPage extends AppCompatActivity {
                 break;
             case 4:
                 Intent logout = new Intent(this, MainActivity.class);
+                String fragmnet = "Login";
+                logout.putExtra("fragment", fragmnet);
                 startActivity(logout);
             case 5:
                 mdrawerlayout.closeDrawer(listview);

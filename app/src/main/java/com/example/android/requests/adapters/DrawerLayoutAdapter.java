@@ -16,11 +16,11 @@ import com.example.android.requests.R;
 public class DrawerLayoutAdapter extends BaseAdapter {
         private Context context;
         String[] galaxy;
-        int[] images = {R.drawable.hamburger, R.drawable.hamburger, R.drawable.user, R.drawable.exit, R.drawable.ic_action_name2, R.drawable.ic_action_name2};
+        int[] images = {R.drawable.hamburger, R.drawable.hamburger, R.drawable.user, R.drawable.user, R.drawable.exit, R.drawable.share};
 
         public DrawerLayoutAdapter(Context context) {
             this.context = context;
-            galaxy = context.getResources().getStringArray(R.array.planet);
+            galaxy = context.getResources().getStringArray(R.array.drawer_layout_list);
         }
 
         @Override
@@ -54,7 +54,7 @@ public class DrawerLayoutAdapter extends BaseAdapter {
             //titleTextView.setHeight(5);
             titleImageView.setImageResource(images[position]);
             //titleTextView.setHeight(5);
-            row.setMinimumHeight(100);
+            //row.setMinimumHeight(100);
             return row;
         }
 
