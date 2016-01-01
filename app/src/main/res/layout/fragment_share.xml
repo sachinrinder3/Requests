@@ -9,49 +9,35 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="left|center_vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical">
-
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/messaege"
-                android:layout_marginBottom="40dp"
-                android:layout_marginTop="80dp"
-                android:layout_marginLeft="90dp"
-                android:layout_marginRight="45dp"
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/message"
-                android:clickable="true"
-                android:onClick="message" />
+                android:clickable="true" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/whatseapp"
-                android:layout_marginBottom="40dp"
-                android:layout_marginTop="80dp"
-                android:layout_marginLeft="45dp"
-                android:layout_marginRight="90dp"
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/whatsapp"
-                android:clickable="true"
-                android:onClick="whatsapp"/>
+                android:clickable="true"/>
         </LinearLayout>
 
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical">
+            android:layout_height="wrap_content">
 
 
             <ImageView
@@ -59,28 +45,19 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/facebook"
                 android:layout_gravity="center_vertical"
-                android:layout_marginBottom="80dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginLeft="90dp"
-                android:layout_marginRight="45dp"
-                android:src="@mipmap/message"
-                android:clickable="true"/>
+                android:src="@mipmap/message" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/twitter"
                 android:layout_gravity="center_vertical"
-                android:layout_marginBottom="80dp"
-                android:layout_marginLeft="45dp"
-                android:layout_marginRight="90dp"
-                android:layout_marginTop="40dp"
-                android:src="@mipmap/whatsapp"
-                android:clickable="true"/>
+                android:src="@mipmap/whatsapp" />
         </LinearLayout>
 
 
 
 
     </LinearLayout>
+
 </FrameLayout>

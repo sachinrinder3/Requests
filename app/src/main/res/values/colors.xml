@@ -8,6 +8,12 @@
     <color name="accent">#7323dc</color>
     <color name="toolbar">#7323dc</color>
     <color name="drawer_layout">#800080</color>
+    <color name="widget_background">#a4c639</color>
+    <color name="widget_border">#a52a2a</color>
+    <color name="text_color">#ffffff</color>
+
+
+    <!-- non understood -->
     <color name="light_gray_background">#e7e7e7</color>
     <color name="window_background">#F4F4F4</color>
     <color name="default_font_color">#434955</color>
@@ -44,9 +50,6 @@
     <color name="colorPrimaryDark">#FF4081</color>
     <color name="colorPrimary">#FF4081</color>
     <color name="colorAccent">#FF4081</color>
-
-    <color name="widget_background">#a4c639</color>
-    <color name="widget_border">#a52a2a</color>
     <color name="chat_text_color">#a52a2a</color>
     <color name="white">#ffffff</color>
 
