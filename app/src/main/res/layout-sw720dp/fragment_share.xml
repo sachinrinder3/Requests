@@ -4,25 +4,23 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.requests.Share">
 
+    <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:gravity="center"
             android:layout_height="wrap_content">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/messaege"
-                android:layout_margin="20dp"
+                android:layout_gravity="center_vertical"
                 android:src="@mipmap/message"
                 android:clickable="true" />
 
@@ -30,16 +28,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/whatseapp"
-                android:layout_margin="20dp"
+                android:layout_gravity="center_vertical"
                 android:src="@mipmap/whatsapp"
                 android:clickable="true"/>
-
         </LinearLayout>
 
 
         <LinearLayout
             android:orientation="horizontal"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -48,7 +44,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/facebook"
-                android:layout_margin="20dp"
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/message" />
 
@@ -56,7 +51,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/twitter"
-                android:layout_margin="20dp"
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/whatsapp" />
         </LinearLayout>
