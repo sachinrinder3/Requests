@@ -2,6 +2,7 @@
     <string name="app_name">Requests</string>
     <string name="drawer_opened">Request</string>
     <string name="drawer_closed">Requests</string>
+    <string name="ga_trackingId">UA-71954600-1</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
