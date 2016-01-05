@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,9 +78,15 @@ public class Login extends Fragment {
         Button loginbtn = (Button)v.findViewById(R.id.login);
         loginbtn.setOnClickListener(new View.OnClickListener() {
                                         public void onClick(View v) {
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    user();
+                                                }
+                                            }).start();
                                             Intent intentlogin = new Intent(getActivity(), FrontPage.class);
                                             startActivity(intentlogin);
-                                            //user();
+
                                         }
                                     }
 
@@ -114,29 +121,26 @@ public class Login extends Fragment {
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            Toast.makeText(getActivity(), "Network Available", Toast.LENGTH_SHORT).show();
+
         } else {
-            Toast.makeText(getActivity(), "Network Unavailable", Toast.LENGTH_SHORT).show();
+
         }
-
-
-        String uri = "http://192.168.0.2:3000/users/login?email=jaintulsi";
+        String uri = "http://10.1.22.240:3000/users/login?email=geet.com&password=geet";
         Request request = new Request.Builder().url(uri).build();
         try {
-            Toast.makeText(getActivity(), "all1", Toast.LENGTH_SHORT).show();
+            Log.i("Geetika","1");
 
             Call call = client.newCall(request);
 
-            Toast.makeText(getActivity(), "all2", Toast.LENGTH_SHORT).show();
+            Log.i("Geetika", "2");
 
             Response response = call.execute();
 
-            Toast.makeText(getActivity(), "all3", Toast.LENGTH_SHORT).show();
+            Log.i("Geetika", "3");
             String hey = response.body().string();
             JSONObject json = new JSONObject(hey);
             final String owner = json.getString("message");
             System.out.println(hey);
-            Toast.makeText(getActivity(), hey, Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             e.printStackTrace();
         }
