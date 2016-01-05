@@ -186,6 +186,23 @@
         <item name="android:paddingLeft">8dp</item>
     </style>
 
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+    </style>
+
+    <style name="ListImageStyle" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@color/light_grey</item>
+        <item name="android:textColorSecondary">@color/light_grey</item>
+        <item name="actionMenuTextColor">@color/light_grey</item>
+    </style>
+
+    <style name="ListTextStyle" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@color/light_grey</item>
+        <item name="android:textColorSecondary">@color/light_grey</item>
+        <item name="actionMenuTextColor">@color/light_grey</item>
+    </style>
 
 
     <style name="toggle_button_style" parent="android:Widget.CompoundButton">

@@ -6,12 +6,12 @@
     <color name="fragment_frame_color">#FFFFFF</color>
     <color name="primary_dark">#7323dc</color>
     <color name="accent">#7323dc</color>
-    <color name="toolbar">#7323dc</color>
-    <color name="drawer_layout">#800080</color>
+    <color name="toolbar">#1e252b</color>
+    <color name="drawer_layout">#FFFFFF</color>
     <color name="widget_background">#a4c639</color>
     <color name="widget_border">#a52a2a</color>
     <color name="text_color">#ffffff</color>
-
+    <color name="light_grey">#d3d3d3</color>
 
     <!-- non understood -->
     <color name="light_gray_background">#e7e7e7</color>
