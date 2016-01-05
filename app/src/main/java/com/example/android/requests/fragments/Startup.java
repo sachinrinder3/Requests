@@ -1,6 +1,7 @@
 package com.example.android.requests.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.Button;
 
 
 import com.example.android.requests.R;
+import com.example.android.requests.services.MyService;
 
 import java.security.acl.LastOwnerException;
 
@@ -70,9 +72,11 @@ public class Startup extends Fragment {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Register register = new Register();
-                FragmentManager manager = getActivity().getSupportFragmentManager();
-                manager.beginTransaction().replace(R.id.frameholder1, register).commit();
+//                Register register = new Register();
+//                FragmentManager manager = getActivity().getSupportFragmentManager();
+//                manager.beginTransaction().replace(R.id.frameholder1, register).commit();
+                Intent intent = new Intent(getActivity(), MyService.class);
+                getActivity().startService(intent);
 
 
             }
