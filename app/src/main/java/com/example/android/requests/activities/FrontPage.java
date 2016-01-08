@@ -1,18 +1,25 @@
 package com.example.android.requests.activities;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.example.android.requests.fragments.Share;
 import com.example.android.requests.fragments.ChatWithUs;
 import com.example.android.requests.fragments.Profile;
@@ -24,7 +31,7 @@ import com.example.android.requests.adapters.DrawerLayoutAdapter;
 import com.example.android.requests.fragments.Wallet;
 
 
-public class FrontPage extends AppCompatActivity {
+public class FrontPage extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
     private DrawerLayout mdrawerlayout;
     private ListView listview;
     private DrawerLayoutAdapter drawerLayoutAdapter;
@@ -74,8 +81,10 @@ public class FrontPage extends AppCompatActivity {
         getSupportActionBar().setLogo(R.drawable.user);
         fragmentManager = getSupportFragmentManager();
         ChatWithUs myFragment0 = new ChatWithUs();
-        fragmentManager.beginTransaction().replace(R.id.frameholder, myFragment0).commit();
-
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.frameholder, myFragment0);
+        //ft.addToBackStack("try");
+        ft.commit();
 
     }
 
@@ -87,13 +96,17 @@ public class FrontPage extends AppCompatActivity {
                 mdrawerlayout.closeDrawer(listview);
                 getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
                 ChatWithUs chatwithus = new ChatWithUs();
-                fragmentManager.beginTransaction().replace(R.id.frameholder, chatwithus).commit();
+                FragmentTransaction  ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.frameholder, chatwithus);
+                ft.commit();
                 break;
             case 1:
                 mdrawerlayout.closeDrawer(listview);
                 getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
                 YourOrder yourOrder  = new YourOrder();
-                fragmentManager.beginTransaction().replace(R.id.frameholder, yourOrder).commit();
+                FragmentTransaction ft1 = fragmentManager.beginTransaction();
+                ft1.replace(R.id.frameholder, yourOrder);
+                ft1.commit();
                 break;
             case 2:
                 mdrawerlayout.closeDrawer(listview);
@@ -109,6 +122,10 @@ public class FrontPage extends AppCompatActivity {
                 fragmentManager.beginTransaction().replace(R.id.frameholder, profile).commit();
                 break;
             case 4:
+                SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharepref.edit();
+                editor.putString("loginStatus", "logout");
+                editor.commit();
                 Intent logout = new Intent(this, MainActivity.class);
                 String fragmnet = "Login";
                 logout.putExtra("fragment", fragmnet);
@@ -121,6 +138,16 @@ public class FrontPage extends AppCompatActivity {
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (drawerListener.onOptionsItemSelected(item)){
@@ -144,6 +171,13 @@ public class FrontPage extends AppCompatActivity {
     {
         super.onConfigurationChanged(newConfig);
         drawerListener.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        Log.i("Geetika", "Called");
+        Toast.makeText(this, fragmentManager.getBackStackEntryCount(), Toast.LENGTH_LONG).show();
+
     }
 }
 
