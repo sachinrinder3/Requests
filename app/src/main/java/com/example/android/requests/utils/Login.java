@@ -22,7 +22,7 @@ public class Login {
 
     public static String userLogin(String email, String password){
         OkHttpClient client = new OkHttpClient();
-        String uri = "http://192.168.0.5:3000/api/v0/Login?email="+email+"&password="+password;
+        String uri = "http://192.168.0.5:3000/api/v0/login?email="+email+"&password="+password;
             Request request = new Request.Builder().url(uri).build();
             String checking = "Some Value";
             Context applicationContext = MainActivity.getContextOfApplication();
@@ -35,7 +35,8 @@ public class Login {
                 checking = message;
                 //if (checking.equals("User Exist")) {
                     SharedPreferences sharepref = applicationContext.getSharedPreferences("MyPref", applicationContext.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharepref.edit();editor.putString("loginStatus", "Login");
+                    SharedPreferences.Editor editor = sharepref.edit();
+                    editor.putString("loginStatus", "Login");
 //                    editor.putString("password", password);
 //                    editor.putString("name", json.getString("name"));
 //                    editor.putString("phone", json.getString("phone"));
