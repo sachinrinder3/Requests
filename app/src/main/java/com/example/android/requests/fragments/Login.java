@@ -136,54 +136,54 @@ public class Login extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-    public String user (String a, String b){
-        String uri = "http://192.168.0.5:3000/api/v0/login?email="+a+"&password="+b;
-        Request request = new Request.Builder().url(uri).build();
-        String checking = "Some Value";
-        try {
-
-            Call call = client.newCall(request);
-
-            Response response = call.execute();
-            JSONObject json = new JSONObject(response.body().string());
-            String message = json.getString("message");
-            checking = message;
-            if (checking.equals("User Exist")) {
-            SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharepref.edit();editor.putString("loginStatus", "Login");
-            editor.putString("password", passwordstring);
-            editor.putString("name", json.getString("name"));
-            editor.putString("phone", json.getString("phone"));
-            editor.putString("email", json.getString("email"));
-            editor.putString("uuid", json.getString("uuid"));
-            editor.putString("try", "suresh kumar");
-            editor.commit();
-            //Log.i("Geetika", message);
-            //if (message.equals("User Exist")) {
-//                SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-//                String loginStatus = "hry";
-//                Editor editor = sharepref.edit();
-//                editor.putString("loginStatus", "Login");
-                //editor.putString("name", json.getString("name"));
-//                editor.putString("name", "kjbk");
-//                editor.putString("try", "kjbvrfvrk");
-//                editor.putString("phone", json.getString("phone"));
-//                editor.putString("email", json.getString("email"));
-//                editor.putString("uuid", json.getString("uuid"));
-                //editor.commit();
-//                loginStatus = sharepref.getString("loginStatus", "");
-//                System.out.println(loginStatus);
-                //Toast.makeText(getActivity(), loginStatus, Toast.LENGTH_LONG).show();
-                //Log.i("Geetika", loginStatus);
-            }
-            else if (message.equals("User does not Exits")){
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        checking="User Exits";
-        return checking;
-    };
+//    public String user (String a, String b){
+//        String uri = "http://192.168.0.5:3000/api/v0/login?email="+a+"&password="+b;
+//        Request request = new Request.Builder().url(uri).build();
+//        String checking = "Some Value";
+//        try {
+//
+//            Call call = client.newCall(request);
+//
+//            Response response = call.execute();
+//            JSONObject json = new JSONObject(response.body().string());
+//            String message = json.getString("message");
+//            checking = message;
+//            if (checking.equals("User Exist")) {
+//            SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+//            SharedPreferences.Editor editor = sharepref.edit();editor.putString("loginStatus", "Login");
+//            editor.putString("password", passwordstring);
+//            editor.putString("name", json.getString("name"));
+//            editor.putString("phone", json.getString("phone"));
+//            editor.putString("email", json.getString("email"));
+//            editor.putString("uuid", json.getString("uuid"));
+//            editor.putString("try", "suresh kumar");
+//            editor.commit();
+//            //Log.i("Geetika", message);
+//            //if (message.equals("User Exist")) {
+////                SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+////                String loginStatus = "hry";
+////                Editor editor = sharepref.edit();
+////                editor.putString("loginStatus", "Login");
+//                //editor.putString("name", json.getString("name"));
+////                editor.putString("name", "kjbk");
+////                editor.putString("try", "kjbvrfvrk");
+////                editor.putString("phone", json.getString("phone"));
+////                editor.putString("email", json.getString("email"));
+////                editor.putString("uuid", json.getString("uuid"));
+//                //editor.commit();
+////                loginStatus = sharepref.getString("loginStatus", "");
+////                System.out.println(loginStatus);
+//                //Toast.makeText(getActivity(), loginStatus, Toast.LENGTH_LONG).show();
+//                //Log.i("Geetika", loginStatus);
+//            }
+//            else if (message.equals("User does not Exits")){
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        checking="User Exits";
+//        return checking;
+//    };
     private class AsyncTaskRunner extends AsyncTask<String, Void, String> {
 
 

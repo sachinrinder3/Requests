@@ -6,6 +6,7 @@ import com.example.android.requests.utils.Login;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -27,34 +28,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+
         contextOfApplication = getApplicationContext();
-        SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
-        String loginStatus = sharepref.getString("loginStatus", "nhi hai");
-        String email = sharepref.getString("email", "nhi hai");
-        String password = sharepref.getString("password", "nhi hai");
-        Log.i("Geetika",loginStatus);
-        Log.i("Geetika",com.example.android.requests.utils.Login.userLogin(email, password));
-        Log.i("Geetika",email);
-        Log.i("Geetika",password);
-        Log.i("Geetika", String.valueOf(com.example.android.requests.utils.Login.userLogin(email, password).equals("User Exits")));
-        if (loginStatus == "false" && com.example.android.requests.utils.Login.userLogin(email, password).equals("User Exits") ){
-                Toast.makeText(this, "already logged in", Toast.LENGTH_LONG).show();
-                Intent intentlogin = new Intent(this, FrontPage.class);
-                startActivity(intentlogin);
+        fragmentManager = getSupportFragmentManager();
+        Intent i = getIntent();
+        String fragmentName = i.getStringExtra("fragment");
+        String forum = "Login";
+        Log.e("Test1", "Test1" + fragmentName);
+        if (fragmentName != null && fragmentName.equals(forum)) {
+            com.example.android.requests.fragments.Login login = new com.example.android.requests.fragments.Login ();
+            fragmentManager.beginTransaction().replace(R.id.frameholder1, login).commit();
         }
         else {
-            fragmentManager = getSupportFragmentManager();
-            Intent i = getIntent();
-            String fragmentName = i.getStringExtra("fragment");
-            String forum = "Login";
-            Log.e("Test1", "Test1" + fragmentName);
-            if (fragmentName != null && fragmentName.equals(forum)) {
-                com.example.android.requests.fragments.Login login = new com.example.android.requests.fragments.Login ();
-                fragmentManager.beginTransaction().replace(R.id.frameholder1, login).commit();
-            }
-            else {
+            Log.i("Geetika", "Else main condition");
+            SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
+            String email = sharepref.getString("email", "");
+            String password = sharepref.getString("password", "");
+            if (email.equals("") || password.equals("")){
                 Startup startup = new Startup ();
                 fragmentManager.beginTransaction().replace(R.id.frameholder1, startup).commit();
+            }
+            else{
+                Log.i("Geetika", "Async task is called");
+                AsyncTaskRunner runner = new AsyncTaskRunner();
+                runner.execute(email, password);
             }
         }
 
@@ -114,6 +111,52 @@ public class MainActivity extends AppCompatActivity {
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
     }
+    private class AsyncTaskRunner extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Toast.makeText(getActivity(), "Async is called", Toast.LENGTH_LONG).show();
+        }
+        public AsyncTaskRunner() {
+
+        }
+        Context context = MainActivity.getContextOfApplication();
+
+        @Override
+        protected void onPostExecute(String result) {
+            SharedPreferences sharepref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
+            String loginStatus = sharepref.getString("loginStatus", "nhi hai");
+            Log.i("Geetika",loginStatus);
+            Log.i("Geetika",result);
+            boolean hi = result.equals("Some Value");
+            Log.i("Geetika", String.valueOf(hi));
+            if (loginStatus.equals("false") && result.equals("Some Value")) {
+                Toast.makeText(context, "already logged in", Toast.LENGTH_LONG).show();
+                Intent intentlogin = new Intent(context, FrontPage.class);
+                startActivity(intentlogin);
+            }
+            else {
+                Startup startup = new Startup ();
+                fragmentManager.beginTransaction().replace(R.id.frameholder1, startup).commit();
+            }
+        }
+
+//        @Override
+//        protected void onProgressUpdate(Void) {
+//            super.onProgressUpdate(values);
+//        }
+
+        @Override
+        protected String doInBackground(String...params) {
+            String username = params[0];
+            String password = params[1];
+            String result = com.example.android.requests.utils.Login.userLogin(username, password);
+            return result;
+        }
+    }
+
 }
 
 
