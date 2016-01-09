@@ -41,6 +41,11 @@ public class Login extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
     public Login() {
         // Required empty public constructor
     }
