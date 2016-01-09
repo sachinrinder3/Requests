@@ -18,7 +18,7 @@ public class Login {
 
     public static String userLogin(String email, String password){
         OkHttpClient client = new OkHttpClient();
-        String uri = "http://192.168.0.4:3000/api/v0/login?email="+email+"&password="+password;
+        String uri = "http://192.168.0.103:3000/api/v0/login?email="+email+"&password="+password;
             Request request = new Request.Builder().url(uri).build();
             String message = "User does not Exits";
             Context applicationContext = MainActivity.getContextOfApplication();

@@ -42,10 +42,13 @@ public class MainActivity extends AppCompatActivity {
         else {
             Log.i("Geetika", "Else main condition");
             SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
-            String email = sharepref.getString("email", "");
+            String email = sharepref.getString("user_email", "");
             String loginStatus = sharepref.getString("loginStatus", "");
-            String password = sharepref.getString("password", "");
-            if (!email.equals("") && !password.equals("") && loginStatus.equals("true")){
+            String password = sharepref.getString("user_password", "");
+            Log.i("Geetika", email);
+            Log.i("Geetika", password);
+            Log.i("Geetika", loginStatus);
+            if (loginStatus.equals("true") && !email.equals("") && !password.equals("")){
                 Log.i("Geetika", "Async task is called");
                 AsyncTaskRunner runner = new AsyncTaskRunner();
                 runner.execute(email, password);
