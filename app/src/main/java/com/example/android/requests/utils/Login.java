@@ -14,16 +14,13 @@ import com.squareup.okhttp.Response;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
-import org.json.JSONObject;
-
-
 public class Login {
 
     public static String userLogin(String email, String password){
         OkHttpClient client = new OkHttpClient();
-        String uri = "http://192.168.0.103:3000/api/v0/login?email="+email+"&password="+password;
+        String uri = "http://192.168.0.4:3000/api/v0/login?email="+email+"&password="+password;
             Request request = new Request.Builder().url(uri).build();
-            String message = "Some Value";
+            String message = "User does not Exits";
             Context applicationContext = MainActivity.getContextOfApplication();
             try {
                 Call call = client.newCall(request);
@@ -33,8 +30,6 @@ public class Login {
                 message = jobject.get("message").getAsString();
                 //JSONObject json = new JSONObject(response.body().string());
                 //message = json.getString("message");
-                Log.i("Geetika", "you bro whats up");
-
                 if (message.equals("User Exits")) {
                     SharedPreferences sharepref = applicationContext.getSharedPreferences("MyPref", applicationContext.MODE_PRIVATE);
                     Editor editor = sharepref.edit();
@@ -45,12 +40,13 @@ public class Login {
                     editor.putString("user_phone", jobject.get("phone").getAsString());
                     editor.putString("user_email", jobject.get("email").getAsString());
                     editor.putString("user_uuid", jobject.get("uuid").getAsString());
-                    editor.putString("try1","heybbb see");
+                    editor.putString("try1","just for checking");
                     editor.apply();
                     Log.i("Geetika ",sharepref.getString("try1", "no values") );
                 }
-//                else if (message.equals("User does not Exits")){
-//                }
+                else if (message.equals("User does not Exits")){
+
+               }
             }catch (Exception e){
                 e.printStackTrace();
             }

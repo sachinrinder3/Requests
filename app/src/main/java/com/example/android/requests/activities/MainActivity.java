@@ -43,15 +43,17 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Geetika", "Else main condition");
             SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
             String email = sharepref.getString("email", "");
+            String loginStatus = sharepref.getString("loginStatus", "");
             String password = sharepref.getString("password", "");
-            if (email.equals("") || password.equals("")){
-                Startup startup = new Startup ();
-                fragmentManager.beginTransaction().replace(R.id.frameholder1, startup).commit();
-            }
-            else{
+            if (!email.equals("") && !password.equals("") && loginStatus.equals("true")){
                 Log.i("Geetika", "Async task is called");
                 AsyncTaskRunner runner = new AsyncTaskRunner();
                 runner.execute(email, password);
+            }
+            else{
+
+                Startup startup = new Startup ();
+                fragmentManager.beginTransaction().replace(R.id.frameholder1, startup).commit();
             }
         }
 
@@ -127,12 +129,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             SharedPreferences sharepref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
-            String loginStatus = sharepref.getString("loginStatus", "nhi hai");
+            String loginStatus = sharepref.getString("loginStatus", "false");
             Log.i("Geetika",loginStatus);
             Log.i("Geetika",result);
-            boolean hi = result.equals("Some Value");
-            Log.i("Geetika", String.valueOf(hi));
-            if (loginStatus.equals("false") && result.equals("Some Value")) {
+            if (loginStatus.equals("true") && result.equals("User Exits")) {
                 Toast.makeText(context, "already logged in", Toast.LENGTH_LONG).show();
                 Intent intentlogin = new Intent(context, FrontPage.class);
                 startActivity(intentlogin);
