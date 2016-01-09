@@ -4,11 +4,21 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.support.v7.widget.AppCompatEditText;
+import android.widget.Button;
+import android.widget.Toast;
+import android.support.v4.app.FragmentManager;
+import android.os.AsyncTask;
+import com.example.android.requests.activities.MainActivity;
 
 import com.example.android.requests.R;
+import com.example.android.requests.utils.ProfileUtil;
+import com.google.gson.JsonObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +33,9 @@ public class EditableProfile extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private Button save_button;
+    private  AppCompatEditText email;
+    private AppCompatEditText name;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -65,7 +78,27 @@ public class EditableProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_editable_profile, container, false);
+        View v = inflater.inflate(R.layout.fragment_editable_profile, container, false);
+        save_button = (Button)v.findViewById(R.id.save_button);
+        name = (AppCompatEditText)v.findViewById(R.id.user_name);
+        email = (AppCompatEditText)v.findViewById(R.id.user_email);
+        SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        name.setText(sharepref.getString("user_name", "nhi aaya"));
+        email.setText(sharepref.getString("user_email", "nhi aaya"));
+        save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                email = (AppCompatEditText)getView().findViewById(R.id.user_email);
+                name = (AppCompatEditText)getView().findViewById(R.id.user_name);
+                String emailString =  email.getText().toString();
+                String namestring = name.getText().toString();
+                AsyncTaskRunner runner = new AsyncTaskRunner();
+                runner.execute(emailString,namestring);
+
+            }
+        });
+        return v;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -95,4 +128,50 @@ public class EditableProfile extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
+    private class AsyncTaskRunner extends AsyncTask<String, Void, JsonObject> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Toast.makeText(getActivity(), "Async is called", Toast.LENGTH_LONG).show();
+        }
+        public AsyncTaskRunner() {
+
+        }
+        Context context = MainActivity.getContextOfApplication();
+
+        @Override
+        protected void onPostExecute(JsonObject result) {
+            String message = result.get("message").getAsString();
+            if (message.equals("Successfully updated")) {
+                String name = result.get("name").getAsString();
+                String email = result.get("email").getAsString();
+                SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharepref.edit();
+                editor.putString("user_name", name);
+                editor.putString("user_email", email);
+                editor.commit();
+                Profile profile = new Profile();
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                manager.beginTransaction().replace(R.id.frameholder, profile).commit();
+            }
+            else{
+                Toast.makeText(getActivity(), "Please enter both email and password", Toast.LENGTH_LONG).show();
+            }
+        }
+
+//        @Override
+//        protected void onProgressUpdate(Void) {
+//            super.onProgressUpdate(values);
+//        }
+        @Override
+        protected JsonObject doInBackground(String...params) {
+            return ProfileUtil.profileUpdate(params[0],params[1]);
+        }
+    }
+
+
 }

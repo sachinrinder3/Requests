@@ -48,7 +48,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         setSupportActionBar(toolbar);
         //String s = myAdapter.getItem(0).toString();
         //getSupportActionBar().setTitle(s);
-        getSupportActionBar().setTitle("Chat With us");
+        getSupportActionBar().setTitle("Alternative");
         mdrawerlayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         frameLayout = (FrameLayout)findViewById(R.id.frameholder);
         listview = (ListView) findViewById(R.id.drawer);
@@ -65,7 +65,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle("Select an option");
+                //getSupportActionBar().setTitle("Select an option");
             }
 
             @Override
@@ -83,6 +83,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         ChatWithUs myFragment0 = new ChatWithUs();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.frameholder, myFragment0);
+        ft.addToBackStack("chat_fragment");
         //ft.addToBackStack("try");
         ft.commit();
 
@@ -94,32 +95,40 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         switch (i) {
             case 0:
                 mdrawerlayout.closeDrawer(listview);
-                getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
+                //getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
                 ChatWithUs chatwithus = new ChatWithUs();
                 FragmentTransaction  ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.frameholder, chatwithus);
+                ft.addToBackStack("chat_fragment");
                 ft.commit();
                 break;
             case 1:
                 mdrawerlayout.closeDrawer(listview);
-                getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
+                //getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
                 YourOrder yourOrder  = new YourOrder();
                 FragmentTransaction ft1 = fragmentManager.beginTransaction();
                 ft1.replace(R.id.frameholder, yourOrder);
+                ft1.addToBackStack("yourorder_fragment");
                 ft1.commit();
                 break;
             case 2:
                 mdrawerlayout.closeDrawer(listview);
-                getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
+                //getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
                 Wallet wallet = new Wallet();
-                fragmentManager.beginTransaction().replace(R.id.frameholder, wallet).commit();
+                FragmentTransaction ft2 =fragmentManager.beginTransaction();
+                ft2.replace(R.id.frameholder, wallet);
+                ft2.addToBackStack("wallet_fragment");
+                ft2.commit();
                 break;
 
             case 3:
                 mdrawerlayout.closeDrawer(listview);
-                getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
+                //getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
                 Profile profile  = new Profile();
-                fragmentManager.beginTransaction().replace(R.id.frameholder, profile).commit();
+                FragmentTransaction ft3 = fragmentManager.beginTransaction();
+                ft3.replace(R.id.frameholder, profile);
+                ft3.addToBackStack("profile_fragment");
+                ft3.commit();
                 break;
             case 4:
                 SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
@@ -137,20 +146,36 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 startActivity(logout);
             case 5:
                 mdrawerlayout.closeDrawer(listview);
-                getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
+                //getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
                 Share share = new Share();
-                fragmentManager.beginTransaction().replace(R.id.frameholder, share).commit();
+                FragmentTransaction ft5 = fragmentManager.beginTransaction();
+                ft5.replace(R.id.frameholder, share);
+                ft5.addToBackStack("share_fragment");
+                ft5.commit();
                 break;
         }
     }
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
-        Intent a = new Intent(Intent.ACTION_MAIN);
-        a.addCategory(Intent.CATEGORY_HOME);
-        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(a);
+        fragmentManager = getSupportFragmentManager();
+        int backCount = fragmentManager.getBackStackEntryCount();
+        Log.i("Geetika", String.valueOf(backCount));
+        if((backCount > 1)){
+            Log.i("Geetika", String.valueOf(backCount)) ;
+            Log.i("Geetika", "im here") ;
+            fragmentManager.popBackStack();
+            Log.i("Geetika", String.valueOf(fragmentManager.getBackStackEntryCount()));
+        }
+        else{
+            //super.onBackPressed();
+            Log.i("Geetika", String.valueOf(fragmentManager.getBackStackEntryCount())) ;
+            Intent a = new Intent(Intent.ACTION_MAIN);
+            a.addCategory(Intent.CATEGORY_HOME);
+            a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(a);
+        }
+
     }
 
     @Override

@@ -17,52 +17,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
+        <android.support.v7.widget.AppCompatTextView
             android:layout_margin="15dp"
-            android:id="@+id/firstname"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:textSize="15dp"
-            android:hint="First name"
-            android:inputType="text"
-            android:text="Geetika"
-            android:enabled="false"/>
-        <EditText
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:inputType="text" />
+        <android.support.v7.widget.AppCompatTextView
             android:layout_margin="15dp"
-            android:id="@+id/lastname"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:textSize="15dp"
-            android:hint="Last name"
-            android:inputType="text"
-            android:text="Jain"
-            android:enabled="false"/>
-        <EditText
-            android:layout_margin="15dp"
-            android:id="@+id/email"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:textSize="15dp"
-            android:hint="Email"
-            android:inputType="text"
-            android:text="geet@com"
-            android:enabled="false"
-            android:visibility="visible" />
-        <EditText
-            android:layout_margin="15dp"
-            android:id="@+id/phonenumber"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:textSize="15dp"
-            android:hint="Phone Number"
-            android:inputType="text"
-            android:text="1234567890"
-            android:enabled="false"/>
+            android:id="@+id/user_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:inputType="text" />
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_margin="15sp"
+            android:id="@+id/user_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp" />
 
         <Button
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:text="Edit"
+            android:text="Edit Profile"
             android:id="@+id/edit_button"
             android:layout_gravity="center_horizontal|bottom" />
 
