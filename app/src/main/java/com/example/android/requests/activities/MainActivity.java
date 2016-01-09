@@ -1,5 +1,8 @@
 package com.example.android.requests.activities;
 
+
+
+import com.example.android.requests.utils.Login;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,8 +10,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.example.android.requests.R;
-import com.example.android.requests.fragments.Login;
+
 import com.example.android.requests.fragments.Startup;
 import com.facebook.FacebookSdk;
 public class MainActivity extends AppCompatActivity {
@@ -25,23 +30,26 @@ public class MainActivity extends AppCompatActivity {
         contextOfApplication = getApplicationContext();
         SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
         String loginStatus = sharepref.getString("loginStatus", "nhi hai");
-        Log.d("hey", loginStatus);
-        Log.i("Geetika", loginStatus);
-        if (loginStatus.equals("Login")){
-            Intent intentlogin = new Intent(this, FrontPage.class);
-            startActivity(intentlogin);
+        String email = sharepref.getString("email", "nhi hai");
+        String password = sharepref.getString("password", "nhi hai");
+        Log.i("Geetika",loginStatus);
+        Log.i("Geetika",com.example.android.requests.utils.Login.userLogin(email, password));
+        Log.i("Geetika",email);
+        Log.i("Geetika",password);
+        Log.i("Geetika", String.valueOf(com.example.android.requests.utils.Login.userLogin(email, password).equals("User Exits")));
+        if (loginStatus == "false" && com.example.android.requests.utils.Login.userLogin(email, password).equals("User Exits") ){
+                Toast.makeText(this, "already logged in", Toast.LENGTH_LONG).show();
+                Intent intentlogin = new Intent(this, FrontPage.class);
+                startActivity(intentlogin);
         }
         else {
-
             fragmentManager = getSupportFragmentManager();
-
             Intent i = getIntent();
             String fragmentName = i.getStringExtra("fragment");
             String forum = "Login";
             Log.e("Test1", "Test1" + fragmentName);
             if (fragmentName != null && fragmentName.equals(forum)) {
-
-                Login login = new Login ();
+                com.example.android.requests.fragments.Login login = new com.example.android.requests.fragments.Login ();
                 fragmentManager.beginTransaction().replace(R.id.frameholder1, login).commit();
             }
             else {

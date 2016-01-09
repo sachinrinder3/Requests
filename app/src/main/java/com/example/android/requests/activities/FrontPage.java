@@ -124,8 +124,13 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
             case 4:
                 SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharepref.edit();
-                editor.putString("loginStatus", "logout");
-                editor.commit();
+                editor.putString("loginStatus", "false");
+                editor.remove("user_name");
+                editor.remove("user_email");
+                editor.remove("user_uuid");
+                editor.remove("user_phone");
+                editor.remove("user_password");
+                editor.apply();
                 Intent logout = new Intent(this, MainActivity.class);
                 String fragmnet = "Login";
                 logout.putExtra("fragment", fragmnet);

@@ -201,12 +201,10 @@ public class Login extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             //super.onPostExecute();
+            Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
             if (result.equals("User Exits")){
                 SharedPreferences sharepref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                String name = sharepref.getString("name", "");
-                String email = sharepref.getString("email","");
                 String t = sharepref.getString("try1","nhi aaya");
-                String loginSta = sharepref.getString("loginStatus","");
                 Toast.makeText(getActivity(), "You are successfully logged-in" + t, Toast.LENGTH_LONG).show();
                 Intent intentlogin = new Intent(getActivity(), FrontPage.class);
                 startActivity(intentlogin);
