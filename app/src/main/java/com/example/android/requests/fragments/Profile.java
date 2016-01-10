@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +62,7 @@ public class Profile extends Fragment {
         edit_button.setOnClickListener(new View.OnClickListener() {
                                            public void onClick(View v) {
                                                EditableProfile editableProfile = new EditableProfile();
+
                                                FragmentManager manager = getActivity().getSupportFragmentManager();
                                                manager.beginTransaction().replace(R.id.frameholder, editableProfile).commit();
                                            }

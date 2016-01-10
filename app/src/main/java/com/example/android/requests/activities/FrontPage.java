@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -105,6 +106,9 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
             case 1:
                 mdrawerlayout.closeDrawer(listview);
                 //getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
+                int lockMode = mdrawerlayout.getDrawerLockMode(Gravity.LEFT);
+                if (lockMode == DrawerLayout.LOCK_MODE_UNLOCKED ) {
+                }
                 YourOrder yourOrder  = new YourOrder();
                 FragmentTransaction ft1 = fragmentManager.beginTransaction();
                 ft1.replace(R.id.frameholder, yourOrder);

@@ -20,10 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/fragment_frame_color"
-            android:id="@+id/frameholder">
-
-
+            android:id="@+id/frameholder"
+            android:fitsSystemWindows="true">
         </FrameLayout>
+
         <ListView
             android:layout_width="240dp"
             android:layout_height="match_parent"
