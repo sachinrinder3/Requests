@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UserApp</string>
+    <string name="app_name">Alternative</string>
     <string name="drawer_opened">Request</string>
     <string name="drawer_closed">Requests</string>
     <string name="ga_trackingId">UA-71954600-1</string>
