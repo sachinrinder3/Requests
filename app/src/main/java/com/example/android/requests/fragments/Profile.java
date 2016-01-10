@@ -7,13 +7,19 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.support.v7.widget.AppCompatTextView;
+import com.example.android.requests.activities.FrontPage;
 
 
 import com.example.android.requests.R;
@@ -39,10 +45,24 @@ public class Profile extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Log.i(MainActivity.TAG, "onCreateOptionsMenu is called of fragment profile");
+        super.onCreateOptionsMenu(menu, inflater);
+//        if (menu != null) {
+//
+//            menu.findItem(R.id.your_order).setVisible(false);
+//        }
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +85,9 @@ public class Profile extends Fragment {
 
                                                FragmentManager manager = getActivity().getSupportFragmentManager();
                                                manager.beginTransaction().replace(R.id.frameholder, editableProfile).commit();
+                                               ActionBar actionBar = ((AppCompatActivity )getActivity()).getSupportActionBar();
+                                               actionBar.setDisplayHomeAsUpEnabled(false);
+                                               actionBar.setDisplayShowHomeEnabled(false);
                                            }
                                        }
 

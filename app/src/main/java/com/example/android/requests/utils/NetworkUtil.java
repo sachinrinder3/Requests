@@ -65,8 +65,8 @@ public class NetworkUtil {
         OkHttpClient client = new OkHttpClient();
         String uri = intialUrl + "login?email="+email+"&password="+password;
         Request request = new Request.Builder().url(uri).build();
-        String message = "User does not Exits";
-       // String message = "User Exits";
+        //String message = "User does not Exits";
+        String message = "User Exits";
         Context applicationContext = MainActivity.getContextOfApplication();
         try {
             Call call = client.newCall(request);

@@ -41,16 +41,16 @@ public class MainActivity extends AppCompatActivity {
             fragmentManager.beginTransaction().replace(R.id.frameholder1, login).commit();
         }
         else {
-            Log.i(TAG, "Else main condition");
+            //Log.i(TAG, "Else main condition");
             SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
             String email = sharepref.getString("user_email", "");
             String loginStatus = sharepref.getString("loginStatus", "");
             String password = sharepref.getString("user_password", "");
-            Log.i(TAG, email);
-            Log.i(TAG, password);
-            Log.i(TAG, loginStatus);
+            //Log.i(TAG, email);
+            //Log.i(TAG, password);
+            //Log.i(TAG, loginStatus);
             if (loginStatus.equals("true") && !email.equals("") && !password.equals("")){
-                Log.i("TAG", "Async task is called");
+                //Log.i("TAG", "Async task is called");
                 AsyncTaskRunner runner = new AsyncTaskRunner();
                 runner.execute(email, password);
             }

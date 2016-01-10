@@ -44,8 +44,8 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
     private android.support.v4.app.FragmentManager  fragmentManager;
     private Toolbar toolbar;
     private NavigationView navigationView;
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle actionBarDrawerToggle;
+    public DrawerLayout drawerLayout;
+    public ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +55,14 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.title_toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.title_toolbar);
+        }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                Log.i(MainActivity.TAG,String.valueOf(menuItem.isChecked()));
+                Log.i(MainActivity.TAG,"Navigational item is clicked");
 
                 if (menuItem.isChecked()) {
                     menuItem.setChecked(false);
@@ -72,6 +74,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
 
             }
         });
+//
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.openDrawer, R.string.closeDrawer){
 
             @Override
@@ -87,18 +90,18 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
 
         //Setting the actionbarToggle
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
-
+////
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         //getSupportActionBar().setIcon(R.drawable.user);
-        //getSupportActionBar().setLogo(R.drawable.user);
         fragmentManager = getSupportFragmentManager();
         ChatWithUs myFragment0 = new ChatWithUs();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.frameholder, myFragment0);
         ft.addToBackStack("chat_fragment");
         ft.commit();
-
+        Log.i(MainActivity.TAG, "this is create method last line");
 
         //----------------------------do not touch this --------------------------------------------------------//
 
@@ -116,20 +119,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
 //                                                loadSelection(position);
 //                                            }
 //                                        }
-//        );
-//        drawerListener=  new ActionBarDrawerToggle(this, mdrawerlayout,toolbar, R.string.drawer_closed, R.string.drawer_opened){
-//            @Override
-//            public void onDrawerOpened(View drawerView) {
-//                super.onDrawerOpened(drawerView);
-//                //getSupportActionBar().setTitle("Select an option");
-//            }
 //
-//            @Override
-//            public void onDrawerClosed(View drawerView) {
-//                super.onDrawerClosed(drawerView);
-//            }
-//        };
-//        mdrawerlayout.setDrawerListener(drawerListener);
 
         //----------------------------do not touch this --------------------------------------------------------//
     }
@@ -139,13 +129,30 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         super.onPostCreate(savedInstanceState);
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+        Log.i(MainActivity.TAG,"Post Create of FrontPage Activity");
    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        Log.i(MainActivity.TAG, "onCreateOptiosnMenu  is called");
+        return true;
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        Log.i(MainActivity.TAG, "onOptionsItemSelected is called");
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig)
    {
        super.onConfigurationChanged(newConfig);
-       actionBarDrawerToggle.onConfigurationChanged(newConfig);
+       //actionBarDrawerToggle.onConfigurationChanged(newConfig);
+       Log.i(MainActivity.TAG, "onConfigurationChanged is called");
   }
 
     @Override
@@ -175,19 +182,6 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
             startActivity(a);
         }
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        return super.onOptionsItemSelected(item);
     }
 
     public boolean menuchange(MenuItem menuItem){
