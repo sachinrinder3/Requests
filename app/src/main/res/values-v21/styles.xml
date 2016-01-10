@@ -6,7 +6,7 @@
         <item name="android:colorPrimary">@color/PrimaryColor</item>
         <item name="android:colorPrimaryDark">@color/PrimaryDarkColor</item>
         // color of above action bar area
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">#002633</item>
     </style>
 
 
