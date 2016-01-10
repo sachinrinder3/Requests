@@ -229,10 +229,17 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 startActivity(logout);
                 return true;
             case R.id.share:
-                Share fragment_share = new Share();
-                FragmentTransaction ft_share = getSupportFragmentManager().beginTransaction();
-                ft_share.replace(R.id.frameholder, fragment_share);
-                ft_share.commit();
+//                Share fragment_share = new Share();
+//                FragmentTransaction ft_share = getSupportFragmentManager().beginTransaction();
+//                ft_share.replace(R.id.frameholder, fragment_share);
+//                ft_share.commit();
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject test");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent,"Share via"));
+
                 return true;
             case R.id.dummy:
                 Intent dummy = new Intent(this, Dummy.class);
