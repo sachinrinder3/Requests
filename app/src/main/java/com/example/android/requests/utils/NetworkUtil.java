@@ -59,13 +59,14 @@ public class NetworkUtil {
     public static final String UTF_8 = "UTF-8";
     public static final String ZERO = "0";
     public static final String MD5 = "MD5";
-    protected static final String intialUrl = "http://192.168.0.4:3000/api/v0/";
+    protected static final String intialUrl = "http://192.168.0.7:3000/api/v0/";
 
     public static String userLogin(String email, String password){
         OkHttpClient client = new OkHttpClient();
         String uri = intialUrl + "login?email="+email+"&password="+password;
         Request request = new Request.Builder().url(uri).build();
         String message = "User does not Exits";
+       // String message = "User Exits";
         Context applicationContext = MainActivity.getContextOfApplication();
         try {
             Call call = client.newCall(request);

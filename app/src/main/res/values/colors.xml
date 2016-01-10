@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="default_hint_color">#52000000</color>
 
+    <color name="PrimaryColor">#1e252b</color>
+    <color name="PrimaryDarkColor">#1976D2</color>
+    <color name="accent">#7323dc</color>
+
+    <color name="default_hint_color">#52000000</color>
     <color name="fragment_frame_color">#FFFFFF</color>
     <color name="primary_dark">#7323dc</color>
-    <color name="accent">#7323dc</color>
-    <color name="toolbar">#1e252b</color>
     <color name="drawer_layout">#FFFFFF</color>
     <color name="widget_background">#a4c639</color>
     <color name="widget_border">#a52a2a</color>
@@ -47,8 +49,6 @@
 
 
     <!-- unused -->
-    <color name="colorPrimaryDark">#FF4081</color>
-    <color name="colorPrimary">#FF4081</color>
     <color name="colorAccent">#FF4081</color>
     <color name="chat_text_color">#a52a2a</color>
     <color name="white">#ffffff</color>

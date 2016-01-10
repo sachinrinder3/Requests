@@ -3,11 +3,22 @@
     <string name="drawer_opened">Request</string>
     <string name="drawer_closed">Requests</string>
     <string name="ga_trackingId">UA-71954600-1</string>
+    <string name="title_toolbar" >Alternative</string>
+
+    <string name="chat_with_us"> Chat With Us </string>
+    <string name ="your_order"> Your Order </string>
+    <string name = "wallet"> Wallet </string>
+    <string name ="profile"> Profile</string>
+    <string name = "logout"> Logout </string>
+    <string name ="share"> Share </string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="chat_message_hint">Whats in your mind</string>
     <string name="desc_contact_image">Sender</string>
+
+    <string name="openDrawer">Whats in your mind</string>
+    <string name="closeDrawer">Sender</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

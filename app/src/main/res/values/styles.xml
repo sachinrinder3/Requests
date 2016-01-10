@@ -1,6 +1,9 @@
 <resources>
     <style name="AppTheme" parent="AppBaseTheme">
 
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
         <item name="android:textColorHint">@color/default_hint_color</item>
         <item name="android:textAppearance">@style/text_appearance</item>
         <item name="android:windowBackground">@color/window_background</item>
@@ -13,8 +16,12 @@
 
     </style>
 
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="MyButtonRounded" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/purple_submit_button</item>
@@ -252,8 +259,6 @@
     </style>
 
     <!-- unused -->
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

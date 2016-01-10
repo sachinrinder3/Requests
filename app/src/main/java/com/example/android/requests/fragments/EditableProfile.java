@@ -47,15 +47,6 @@ public class EditableProfile extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EditableProfile.
-     */
-    // TODO: Rename and change types and number of parameters
     public static EditableProfile newInstance(String param1, String param2) {
         EditableProfile fragment = new EditableProfile();
         Bundle args = new Bundle();
@@ -68,6 +59,7 @@ public class EditableProfile extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(false);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);

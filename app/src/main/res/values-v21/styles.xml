@@ -1,3 +1,13 @@
 <resources>
 
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="android:colorPrimary">@color/PrimaryColor</item>
+        <item name="android:colorPrimaryDark">@color/PrimaryDarkColor</item>
+        // color of above action bar area
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+
 </resources>
