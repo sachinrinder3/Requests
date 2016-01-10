@@ -15,19 +15,17 @@
         android:smallScreens="true"
         android:xlargeScreens="true" />
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/images"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider190365014646527"
             android:exported="true" />
+
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,7 +66,11 @@
             android:exported="true" />
         <service
             android:name=".services.MyIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:name=".activities.Dummy">
+
+        </activity>
     </application>
 
 </manifest>

@@ -38,6 +38,11 @@
             android:checked="false"
             android:icon="@drawable/share"
             android:title="@string/share" />
+        <item
+            android:id="@+id/dummy"
+            android:checked="false"
+            android:icon="@drawable/share"
+            android:title="Dummy" />
 
 
         </group>

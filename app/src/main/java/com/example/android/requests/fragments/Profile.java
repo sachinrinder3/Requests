@@ -88,6 +88,9 @@ public class Profile extends Fragment {
                                                ActionBar actionBar = ((AppCompatActivity )getActivity()).getSupportActionBar();
                                                actionBar.setDisplayHomeAsUpEnabled(false);
                                                actionBar.setDisplayShowHomeEnabled(false);
+                                               actionBar.setLogo(R.drawable.hamburger);
+                                               actionBar.setIcon(R.drawable.hamburger);
+                                               actionBar.setTitle("HEY BRO JUST FOR CHECKING");
                                            }
                                        }
 
