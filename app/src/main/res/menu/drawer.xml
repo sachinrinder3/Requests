@@ -43,6 +43,11 @@
             android:checked="false"
             android:icon="@drawable/share"
             android:title="Dummy" />
+        <item
+            android:id="@+id/dummy2"
+            android:checked="false"
+            android:icon="@drawable/share"
+            android:title="Dummy2" />
 
 
         </group>

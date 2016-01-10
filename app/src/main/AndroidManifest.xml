@@ -68,9 +68,8 @@
             android:name=".services.MyIntentService"
             android:exported="false" />
 
-        <activity android:name=".activities.Dummy">
-
-        </activity>
+        <activity android:name=".activities.Dummy"></activity>
+        <activity android:name=".activities.Dummy2"></activity>
     </application>
 
 </manifest>

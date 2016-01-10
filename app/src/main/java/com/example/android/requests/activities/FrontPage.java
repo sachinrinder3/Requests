@@ -238,6 +238,10 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 Intent dummy = new Intent(this, Dummy.class);
                 startActivity(dummy);
                 return true;
+            case R.id.dummy2:
+                Intent dummy2 = new Intent(this, Dummy2.class);
+                startActivity(dummy2);
+                return true;
             default:
             Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
             return true;
