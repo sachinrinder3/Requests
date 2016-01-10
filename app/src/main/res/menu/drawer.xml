@@ -22,17 +22,17 @@
                 android:title="@string/wallet" />
 
             <item
-                android:id="@+id/profile"
+                android:id="@+id/saved_address"
                 android:checked="false"
                 android:icon="@drawable/user"
-                android:title="@string/profile" />
+                android:title="@string/saved_address" />
 
 
             <item
-                android:id="@+id/logout"
+                android:id="@+id/notification"
                 android:checked="false"
                 android:icon="@drawable/logout"
-                android:title="@string/logout" />
+                android:title="@string/notification"/>
            <item
             android:id="@+id/share"
             android:checked="false"
