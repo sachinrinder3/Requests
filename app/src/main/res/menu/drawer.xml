@@ -12,13 +12,13 @@
             <item
                 android:id="@+id/your_order"
                 android:checked="false"
-                android:icon="@drawable/user"
+                android:icon="@drawable/order"
                 android:title="@string/your_order" />
 
             <item
                 android:id="@+id/wallet"
                 android:checked="false"
-                android:icon="@drawable/user"
+                android:icon="@drawable/wallet"
                 android:title="@string/wallet" />
 
             <item
@@ -31,12 +31,12 @@
             <item
                 android:id="@+id/logout"
                 android:checked="false"
-                android:icon="@drawable/user"
+                android:icon="@drawable/logout"
                 android:title="@string/logout" />
            <item
             android:id="@+id/share"
             android:checked="false"
-            android:icon="@drawable/user"
+            android:icon="@drawable/share"
             android:title="@string/share" />
 
 
