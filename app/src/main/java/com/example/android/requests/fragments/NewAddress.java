@@ -5,18 +5,21 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+
+
 import android.widget.Toast;
 
 import com.example.android.requests.R;
+import com.example.android.requests.activities.MainActivity;
 import com.example.android.requests.utils.GPSTracker;
 import com.facebook.share.model.ShareLinkContent;
 
 
-public class NewAddress extends Fragment {
+public class NewAddress extends Fragment{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -38,11 +41,13 @@ public class NewAddress extends Fragment {
         GPSTracker  gps = new GPSTracker(getActivity());
 
         // check if GPS enabled
+        Log.i(MainActivity.TAG, String.valueOf(gps.canGetLocation()));
         if(gps.canGetLocation()){
 
             double latitude = gps.getLatitude();
             double longitude = gps.getLongitude();
             Toast.makeText(getActivity(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+
         }else{
             gps.showSettingsAlert();
         }

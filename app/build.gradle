@@ -42,7 +42,6 @@ dependencies {
     //compile 'com.google.android.gms:play-services:8.4.0'
     //compile 'com.google.android.gms:play-services-ads:8.4.0'
     //compile 'com.google.android.gms:play-services-identity:8.4.0'
-
     androidTestCompile 'com.squareup.spoon:spoon-client:1.1.9'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.squareup.picasso:picasso:2.5.0'
