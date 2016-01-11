@@ -112,24 +112,24 @@ public class EditableProfile extends Fragment {
         View v = inflater.inflate(R.layout.fragment_editable_profile, container, false);
         //toolbar = (Toolbar) v.findViewById(R.id.toolbar1);
         //((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        save_button = (Button)v.findViewById(R.id.save_button);
-        name = (AppCompatEditText)v.findViewById(R.id.user_name);
-        email = (AppCompatEditText)v.findViewById(R.id.user_email);
-        SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        name.setText(sharepref.getString("user_name", "nhi aaya"));
-        email.setText(sharepref.getString("user_email", "nhi aaya"));
-        save_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                email = (AppCompatEditText)getView().findViewById(R.id.user_email);
-                name = (AppCompatEditText)getView().findViewById(R.id.user_name);
-                String emailString =  email.getText().toString();
-                String namestring = name.getText().toString();
-                AsyncTaskRunner runner = new AsyncTaskRunner();
-                runner.execute(emailString,namestring);
-
-            }
-        });
+//        save_button = (Button)v.findViewById(R.id.save_button);
+//        name = (AppCompatEditText)v.findViewById(R.id.user_name);
+//        email = (AppCompatEditText)v.findViewById(R.id.user_email);
+//        SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+//        name.setText(sharepref.getString("user_name", "nhi aaya"));
+//        email.setText(sharepref.getString("user_email", "nhi aaya"));
+//        save_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                email = (AppCompatEditText)getView().findViewById(R.id.user_email);
+//                name = (AppCompatEditText)getView().findViewById(R.id.user_name);
+//                String emailString =  email.getText().toString();
+//                String namestring = name.getText().toString();
+//                AsyncTaskRunner runner = new AsyncTaskRunner();
+//                runner.execute(emailString,namestring);
+//
+//            }
+//        });
         return v;
 
     }
