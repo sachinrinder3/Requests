@@ -10,13 +10,10 @@ import android.widget.TextView;
 
 import com.example.android.requests.R;
 
-/**
- * Created by tuljain on 12/20/2015.
- */
 public class DrawerLayoutAdapter extends BaseAdapter {
         private Context context;
         String[] galaxy;
-        int[] images = {R.drawable.hamburger, R.drawable.hamburger, R.drawable.user, R.drawable.user, R.drawable.exit, R.drawable.share};
+        int[] images = {R.drawable.hamburger, R.drawable.hamburger, R.drawable.user, R.drawable.user, R.drawable.user, R.drawable.share};
 
         public DrawerLayoutAdapter(Context context) {
             this.context = context;

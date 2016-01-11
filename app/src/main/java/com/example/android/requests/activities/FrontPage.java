@@ -1,7 +1,5 @@
 package com.example.android.requests.activities;
 
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -14,26 +12,20 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.FrameLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.android.requests.fragments.Notification;
 import com.example.android.requests.fragments.SavedAddress;
-import com.example.android.requests.fragments.Share;
 import com.example.android.requests.fragments.ChatWithUs;
 import com.example.android.requests.fragments.Profile;
 import com.example.android.requests.fragments.YourOrder;
 
 
 import com.example.android.requests.R;
-import com.example.android.requests.adapters.DrawerLayoutAdapter;
 import com.example.android.requests.fragments.Wallet;
 
 
@@ -110,7 +102,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         super.onPostCreate(savedInstanceState);
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
-        Log.i(MainActivity.TAG,"Post Create of FrontPage Activity");
+        Log.i(MainActivity.TAG, "Post Create of FrontPage Activity");
    }
 
     @Override
@@ -219,6 +211,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 FragmentTransaction ft_saved_address = getSupportFragmentManager().beginTransaction();
                 ft_saved_address.replace(R.id.frameholder, fragment_saved_address);
                 ft_saved_address.commit();
+                //actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
                 return true;
             case R.id.notification:
                 Notification fragment_notification = new Notification();
@@ -248,85 +241,8 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
             return true;
     }}
 
-    //----------------------------do not touch this --------------------------------------------------------//
+       //----------------------------do not touch this --------------------------------------------------------//
 
-
-    //public void selectItem(int position){
-    //listview.setItemChecked(position, true);
-    //}
-
-//
-    //
-//
-//    private void loadSelection(int i){
-//
-//
-//        switch (i) {
-//            case 0:
-//                //mdrawerlayout.closeDrawer(listview);
-//                //getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
-//                ChatWithUs chatwithus = new ChatWithUs();
-//                FragmentTransaction  ft = fragmentManager.beginTransaction();
-//                ft.replace(R.id.frameholder, chatwithus);
-//                ft.addToBackStack("chat_fragment");
-//                ft.commit();
-//                break;
-//            case 1:
-//                //mdrawerlayout.closeDrawer(listview);
-//                //getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
-//                int lockMode = mdrawerlayout.getDrawerLockMode(Gravity.LEFT);
-//                if (lockMode == DrawerLayout.LOCK_MODE_UNLOCKED ) {
-//                }
-//                YourOrder yourOrder  = new YourOrder();
-//                FragmentTransaction ft1 = fragmentManager.beginTransaction();
-//                ft1.replace(R.id.frameholder, yourOrder);
-//                ft1.addToBackStack("yourorder_fragment");
-//                ft1.commit();
-//                break;
-//            case 2:
-//                //mdrawerlayout.closeDrawer(listview);
-//                //getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
-//                Wallet wallet = new Wallet();
-//                FragmentTransaction ft2 =fragmentManager.beginTransaction();
-//                ft2.replace(R.id.frameholder, wallet);
-//                ft2.addToBackStack("wallet_fragment");
-//                ft2.commit();
-//                break;
-//
-//            case 3:
-//                //mdrawerlayout.closeDrawer(listview);
-//                //getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
-//                Profile profile  = new Profile();
-//                FragmentTransaction ft3 = fragmentManager.beginTransaction();
-//                ft3.replace(R.id.frameholder, profile);
-//                ft3.addToBackStack("profile_fragment");
-//                ft3.commit();
-//                break;
-//            case 4:
-//                SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharepref.edit();
-//                editor.putString("loginStatus", "false");
-//                editor.remove("user_name");
-//                editor.remove("user_email");
-//                editor.remove("user_uuid");
-//                editor.remove("user_phone");
-//                editor.remove("user_password");
-//                editor.apply();
-//                Intent logout = new Intent(this, MainActivity.class);
-//                String fragmnet = "Login";
-//                logout.putExtra("fragment", fragmnet);
-//                startActivity(logout);
-//            case 5:
-//                //mdrawerlayout.closeDrawer(listview);
-//                //getSupportActionBar().setTitle(drawerLayoutAdapter.getItem(i).toString());
-//                Share share = new Share();
-//                FragmentTransaction ft5 = fragmentManager.beginTransaction();
-//                ft5.replace(R.id.frameholder, share);
-//                ft5.addToBackStack("share_fragment");
-//                ft5.commit();
-//                break;
-//        }
-//    }
     //----------------------------do not touch this --------------------------------------------------------//
 
 
