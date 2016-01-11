@@ -82,7 +82,7 @@ public class GPSTracker extends Service implements LocationListener {
                     if (location == null) {
                         Log.d("TAG", "GPS Enabled");
                         if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-                            //ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_ACCESS_FINE_LOCATION);
+                            ActivityCompat.requestPermissions(, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
                                 Log.i("TAG", "U");
                         }
                         Log.d("TAG", "GPS Enabled");

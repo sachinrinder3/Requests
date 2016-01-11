@@ -40,16 +40,17 @@
                 android:layout_marginLeft="35dp"
                 />
 
-            <!--<android.support.v7.widget.AppCompatTextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:id="@+id/person_age"-->
-                <!--android:layout_toRightOf="@+id/person_photo"-->
-                <!--android:layout_below="@+id/person_name"-->
-                <!--android:textSize="10sp"-->
-                <!--android:text="mobile"-->
-                <!--android:textColor="@color/black_font"-->
-                <!--/>-->
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/person_age"
+                android:layout_toRightOf="@+id/user_photo"
+                android:layout_below="@+id/user_name"
+                android:textSize="10sp"
+                android:text="mobile"
+                android:textColor="@color/black_font"
+                android:layout_marginLeft="35dp"
+                />
 
         </RelativeLayout>
 
@@ -95,7 +96,7 @@
                 android:layout_toRightOf="@+id/phone_photo"
                 android:layout_below="@+id/user_phone"
                 android:textSize="10sp"
-                android:text="mobile"
+                android:text="Mobile"
                 android:textColor="@color/black_font"
                 android:layout_marginLeft="35dp"
                 />
@@ -147,7 +148,7 @@
                 android:layout_toRightOf="@+id/email_photo"
                 android:layout_below="@+id/user_email"
                 android:textSize="10sp"
-                android:text="Home"
+                android:text="Email"
                 android:textColor="@color/black_font"
                 android:layout_marginLeft="35dp"
                 />
