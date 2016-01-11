@@ -40,13 +40,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:id="@+id/password_login"
+                android:id="@+id/user_email"
                 android:hint="Email"
                 style="@style/edit_text"
                 android:layout_marginBottom="@dimen/pad_5dp" />
         </android.support.design.widget.TextInputLayout>
 
-        <Button android:id="@+id/button_roy"
+        <Button android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
