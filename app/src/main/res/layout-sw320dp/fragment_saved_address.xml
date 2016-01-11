@@ -4,10 +4,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.requests.fragments.SavedAddress">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="save your address here bro" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add new address"
+        android:id="@+id/addnewaddress"
+        android:layout_gravity="center" />
 </FrameLayout>
