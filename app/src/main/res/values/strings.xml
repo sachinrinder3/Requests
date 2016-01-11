@@ -1,14 +1,16 @@
 <resources>
-    <string name="app_name">UserApp</string>
+    <string name="app_name">Alternative</string>
     <string name="drawer_opened">Request</string>
     <string name="drawer_closed">Requests</string>
     <string name="ga_trackingId">UA-71954600-1</string>
     <string name="title_toolbar">Alternative</string>
 
     <string name="chat_with_us"> Chat With Us </string>
-    <string name="your_order"> Your Order </string>
+    <string name="your_order"> Your Orders </string>
     <string name="wallet"> Wallet </string>
     <string name="profile"> Profile</string>
+    <string name="saved_address"> Saved Address</string>
+    <string name="notification">Notification</string>
     <string name="logout"> Logout </string>
     <string name="share"> Share </string>
 

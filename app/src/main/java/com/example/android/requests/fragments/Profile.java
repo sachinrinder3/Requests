@@ -2,6 +2,7 @@ package com.example.android.requests.fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.support.v7.widget.AppCompatTextView;
+
+import com.example.android.requests.activities.Dummy;
 import com.example.android.requests.activities.FrontPage;
 
 
@@ -82,15 +85,12 @@ public class Profile extends Fragment {
         edit_button.setOnClickListener(new View.OnClickListener() {
                                            public void onClick(View v) {
                                                EditableProfile editableProfile = new EditableProfile();
+//                                               Intent dummy = new Intent(getActivity(), Dummy.class);
+//                                               startActivity(dummy);
 
                                                FragmentManager manager = getActivity().getSupportFragmentManager();
                                                manager.beginTransaction().replace(R.id.frameholder, editableProfile).commit();
-                                               ActionBar actionBar = ((AppCompatActivity )getActivity()).getSupportActionBar();
-                                               actionBar.setDisplayHomeAsUpEnabled(false);
-                                               actionBar.setDisplayShowHomeEnabled(false);
-                                               actionBar.setLogo(R.drawable.hamburger);
-                                               actionBar.setIcon(R.drawable.hamburger);
-                                               actionBar.setTitle("HEY BRO JUST FOR CHECKING");
+
                                            }
                                        }
 

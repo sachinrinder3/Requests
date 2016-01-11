@@ -19,12 +19,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Akash Bangad"
         android:textSize="14sp"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:gravity="left"
         android:paddingBottom="4dp"
-        android:id="@+id/headerusername"
+        android:id="@+id/username"
         android:layout_below="@+id/profile_image"
         android:layout_alignLeft="@+id/profile_image"
         android:layout_alignStart="@+id/profile_image" />
@@ -32,12 +33,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/headeremail"
+        android:text="Akash.bangad93@gmail.com"
+        android:id="@+id/email"
         android:gravity="left"
         android:textSize="14sp"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:layout_below="@+id/headerusername"
-        android:layout_alignLeft="@+id/headerusername"
-        android:layout_alignStart="@+id/headerusername" />
+        android:layout_below="@+id/username"
+        android:layout_alignLeft="@+id/username"
+        android:layout_alignStart="@+id/username" />
+
 </RelativeLayout>
