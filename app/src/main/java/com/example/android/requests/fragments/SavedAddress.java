@@ -1,14 +1,18 @@
 package com.example.android.requests.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.android.requests.R;
 
@@ -46,17 +50,31 @@ public class SavedAddress extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View v = inflater.inflate(R.layout.fragment_saved_address, container, false);
-        Button buttonaddnewadress = (Button)v.findViewById(R.id.addnewaddress);
-        buttonaddnewadress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NewAddress newAddress = new NewAddress();
-                FragmentManager manager = getActivity().getSupportFragmentManager();
-                manager.beginTransaction().replace(R.id.frameholder, newAddress).commit();
-            }
-        });
+        android.support.v7.widget.AppCompatTextView newAddressText = (android.support.v7.widget.AppCompatTextView)v.findViewById(R.id.add_address_text);
+        ImageView newAddressImage = (ImageView)v.findViewById(R.id.add_address_icon);
+
+        newAddressText.setOnClickListener(new View.OnClickListener() {
+                                              public void onClick(View v) {
+                                                  NewAddress newAddress = new NewAddress();
+                                                  FragmentManager manager = getActivity().getSupportFragmentManager();
+                                                  manager.beginTransaction().replace(R.id.frameholder, newAddress).commit();
+
+                                              }
+                                          }
+
+        );
+        newAddressImage.setOnClickListener(new View.OnClickListener() {
+                                              public void onClick(View v) {
+                                                  NewAddress newAddress = new NewAddress();
+                                                  FragmentManager manager = getActivity().getSupportFragmentManager();
+                                                  manager.beginTransaction().replace(R.id.frameholder, newAddress).commit();
+
+                                              }
+                                          }
+
+        );
         return v;
     }
 

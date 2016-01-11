@@ -1,14 +1,39 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.android.requests.fragments.SavedAddress">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical">
 
-
-    <Button
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add new address"
-        android:id="@+id/addnewaddress"
-        android:layout_gravity="center" />
-</FrameLayout>
+        android:padding="16dp"
+        android:gravity="center"
+        android:id="@+id/new_address">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_address_icon"
+            android:src="@drawable/add"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/PrimaryColor"
+            android:clickable="true"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_address_text"
+            android:layout_toRightOf="@+id/add_address_icon"
+            android:layout_alignParentTop="true"
+            android:textSize="30sp"
+            android:textColor="@color/PrimaryColor"
+            android:text="Add Address"
+            android:layout_marginLeft="15dp"
+            android:clickable="true"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>
