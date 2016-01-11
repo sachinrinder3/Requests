@@ -59,7 +59,7 @@ public class NetworkUtil {
     public static final String UTF_8 = "UTF-8";
     public static final String ZERO = "0";
     public static final String MD5 = "MD5";
-    protected static final String intialUrl = "http://192.168.0.7:3000/api/v0/";
+    protected static final String intialUrl = "http://192.168.0.3:3000/api/v0/";
     //protected static final String intialUrl = "http://192.168.0.100:3000/api/v0/";
 
     public static String userLogin(String email, String password){
