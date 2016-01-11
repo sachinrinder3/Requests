@@ -72,29 +72,29 @@ public class Profile extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_profile, container, false);
-        name = (AppCompatTextView)v.findViewById(R.id.user_name);
-        email = (AppCompatTextView)v.findViewById(R.id.user_email);
-        phone = (AppCompatTextView)v.findViewById(R.id.user_phone);
-        SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        name.setText(sharepref.getString("user_name", "nhi aaya"));
-        email.setText(sharepref.getString("user_email", "nhi aaya"));
-        phone.setText(sharepref.getString("user_phone", "nhi aaya"));
+//        name = (AppCompatTextView)v.findViewById(R.id.user_name);
+//        email = (AppCompatTextView)v.findViewById(R.id.user_email);
+//        phone = (AppCompatTextView)v.findViewById(R.id.user_phone);
+        //SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+//        name.setText(sharepref.getString("user_name", "nhi aaya"));
+//        email.setText(sharepref.getString("user_email", "nhi aaya"));
+//        phone.setText(sharepref.getString("user_phone", "nhi aaya"));
 
 
-        edit_button = (Button) v.findViewById(R.id.edit_button);
-        edit_button.setOnClickListener(new View.OnClickListener() {
-                                           public void onClick(View v) {
-                                               EditableProfile editableProfile = new EditableProfile();
-//                                               Intent dummy = new Intent(getActivity(), Dummy.class);
-//                                               startActivity(dummy);
+//        edit_button = (Button) v.findViewById(R.id.edit_button);
+//        edit_button.setOnClickListener(new View.OnClickListener() {
+//                                           public void onClick(View v) {
+//                                               EditableProfile editableProfile = new EditableProfile();
+////                                               Intent dummy = new Intent(getActivity(), Dummy.class);
+////                                               startActivity(dummy);
+//
+//                                               FragmentManager manager = getActivity().getSupportFragmentManager();
+//                                               manager.beginTransaction().replace(R.id.frameholder, editableProfile).commit();
+//
+//                                           }
+//                                       }
 
-                                               FragmentManager manager = getActivity().getSupportFragmentManager();
-                                               manager.beginTransaction().replace(R.id.frameholder, editableProfile).commit();
-
-                                           }
-                                       }
-
-        );
+        //);
         return v;
 
 
