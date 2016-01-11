@@ -1,5 +1,6 @@
 package com.example.android.requests.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -12,10 +13,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.requests.fragments.Notification;
@@ -41,15 +44,30 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
     private NavigationView navigationView;
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
+    private TextView headeremail;
+    private TextView headerusername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //View vi = inflater.inflate(R.layout.header, null);
+
         setContentView(R.layout.activity_front_page);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar1);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+
         setSupportActionBar(toolbar);
+        View header = navigationView.getHeaderView(0);
+        headerusername = (TextView) header.findViewById(R.id.headerusername);
+         headeremail = (TextView) header.findViewById(R.id.headeremail);
+        SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharepref.edit();
+        headerusername.setText(sharepref.getString("user_name", "username"));
+        headeremail.setText(sharepref.getString("user_email", "useremail"));
+
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.title_toolbar);
         }
