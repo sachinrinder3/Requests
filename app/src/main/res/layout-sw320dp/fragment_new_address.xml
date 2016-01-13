@@ -22,7 +22,7 @@
         android:layout_below="@+id/address"
         android:layout_marginTop="10dp"
         style="@style/edit_text_style"
-        android:hint="Name(Home, office"/>
+        android:hint="Name(Home, office)"/>
 
     <android.support.v7.widget.AppCompatEditText
         android:layout_width="match_parent"
