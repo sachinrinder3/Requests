@@ -7,6 +7,7 @@ public class ChatMessage {
     public String chatmessage;
 
     public ChatMessage(String chatmessage){
+
         this.chatmessage = chatmessage;
     }
 
@@ -15,6 +16,7 @@ public class ChatMessage {
     }
 
     public void setChatmessage(String chatmessage) {
+
         this.chatmessage = chatmessage;
     }
 

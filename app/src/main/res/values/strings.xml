@@ -14,6 +14,9 @@
     <string name="logout"> Logout </string>
     <string name="share"> Share </string>
 
+    <string name="parse_application_key">G7DXbBMyOiMCOryNwHvQL3mqw0q37B6xhc9PlZFm</string>
+    <string name="parse_client_key">usTr4KFvBEeyP25Xg6wFAoS8COAZYsbmNPsS6WAW</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="chat_message_hint">Whats in your mind</string>
@@ -25,4 +28,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="facebook_app_id">190365014646527 </string>
+    <string name="title_activity_gps">GPSActivity</string>
 </resources>

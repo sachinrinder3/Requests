@@ -8,13 +8,15 @@ import android.view.ViewGroup;
 import com.example.android.requests.R;
 import com.example.android.requests.chat.ChatViewHolder;
 import com.example.android.requests.models.ChatMessage;
+import com.example.android.requests.models.Message;
 
-public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ChatAdapterParse extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private ChatMessage[] chatList;
+    private Message[] chatList;
 
-    public ChatAdapter(ChatMessage[] chatList) {
+    public ChatAdapterParse(Message[] chatList) {
+
         this.chatList = chatList;
     }
 
@@ -28,14 +30,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ChatMessage chatMessage = chatList[position];
-        ((ChatViewHolder) holder).showMessageText(chatMessage.getChatmessage());
+        Message chatMessage = chatList[position];
+        ((ChatViewHolder) holder).showMessageText(chatMessage.getBody());
     }
 
 
     @Override
     public int getItemViewType(int position) {
-        ChatMessage message = chatList[position];
+        Message message = chatList[position];
         return position;
     }
 

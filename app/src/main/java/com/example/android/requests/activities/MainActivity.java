@@ -14,17 +14,22 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.android.requests.R;
-
 import com.example.android.requests.fragments.Startup;
 import com.facebook.FacebookSdk;
+import com.parse.Parse;
+import com.parse.ParseInstallation;
+
 public class MainActivity extends AppCompatActivity {
     public static  final String TAG = "TAG";
+    public String Parse_Application_Key;
 
     FragmentManager fragmentManager;
     public static Context contextOfApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Parse.initialize(this, "G7DXbBMyOiMCOryNwHvQL3mqw0q37B6xhc9PlZFm", "usTr4KFvBEeyP25Xg6wFAoS8COAZYsbmNPsS6WAW");
+        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());

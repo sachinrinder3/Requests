@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.example.android.requests.R;
 import com.example.android.requests.activities.MainActivity;
-import com.example.android.requests.utils.GPSTracker;
+import com.example.android.requests.services.GPSTracker;
 import com.facebook.share.model.ShareLinkContent;
 
 import java.io.IOException;

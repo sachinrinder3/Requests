@@ -1,6 +1,5 @@
-package com.example.android.requests.utils;
+package com.example.android.requests.services;
 
-import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,7 +11,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -33,6 +31,7 @@ public class GPSTracker extends Service implements LocationListener {
     Location location; // Location
     double latitude; // Latitude
     double longitude; // Longitude
+    private static final int REQUEST_CODE_LOCATION = 2;
 
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
@@ -63,7 +62,7 @@ public class GPSTracker extends Service implements LocationListener {
 
                 // No network provider is enabled
             } else {
-              this.canGetLocation = true;
+                this.canGetLocation = true;
 //                if (isNetworkEnabled) {
 //                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 //                    Log.d("Network", "Network");
@@ -80,10 +79,12 @@ public class GPSTracker extends Service implements LocationListener {
                 if (isGPSEnabled) {
 
                     if (location == null) {
-                        Log.d("TAG", "GPS Enabled");
+                        Log.i("TAG", "GPS Enabled");
+                        Log.i("TAG",String.valueOf(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ));
+
                         if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-                            ActivityCompat.requestPermissions(, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-                                Log.i("TAG", "U");
+                            //ActivityCompat.requestPermissions( this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
+                            Log.i("TAG", "U");
                         }
                         Log.d("TAG", "GPS Enabled");
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
@@ -106,6 +107,17 @@ public class GPSTracker extends Service implements LocationListener {
         }
 
         return location;
+    }
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_CODE_LOCATION) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // success!
+                Log.i("TAG","YHYJ");
+                //Location myLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            } else {
+                // Permission was denied or request was cancelled
+            }
+        }
     }
 
     public void stopUsingGPS(){
