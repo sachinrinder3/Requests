@@ -5,6 +5,26 @@
     <string name="ga_trackingId">UA-71954600-1</string>
     <string name="title_toolbar">Alternative</string>
 
+
+    <!-- Api credentials start -->
+
+    <!-- active  -->
+
+
+    <string name="Google_Api_Key"> AIzaSyCxQss_oep3SsxoNIJU0_rAyloLbaPqf5w </string>
+    <string name="Facebook_Api_Key">190365014646527 </string>
+
+    <!-- /active  -->
+
+    <!-- inactive  -->
+
+    <string name="parse_application_key">G7DXbBMyOiMCOryNwHvQL3mqw0q37B6xhc9PlZFm</string>
+    <string name="parse_client_key">usTr4KFvBEeyP25Xg6wFAoS8COAZYsbmNPsS6WAW</string>
+
+    <!-- inactive  -->
+
+    <!-- /Api credentials end -->
+
     <string name="chat_with_us"> Chat With Us </string>
     <string name="your_order"> Your Orders </string>
     <string name="wallet"> Wallet </string>
@@ -13,9 +33,6 @@
     <string name="notification">Notification</string>
     <string name="logout"> Logout </string>
     <string name="share"> Share </string>
-
-    <string name="parse_application_key">G7DXbBMyOiMCOryNwHvQL3mqw0q37B6xhc9PlZFm</string>
-    <string name="parse_client_key">usTr4KFvBEeyP25Xg6wFAoS8COAZYsbmNPsS6WAW</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -26,7 +43,9 @@
     <string name="closeDrawer">Sender</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="facebook_app_id">190365014646527 </string>
+
+
     <string name="title_activity_gps">GPSActivity</string>
+    <string name="title_activity_place">PlaceActivity</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

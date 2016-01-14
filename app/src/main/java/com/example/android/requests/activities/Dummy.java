@@ -14,6 +14,7 @@ import com.example.android.requests.R;
 public class Dummy extends AppCompatActivity {
     private Toolbar toolbar;
     private Button dummybutton;
+    private Button dummybutton2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +26,20 @@ public class Dummy extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         dummybutton = (Button)findViewById(R.id.dummybutton);
+        dummybutton2 = (Button)findViewById(R.id.dummybutton2);
         dummybutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                   Intent Gpsactivity= new Intent(Dummy.this, GPSActivity.class);
                   startActivity(Gpsactivity);
+            }
+        });
+
+        dummybutton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mapsactivity= new Intent(Dummy.this, MapsActivity.class);
+                startActivity(mapsactivity);
             }
         });
 
