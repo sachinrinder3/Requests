@@ -26,7 +26,7 @@ import com.example.android.requests.fragments.SavedAddress;
 import com.example.android.requests.fragments.ChatWithUs;
 import com.example.android.requests.fragments.Profile;
 import com.example.android.requests.fragments.YourOrder;
-
+import com.example.android.requests.location;
 
 import com.example.android.requests.R;
 import com.example.android.requests.fragments.Wallet;
@@ -247,8 +247,8 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 return true;
 
             case R.id.dummy:
-                Intent dummy = new Intent(this, Dummy.class);
-                startActivity(dummy);
+                Intent location = new Intent(this, location.class);
+                startActivity(location);
                 return true;
             case R.id.dummy2:
                 Intent dummy2 = new Intent(this, Dummy2.class);

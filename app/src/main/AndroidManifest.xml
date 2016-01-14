@@ -31,6 +31,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAw9bEnH44wdxCpgV2Ej4vdmVf_ed-pOaY" />
+
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider190365014646527"
@@ -76,9 +80,9 @@
         <activity android:name=".activities.Dummy" />
         <activity android:name=".activities.Dummy2" />
 
-        <service
-            android:name=".services.FetchAddressIntentService"
-            android:exported="false" />
+        <!--<service-->
+            <!--android:name=".services.FetchAddressIntentService"-->
+            <!--android:exported="false" />-->
 
         <receiver
             android:name="com.parse.ParsePushBroadcastReceiver"
@@ -109,8 +113,11 @@
             <meta-data
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version" />
-
         </activity>
+        <activity
+            android:name=".location"
+            android:label="@string/title_activity_location"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
