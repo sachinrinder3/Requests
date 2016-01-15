@@ -9,7 +9,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cv"
+        android:id="@+id/cv1"
         android:layout_weight="1"
         >
 
@@ -22,32 +22,83 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_photo"
+                android:id="@+id/user_photo"
                 android:src="@drawable/user"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:background="@color/black_font"/>
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_name"
-                android:layout_toRightOf="@+id/person_photo"
+                android:id="@+id/user_name"
+                android:layout_toRightOf="@+id/user_photo"
                 android:layout_alignParentTop="true"
                 android:textSize="15sp"
-                android:text="9833210112"
                 android:textColor="@color/black_font"
+                android:layout_marginLeft="35dp"
                 />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/person_age"
-                android:layout_toRightOf="@+id/person_photo"
-                android:layout_below="@+id/person_name"
+                android:layout_toRightOf="@+id/user_photo"
+                android:layout_below="@+id/user_name"
                 android:textSize="10sp"
                 android:text="mobile"
                 android:textColor="@color/black_font"
+                android:layout_marginLeft="35dp"
+                />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cv2"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/phone_photo"
+                android:src="@drawable/phone"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="@color/black_font"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_phone"
+                android:layout_toRightOf="@+id/phone_photo"
+                android:layout_alignParentTop="true"
+                android:textSize="15sp"
+                android:textColor="@color/black_font"
+                android:layout_marginLeft="35dp"
+                />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/phone_type"
+                android:layout_toRightOf="@+id/phone_photo"
+                android:layout_below="@+id/user_phone"
+                android:textSize="10sp"
+                android:text="Mobile"
+                android:textColor="@color/black_font"
+                android:layout_marginLeft="35dp"
                 />
 
         </RelativeLayout>
@@ -58,8 +109,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:id="@+id/cv1"
-        android:layout_marginTop="10px"
+        android:id="@+id/cv3"
+        android:layout_marginTop="10dp"
         >
 
         <RelativeLayout
@@ -71,36 +122,40 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_photo1"
+                android:id="@+id/email_photo"
                 android:src="@drawable/email"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/person_name1"
-                android:layout_toRightOf="@+id/person_photo1"
-                android:layout_alignParentTop="true"
-                android:textSize="15sp"
-                android:text="geetika.jain220694@gmail.com"
-                android:textColor="@color/black_font"
+                android:layout_alignParentStart="true"
+                android:background="@color/black_font"
                 />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_age1"
-                android:layout_toRightOf="@+id/person_photo1"
-                android:layout_below="@+id/person_name1"
-                android:textSize="10sp"
-                android:text="Home"
+                android:id="@+id/user_email"
+                android:layout_toRightOf="@+id/email_photo"
+                android:layout_alignParentTop="true"
+                android:textSize="15sp"
                 android:textColor="@color/black_font"
+                android:layout_marginLeft="35dp"
+                />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/email_type"
+                android:layout_toRightOf="@+id/email_photo"
+                android:layout_below="@+id/user_email"
+                android:textSize="10sp"
+                android:text="Email"
+                android:textColor="@color/black_font"
+                android:layout_marginLeft="35dp"
                 />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
-    <Button android:id="@+id/button_roy"
+
+    <Button android:id="@+id/edit_butoon_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"

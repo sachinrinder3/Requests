@@ -22,6 +22,8 @@ import android.widget.Button;
 import android.support.v7.widget.AppCompatTextView;
 
 import com.example.android.requests.activities.Dummy;
+import com.example.android.requests.activities.Dummy2;
+import com.example.android.requests.activities.EditProfile;
 import com.example.android.requests.activities.FrontPage;
 
 
@@ -84,9 +86,11 @@ public class Profile extends Fragment {
         edit_button = (Button) v.findViewById(R.id.edit_butoon_profile);
         edit_button.setOnClickListener(new View.OnClickListener() {
                                            public void onClick(View v) {
-                                               EditableProfile editableProfile = new EditableProfile();
-                                               FragmentManager manager = getActivity().getSupportFragmentManager();
-                                               manager.beginTransaction().replace(R.id.frameholder, editableProfile).commit();
+//                                               EditableProfile editableProfile = new EditableProfile();
+//                                               FragmentManager manager = getActivity().getSupportFragmentManager();
+//                                               manager.beginTransaction().replace(R.id.frameholder, editableProfile).commit();
+                                               Intent EditProfile = new Intent(getActivity(), EditProfile.class);
+                                               startActivity(EditProfile);
 
                                            }
                                        }
