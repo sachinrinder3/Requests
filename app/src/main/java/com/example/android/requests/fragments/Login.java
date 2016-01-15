@@ -11,7 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.widget.Toast;
@@ -76,7 +76,7 @@ public class Login extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login, container, false);
 
-        Button loginbtn = (Button)v.findViewById(R.id.login);
+        AppCompatButton loginbtn = (AppCompatButton)v.findViewById(R.id.login);
 
         loginbtn.setOnClickListener(new View.OnClickListener() {
                                         public void onClick(View v) {

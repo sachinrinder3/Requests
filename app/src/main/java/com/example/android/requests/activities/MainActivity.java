@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Parse.initialize(this, "G7DXbBMyOiMCOryNwHvQL3mqw0q37B6xhc9PlZFm", "usTr4KFvBEeyP25Xg6wFAoS8COAZYsbmNPsS6WAW");
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+        //Parse.initialize(this, "G7DXbBMyOiMCOryNwHvQL3mqw0q37B6xhc9PlZFm", "usTr4KFvBEeyP25Xg6wFAoS8COAZYsbmNPsS6WAW");
+        //ParseInstallation.getCurrentInstallation().saveInBackground();
 
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());

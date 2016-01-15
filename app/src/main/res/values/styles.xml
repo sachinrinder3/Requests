@@ -5,19 +5,11 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <item name="android:textColorHint">@color/default_hint_color</item>
-        <item name="android:textAppearance">@style/text_appearance</item>
-        <item name="android:windowBackground">@color/window_background</item>
-        <item name="android:radioButtonStyle">@style/MyRadioButton</item>
-        <item name="android:buttonStyleToggle">@style/toggle_button_style</item>
-        <item name="editTextStyle">@style/edit_text_style</item>
-        <item name="actionBarStyle">@style/action_bar_style</item>
-        <item name="checkboxStyle">@style/checkbox_style</item>
-        <item name="android:cursorVisible">true</item>
-
     </style>
 
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar"></style>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -28,6 +20,15 @@
         <item name="android:textColor">@color/text_color</item>
         <item name="android:textSize">14sp</item>
         <item name="android:gravity">center</item>
+        <item name="android:textColorHint">@color/default_hint_color</item>
+        <item name="android:textAppearance">@style/text_appearance</item>
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:radioButtonStyle">@style/MyRadioButton</item>
+        <item name="android:buttonStyleToggle">@style/toggle_button_style</item>
+        <item name="editTextStyle">@style/edit_text_style</item>
+        <item name="actionBarStyle">@style/action_bar_style</item>
+        <item name="checkboxStyle">@style/checkbox_style</item>
+        <item name="android:cursorVisible">true</item>
     </style>
 
     <style name="MyButton" parent="Widget.AppCompat.Button">
@@ -152,14 +153,14 @@
 
     <style name="WhiteStickyButton" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/white_submit_button</item>
-        <item name="android:textColor">@color/accent</item>
+        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textSize">14sp</item>
         <item name="android:gravity">center</item>
     </style>
 
     <style name="PurpleRoundButton" parent="MyButtonRounded">
         <item name="android:background">@drawable/login_button</item>
-        <item name="android:color">@color/accent</item>
+        <item name="android:color">@color/colorAccent</item>
     </style>
 
 

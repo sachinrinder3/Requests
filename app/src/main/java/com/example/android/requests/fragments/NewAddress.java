@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.example.android.requests.R;
 import com.example.android.requests.activities.MainActivity;
-import com.example.android.requests.services.GPSTracker;
 import com.facebook.share.model.ShareLinkContent;
 
 import java.io.IOException;
@@ -47,66 +46,6 @@ public class NewAddress extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_new_address, container, false);
-        //LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-        //Criteria criteria = new Criteria();
-//        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-//        if (currentapiVersion >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-//
-//            criteria.setSpeedAccuracy(Criteria.ACCURACY_HIGH);
-//            criteria.setAccuracy(Criteria.ACCURACY_FINE);
-//            criteria.setAltitudeRequired(true);
-//            criteria.setBearingRequired(true);
-//            criteria.setSpeedRequired(true);
-//
-//        }
-//        String provider = locationManager.getBestProvider(criteria, true);
-//        //Location location = locationManager.getLastKnownLocation(provider);
-//        LocationListener locationListener = new LocationListener() {
-//
-//            @Override
-//            public void onStatusChanged(String provider, int status, Bundle extras) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//            @Override
-//            public void onProviderEnabled(String provider) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//            @Override
-//            public void onProviderDisabled(String provider) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//            @Override
-//            public void onLocationChanged(Location location) {
-//                // TODO Auto-generated method stub
-//                double latitude = location.getLatitude();
-//                double longitude = location.getLongitude();
-//                double speed = location.getSpeed(); //spedd in meter/minute
-//                speed = (speed * 3600) / 1000;      // speed in km/minute
-//                Toast.makeText(getActivity(), "Current speed:" + location.getSpeed(), Toast.LENGTH_SHORT).show();
-//            }
-//        };
-
-        //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        GPSTracker  gps = new GPSTracker(getActivity());
-
-        // check if GPS enabled
-        //Log.i(MainActivity.TAG, String.valueOf(gps.canGetLocation()));
-        if(gps.canGetLocation()){
-
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
-            Toast.makeText(getActivity(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-
-        }else{
-            //Log.i(MainActivity.TAG, String.valueOf(gps.canGetLocation()));
-            gps.showSettingsAlert();
-        }
 
     return rootview;
 }

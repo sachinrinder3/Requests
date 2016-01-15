@@ -3,10 +3,12 @@
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
 
-        <item name="android:colorPrimary">@color/PrimaryColor</item>
-        <item name="android:colorPrimaryDark">@color/PrimaryDarkColor</item>
-        // color of above action bar area
-        <item name="android:statusBarColor">#002633</item>
+        <item name="android:colorPrimary">@color/indigo_500</item>
+        <item name="android:colorPrimaryDark">@color/indigo_700</item>
+        <item name="android:colorAccent">@color/amber_500</item>
+        // color of above action bar area( do not use it )
+        <!-- <item name="android:statusBarColor">#002633</item> -->
+        //
     </style>
 
 

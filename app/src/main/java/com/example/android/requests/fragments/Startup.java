@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.support.v7.widget.AppCompatButton;
 
 
 import com.example.android.requests.R;
@@ -57,8 +57,8 @@ public class Startup extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_startup, container, false);
-        Button signin = (Button) v.findViewById(R.id.signin);
-        Button register = (Button) v.findViewById(R.id.register);
+        AppCompatButton signin = (AppCompatButton) v.findViewById(R.id.signin);
+        AppCompatButton register = (AppCompatButton) v.findViewById(R.id.register);
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

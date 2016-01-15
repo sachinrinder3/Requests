@@ -61,7 +61,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         setSupportActionBar(toolbar);
         View header = navigationView.getHeaderView(0);
         headerusername = (TextView) header.findViewById(R.id.headerusername);
-         headeremail = (TextView) header.findViewById(R.id.headeremail);
+        headeremail = (TextView) header.findViewById(R.id.headeremail);
         SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharepref.edit();
         headerusername.setText(sharepref.getString("user_name", "username"));

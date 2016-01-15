@@ -10,7 +10,7 @@
         android:layout_gravity="bottom"
         android:orientation="horizontal">
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Sign in"
@@ -20,7 +20,7 @@
         android:id="@+id/signin"
         style="@style/MyButtonRounded"/>
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Register"
