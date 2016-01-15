@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="com.example.android.requests">
+                package="com.example.android.requests">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,42 +9,38 @@ package="com.example.android.requests">
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <permission android:name="com.example.android.requests.MAPS_RECEIVE" android:protectionLevel="signature" />
-    <uses-permission android:name="com.example.android.requests.permission.MAPS_RECEIVE" />
-    <permission android:name="com.example.android.permission.C2D_MESSAGE" android:protectionLevel="signature" />
-    <uses-permission android:name="com.example.android.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <!--<uses-permission android:name="android.permission.GET_ACCOUNTS" />-->
+    <!--<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!--<permission android:name="com.example.android.requests.MAPS_RECEIVE" android:protectionLevel="signature" />-->
+    <!--<uses-permission android:name="com.example.android.requests.permission.MAPS_RECEIVE" />-->
+    <!--<permission android:name="com.example.android.permission.C2D_MESSAGE" android:protectionLevel="signature" />-->
+    <!--<uses-permission android:name="com.example.android.permission.C2D_MESSAGE" />-->
 
 <supports-screens
     android:anyDensity="true"
     android:largeScreens="true"
     android:normalScreens="true"
     android:smallScreens="true"
-    android:xlargeScreens="true" />
+    android:xlargeScreens="true"/>
 
 <application android:allowBackup="true"
     android:icon="@mipmap/images"
     android:label="@string/app_name"
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
-    <provider android:name="com.facebook.FacebookContentProvider"
-        android:authorities="com.facebook.app.FacebookContentProvider190365014646527"
-        android:exported="true" />
 
     <activity android:name=".activities.MainActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
-
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
 
     <activity android:name=".activities.FrontPage">
-        <action android:name="com.example.android.requests.activities.FrontPage" />
 
+        <action android:name="com.example.android.requests.activities.FrontPage" />
         <category android:name="android.intent.category.DEFAULT" />
     </activity>
 
@@ -54,50 +49,67 @@ package="com.example.android.requests">
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+    <activity android:name=".activities.Dummy"/>
+    <activity android:name=".activities.Dummy2"/>
+    <activity android:name=".activities.PlaceActivity"
+        android:label="@string/title_activity_place"
+        android:theme="@style/AppTheme">
+    </activity>
+
+    <activity android:name="com.example.android.requests.activities.MapsActivity"
+        android:label="@string/title_activity_maps">
+    </activity>
+    <activity android:name=".activities.ChatActivity" />
+
+    <activity android:name=".location" />
+
+
     <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/Facebook_Api_Key" />
-    <meta-data android:name="com.google.android.geo.API_KEY"
-        android:value="@string/Google_Api_Key" />
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyAw9bEnH44wdxCpgV2Ej4vdmVf_ed-pOaY" />
+
+
+    <provider android:name="com.facebook.FacebookContentProvider"
+        android:authorities="com.facebook.app.FacebookContentProvider190365014646527"
+        android:exported="true" />
+
 
     <provider android:name=".MyContentProvider" android:authorities="fdvef" android:enabled="true"
         android:exported="true" />
 
     <service android:name=".services.MyService" android:enabled="true" android:exported="true" />
 
-    <activity android:name=".activities.Dummy" />
-    <activity android:name=".activities.Dummy2" />
 
-    <service android:name=".services.FetchAddressIntentService" android:exported="false" />
+    <!--<receiver android:name="com.parse.ParsePushBroadcastReceiver" android:exported="false">-->
+        <!--<intent-filter>-->
+            <!--<action android:name="com.parse.push.intent.RECEIVE" />-->
+            <!--<action android:name="com.parse.push.intent.DELETE" />-->
+            <!--<action android:name="com.parse.push.intent.OPEN" />-->
+        <!--</intent-filter>-->
+    <!--</receiver>-->
 
-    <receiver android:name="com.parse.ParsePushBroadcastReceiver" android:exported="false">
-        <intent-filter>
-            <action android:name="com.parse.push.intent.RECEIVE" />
-            <action android:name="com.parse.push.intent.DELETE" />
-            <action android:name="com.parse.push.intent.OPEN" />
-        </intent-filter>
-    </receiver>
+    <!--<receiver-->
+        <!--android:name="com.parse.GcmBroadcastReceiver"-->
+        <!--android:permission="com.google.android.c2dm.permission.SEND">-->
+        <!--<intent-filter>-->
+            <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
+            <!--<action android:name="com.google.android.c2dm.intent.REGISTRATION" />-->
 
-    <receiver android:name="com.parse.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
-        <intent-filter>
-            <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+            <!--&lt;!&ndash; IMPORTANT: Change "com.parse.starter" to match your app's package name. &ndash;&gt;-->
+            <!--<category android:name="com.example.android" />-->
+        <!--</intent-filter>-->
+    <!--</receiver>-->
 
-            <!-- IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
-            <category android:name="com.example.android" />
-        </intent-filter>
-    </receiver>
 
-    <activity android:name=".activities.ChatActivity" />
+    <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
 
-    <activity android:name=".activities.GPSActivity" android:label="@string/title_activity_gps"
-        android:theme="@style/AppTheme">
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-    </activity>
-
-    <activity android:name=".activities.PlaceActivity" android:label="@string/title_activity_place"
-        android:theme="@style/AppTheme"></activity>
-
-    <activity android:name="com.example.android.requests.activities.MapsActivity" android:label="@string/title_activity_maps">
-        </activity>
+    <!--<service-->
+            <!--android:name=".services.FetchAddressIntentService"-->
+            <!--android:exported="false" />-->
 
 </application>
 

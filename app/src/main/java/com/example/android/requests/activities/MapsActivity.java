@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
 import com.example.android.requests.R;
 import com.example.android.requests.utils.CustomMarker;
 import com.google.android.gms.maps.CameraUpdate;
