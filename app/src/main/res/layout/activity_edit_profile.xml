@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.example.android.requests.activities.EditProfile">
 
     <include layout="@layout/toolbar">
@@ -15,7 +16,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="65dp">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -62,4 +63,4 @@
 
     </RelativeLayout>
 
-</FrameLayout>
+</RelativeLayout>

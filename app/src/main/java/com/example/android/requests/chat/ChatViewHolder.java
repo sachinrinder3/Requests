@@ -14,7 +14,7 @@ public  class ChatViewHolder extends RecyclerView.ViewHolder {
 
     public ChatViewHolder(View v) {
         super(v);
-        // Define click listener for the ViewHolder's View.
+        chatmessage = (TextView) v.findViewById(R.id.SingleMessage);
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -22,10 +22,10 @@ public  class ChatViewHolder extends RecyclerView.ViewHolder {
                     Log.i("TAG", "yo I am chatting view holder");
                 }
             });
-        chatmessage = (TextView) v.findViewById(R.id.SingleMessage);
     }
 
     public void showMessageText(String text) {
+
         chatmessage.setText(text);
     }
 }

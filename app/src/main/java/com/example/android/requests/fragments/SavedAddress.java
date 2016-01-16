@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -65,9 +66,11 @@ public class SavedAddress extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_saved_address, container, false);
         recyclerView = (RecyclerView)v.findViewById(R.id.saved_address_list);
+        recyclerView.setHasFixedSize(true);
         addressAdapter = new AddressAdapter(getActivity(), getdata());
         recyclerView.setAdapter(addressAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         android.support.v7.widget.AppCompatTextView newAddressText = (android.support.v7.widget.AppCompatTextView)v.findViewById(R.id.add_address_text);
         ImageView newAddressImage = (ImageView)v.findViewById(R.id.add_address_icon);
 
@@ -83,6 +86,7 @@ public class SavedAddress extends Fragment {
                                           }
 
         );
+
         return v;
     }
     public static List<Address> getdata (){
@@ -90,12 +94,14 @@ public class SavedAddress extends Fragment {
         String[] flat_no = {"309", "3434","444"};
         String[] location = {"ram nanag", "prem nagar","rajput nagar"};
         String[] adress = {"tohana", "haryana","delhi"};
+        int [] ids = {1,2,3,4};
         int i;
         for (i=0; i < 3 ; i++ ){
                 Address address = new Address();
                 address.flatno = flat_no[i];
                 address.location = location[i];
                 address.nearby = adress[i];
+            address.id = ids[i];
               data.add(address);
 
         }

@@ -1,29 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
-    <android.support.v7.widget.CardView
+
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/cv1"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/cv1"
-        >
+        android:layout_height="wrap_content">
 
         <TextView
         android:padding="8dp"
+            android:text="cwdcewcw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/t1" />
     <TextView
         android:padding="8dp"
+        android:text="cwdcewcw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/t2" />
     <TextView
         android:padding="8dp"
+        android:text="cwdcewcw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/t3"/>
-    </android.support.v7.widget.CardView>
-</LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_edit"
+            android:id="@+id/edit_address_icon" />
+
+
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

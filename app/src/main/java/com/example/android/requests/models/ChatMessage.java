@@ -1,5 +1,8 @@
 package com.example.android.requests.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by tuljain on 12/20/2015.
  */
@@ -21,13 +24,14 @@ public class ChatMessage {
     }
 
 
-    public static ChatMessage[] createChatMessages(int numContacts) {
-        ChatMessage[] chatmessages1 = new ChatMessage[numContacts];
+    public static List<ChatMessage> createChatMessages(int numContacts) {
+        List<ChatMessage> data = new ArrayList<>();
 
         for (int i = 0; i < numContacts; i++) {
-            chatmessages1[i] = new ChatMessage("Person");
+            ChatMessage address = new ChatMessage("rahul whats up bcodnbckwdsxsxdwx kpckmdcmd dcmdwklmckldwc");
+            data.add(address);
         }
 
-        return chatmessages1;
+        return data;
     }
 }
