@@ -98,8 +98,6 @@ public class Login extends Fragment {
                                             else {
                                                 Toast.makeText(getActivity(), "Please enter both email and password", Toast.LENGTH_LONG).show();
                                             }
-
-
 //                                            Runnable r = new Runnable() {
 //                                                @Override
 //                                                public void run() {
@@ -108,7 +106,6 @@ public class Login extends Fragment {
 //                                            };
 //                                            Thread loginThread = new Thread(r);
 //                                            loginThread.start();
-
 //                                            new Thread(new Runnable() {
 //                                                @Override
 //                                                public void run() {
@@ -121,7 +118,6 @@ public class Login extends Fragment {
 
                                         }
                                     }
-
         );
         return v;
     }
@@ -279,13 +275,11 @@ public class Login extends Fragment {
     private class SendGcmToServer extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {
-// TODO Auto-generated method stub
             super.onPreExecute();
         }
 
         @Override
         protected String doInBackground(String... params) {
-// TODO Auto-generated method stub Purchased by Tulsi jain, jaintulsi43@gmail.com #7597863
             String url = Uti.register_url + "?name=" ;
                     //+
                     //editText_user_name.getText().toString() + "&email=" + editText_email.getText().toString() + "&regId=" + regid;
@@ -293,30 +287,25 @@ public class Login extends Fragment {
             OkHttpClient client_for_getMyFriends = new OkHttpClient();
             ;
             String response = null;
-// String response=Utility.callhttpRequest(url);
-            try {
-                url = url.replace(" ", "%20");
-                response = callOkHttpRequest(new URL(url),
-                        client_for_getMyFriends);
-                for (String subString : response.split("<script", 2)) {
-                    response = subString;
-                    break;
-                }
-            } catch (MalformedURLException e) {
-// TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-// TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+//            try {
+//                url = url.replace(" ", "%20");
+//                response = callOkHttpRequest(new URL(url),
+//                        client_for_getMyFriends);
+//                for (String subString : response.split("<script", 2)) {
+//                    response = subString;
+//                    break;
+//                }
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
             return response;
         }
 
         @Override
         protected void onPostExecute(String result) {
-// TODO Auto-generated method stub
             super.onPostExecute(result);
-//Toast.makeText(context,"response "+result,Toast.LENGTH_LONG).show();
             if (result != null) {
                 if (result.equals("success")) {
                     storeUserDetails(getActivity());
@@ -329,23 +318,20 @@ public class Login extends Fragment {
                 Toast.makeText(getActivity(), "Check net connection ", Toast.LENGTH_LONG).show();
             }
         }
-
-
-        // Http request using OkHttpClient
-        String callOkHttpRequest(URL url, OkHttpClient tempClient)
-                throws IOException {
-            HttpURLConnection connection = tempClient.open(url);
-            connection.setConnectTimeout(40000);
-            InputStream in = null;
-            try {
-// Read the response.
-                in = connection.getInputStream();
-                byte[] response = readFully(in);
-                return new String(response, "UTF-8");
-            } finally {
-                if (in != null)
-                    in.close();
-            }
+//        String callOkHttpRequest(URL url, OkHttpClient tempClient)
+//                throws IOException {
+//            HttpURLConnection connection = tempClient.open(url);
+//            connection.setConnectTimeout(40000);
+//            InputStream in = null;
+//            try {
+//// Read the response.
+//                in = connection.getInputStream();
+//                byte[] response = readFully(in);
+//                return new String(response, "UTF-8");
+//            } finally {
+//                if (in != null)
+//                    in.close();
+//            }
 
         }
         byte[] readFully(InputStream in) throws IOException {
@@ -357,5 +343,5 @@ public class Login extends Fragment {
             return out.toByteArray();
         }
 
-    }
+ 
 }
