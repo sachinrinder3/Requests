@@ -20,21 +20,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.AppCompatTextView;
 import android.widget.Toast;
 
 import com.example.android.requests.R;
 import com.example.android.requests.activities.FrontPage;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.squareup.okhttp.Call;
 import com.squareup.okhttp.OkHttpClient;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class Login extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -48,6 +51,9 @@ public class Login extends Fragment {
     private AppCompatEditText password;
     private String emailstring;
     private String passwordstring;
+    GoogleCloudMessaging gcm;
+    String regid;
+    String msg;
 
     private OnFragmentInteractionListener mListener;
 
@@ -57,7 +63,6 @@ public class Login extends Fragment {
     }
 
     public Login() {
-        // Required empty public constructor
     }
     public static Login newInstance(String param1, String param2) {
         Login fragment = new Login();
@@ -80,10 +85,21 @@ public class Login extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login, container, false);
 
         AppCompatButton loginbtn = (AppCompatButton)v.findViewById(R.id.login);
+        Log.i("TAG", String.valueOf(checkPlayServices()));
+
+        if (checkPlayServices()) {
+            gcm = GoogleCloudMessaging.getInstance(getActivity());
+            regid = getRegistrationId(getActivity());
+            if (regid.isEmpty()) {
+                Log.i("TAG", "empty regid");
+                registerInBackground();
+            }
+        } else {
+            Log.i("pavan", "No valid Google Play Services APK found.");
+        }
 
         loginbtn.setOnClickListener(new View.OnClickListener() {
                                         public void onClick(View v) {
@@ -91,13 +107,16 @@ public class Login extends Fragment {
                                             password = (AppCompatEditText)getView().findViewById(R.id.password_login);
                                             emailstring =  email.getText().toString();
                                             passwordstring = password.getText().toString();
-                                            if (!emailstring.equals("") && !passwordstring.equals("") ){
-                                                AsyncTaskRunner runner = new AsyncTaskRunner();
-                                                runner.execute(emailstring,passwordstring);
-                                            }
-                                            else {
-                                                Toast.makeText(getActivity(), "Please enter both email and password", Toast.LENGTH_LONG).show();
-                                            }
+                                            sendRegistrationIdToBackend();
+//                                            if (!emailstring.equals("") && !passwordstring.equals("") ){
+//                                                AsyncTaskRunner runner = new AsyncTaskRunner();
+//                                                runner.execute(emailstring,passwordstring);
+//                                            }
+//                                            else {
+//                                                Toast.makeText(getActivity(), "Please enter both email and password", Toast.LENGTH_LONG).show();
+//                                            }
+
+
 //                                            Runnable r = new Runnable() {
 //                                                @Override
 //                                                public void run() {
@@ -127,7 +146,6 @@ public class Login extends Fragment {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -140,7 +158,6 @@ public class Login extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
@@ -160,7 +177,6 @@ public class Login extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
-            //super.onPostExecute();
             Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
             if (result.equals("User Exits")){
                 SharedPreferences sharepref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
@@ -215,6 +231,7 @@ public class Login extends Fragment {
             return "";
         }
         int registeredVersion = prefs.getInt(Uti.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
+
         int currentVersion = getAppVersion(context);
         if (registeredVersion != currentVersion) {
             Log.i(MainActivity.TAG, "App version changed.");
@@ -239,7 +256,6 @@ public class Login extends Fragment {
                     .getPackageInfo(context.getPackageName(), 0);
             return packageInfo.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
-// should never happen
             throw new RuntimeException("Could not get package name: " + e);
         }
     }
@@ -264,12 +280,8 @@ public class Login extends Fragment {
         editor.commit();
     }
 
-    // private RequestQueue mRequestQueue;
     private void sendRegistrationIdToBackend() {
-// Your implementation here.
         new SendGcmToServer().execute();
-// Access the RequestQueue through your singleton class.
-// AppController.getInstance().addToRequestQueue(jsObjRequest, "jsonRequest");
     }
 
     private class SendGcmToServer extends AsyncTask<String, Void, String> {
@@ -280,27 +292,26 @@ public class Login extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-            String url = Uti.register_url + "?name=" ;
-                    //+
-                    //editText_user_name.getText().toString() + "&email=" + editText_email.getText().toString() + "&regId=" + regid;
+            String url = Uti.register_url + "?name=";
+            //+
+            //editText_user_name.getText().toString() + "&email=" + editText_email.getText().toString() + "&regId=" + regid;
             Log.i("pavan", "url" + url);
             OkHttpClient client_for_getMyFriends = new OkHttpClient();
-            ;
-            String response = null;
-//            try {
-//                url = url.replace(" ", "%20");
-//                response = callOkHttpRequest(new URL(url),
-//                        client_for_getMyFriends);
-//                for (String subString : response.split("<script", 2)) {
-//                    response = subString;
-//                    break;
-//                }
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-            return response;
+            OkHttpClient client = new OkHttpClient();
+            String uri = "http://192.168.0.103:3000/api/v0/register?register_id=" + regid + "&email=" + emailstring;
+            Request request = new Request.Builder().url(uri).build();
+            String message = "";
+            try {
+                Call call = client.newCall(request);
+                Response response = call.execute();
+                JsonElement jelement = new JsonParser().parse(response.body().string());
+                JsonObject jobject = jelement.getAsJsonObject();
+                message = jobject.get("message").getAsString();
+                Log.i("TAG", message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return message;
         }
 
         @Override
@@ -309,7 +320,8 @@ public class Login extends Fragment {
             if (result != null) {
                 if (result.equals("success")) {
                     storeUserDetails(getActivity());
-                    startActivity(new Intent(getActivity(), ChatActivity.class));
+                    //startActivity(new Intent(getActivity(), ChatActivity.class));
+                    Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
                     //finish();
                 } else {
                     Toast.makeText(getActivity(), "Try Again" + result, Toast.LENGTH_LONG).show();
@@ -318,30 +330,35 @@ public class Login extends Fragment {
                 Toast.makeText(getActivity(), "Check net connection ", Toast.LENGTH_LONG).show();
             }
         }
-//        String callOkHttpRequest(URL url, OkHttpClient tempClient)
-//                throws IOException {
-//            HttpURLConnection connection = tempClient.open(url);
-//            connection.setConnectTimeout(40000);
-//            InputStream in = null;
-//            try {
-//// Read the response.
-//                in = connection.getInputStream();
-//                byte[] response = readFully(in);
-//                return new String(response, "UTF-8");
-//            } finally {
-//                if (in != null)
-//                    in.close();
-//            }
 
-        }
         byte[] readFully(InputStream in) throws IOException {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
-            for (int count; (count = in.read(buffer)) != -1;) {
+            for (int count; (count = in.read(buffer)) != -1; ) {
                 out.write(buffer, 0, count);
             }
             return out.toByteArray();
         }
+    }
 
- 
+
+    private void registerInBackground() {
+        new AsyncTask() {
+            @Override
+            protected String doInBackground(Object[] params) {
+                try {
+                    if (gcm == null) {
+                        gcm = GoogleCloudMessaging.getInstance(getActivity());
+                    }
+                    regid = gcm.register(Uti.SENDER_ID);
+                    msg = "Device registered, registration ID=" + regid;
+                    storeRegistrationId(getActivity(), regid);
+                } catch (IOException ex) {
+                    msg = "Error :" + ex.getMessage();
+                }
+                Log.i("TAG", msg);
+               return msg;
+            }
+        }.execute();
+    }
 }
