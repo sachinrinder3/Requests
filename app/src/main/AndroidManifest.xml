@@ -10,13 +10,13 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <!-- <uses-permission android:name="android.permission.GET_ACCOUNTS" /> -->
-    <!-- <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" /> -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
     <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
     <!-- <permission android:name="com.example.android.requests.MAPS_RECEIVE" android:protectionLevel="signature" /> -->
     <!-- <uses-permission android:name="com.example.android.requests.permission.MAPS_RECEIVE" /> -->
     <!-- <permission android:name="com.example.android.permission.C2D_MESSAGE" android:protectionLevel="signature" /> -->
-    <!-- <uses-permission android:name="com.example.android.permission.C2D_MESSAGE" /> -->
 
     <supports-screens
         android:anyDensity="true"
@@ -59,6 +59,14 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".activities.ChatActivity" />
         <activity android:name=".location" />
+        <activity
+            android:name=".activities.NewAddress"
+            android:label="@string/title_activity_new_address"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.EditProfile"
+            android:label="@string/title_activity_edit_profile"
+            android:theme="@style/AppTheme" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -72,6 +80,17 @@
             android:authorities="com.facebook.app.FacebookContentProvider190365014646527"
             android:exported="true" />
 
+        <receiver
+            android:name=".receivers.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.example.gcm" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".services.GcmIntentService"></service>
         <service
             android:name=".services.MyService"
             android:enabled="true"
@@ -110,14 +129,9 @@
         <!-- android:name=".services.FetchAddressIntentService" -->
         <!-- android:exported="false" /> -->
 
-        <activity
-            android:name=".activities.NewAddress"
-            android:label="@string/title_activity_new_address"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".activities.EditProfile"
-            android:label="@string/title_activity_edit_profile"
-            android:theme="@style/AppTheme"></activity>
+        <service
+            android:name=".services.MyIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

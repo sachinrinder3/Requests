@@ -2,10 +2,11 @@ package com.example.android.requests.activities;
 
 
 
-import com.example.android.requests.utils.NetworkUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -15,12 +16,23 @@ import android.widget.Toast;
 
 import com.example.android.requests.R;
 import com.example.android.requests.fragments.Startup;
+import com.example.android.requests.utils.Uti;
 import com.facebook.FacebookSdk;
-import com.parse.Parse;
-import com.parse.ParseInstallation;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.internal.Util;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-    public static  final String TAG = "TAG";
+    public static final String TAG = "TAG";
     public String Parse_Application_Key;
 
     FragmentManager fragmentManager;
@@ -42,10 +54,9 @@ public class MainActivity extends AppCompatActivity {
         String forum = "Login";
         Log.e("Test1", "Test1" + fragmentName);
         if (fragmentName != null && fragmentName.equals(forum)) {
-            com.example.android.requests.fragments.Login login = new com.example.android.requests.fragments.Login ();
+            com.example.android.requests.fragments.Login login = new com.example.android.requests.fragments.Login();
             fragmentManager.beginTransaction().replace(R.id.frameholder1, login).commit();
-        }
-        else {
+        } else {
             //Log.i(TAG, "Else main condition");
             SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
             String email = sharepref.getString("user_email", "");
@@ -54,14 +65,13 @@ public class MainActivity extends AppCompatActivity {
             //Log.i(TAG, email);
             //Log.i(TAG, password);
             //Log.i(TAG, loginStatus);
-            if (loginStatus.equals("true") && !email.equals("") && !password.equals("")){
+            if (loginStatus.equals("true") && !email.equals("") && !password.equals("")) {
                 //Log.i("TAG", "Async task is called");
                 AsyncTaskRunner runner = new AsyncTaskRunner();
                 runner.execute(email, password);
-            }
-            else{
+            } else {
 
-                Startup startup = new Startup ();
+                Startup startup = new Startup();
                 fragmentManager.beginTransaction().replace(R.id.frameholder1, startup).commit();
             }
         }
@@ -96,7 +106,8 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
     }
-    public static Context getContextOfApplication(){
+
+    public static Context getContextOfApplication() {
         return contextOfApplication;
     }
 
@@ -122,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
     }
+
     private class AsyncTaskRunner extends AsyncTask<String, Void, String> {
 
 
@@ -130,9 +142,11 @@ public class MainActivity extends AppCompatActivity {
             super.onPreExecute();
             //Toast.makeText(getActivity(), "Async is called", Toast.LENGTH_LONG).show();
         }
+
         public AsyncTaskRunner() {
 
         }
+
         Context context = MainActivity.getContextOfApplication();
 
         @Override
@@ -143,19 +157,18 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(context, "already logged in", Toast.LENGTH_LONG).show();
                 Intent intentlogin = new Intent(context, FrontPage.class);
                 startActivity(intentlogin);
-            }
-            else {
-                Startup startup = new Startup ();
+            } else {
+                Startup startup = new Startup();
                 fragmentManager.beginTransaction().replace(R.id.frameholder1, startup).commit();
             }
         }
 
-//        @Override
+        //        @Override
 //        protected void onProgressUpdate(Void) {
 //            super.onProgressUpdate(values);
 //        }
         @Override
-        protected String doInBackground(String...params) {
+        protected String doInBackground(String... params) {
             String username = params[0];
             String password = params[1];
             String result = com.example.android.requests.utils.NetworkUtil.userLogin(username, password);
@@ -163,7 +176,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
 }
+
 
 
 

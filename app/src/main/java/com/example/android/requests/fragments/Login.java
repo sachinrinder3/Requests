@@ -1,13 +1,20 @@
 package com.example.android.requests.fragments;
 
 import android.content.Context;
+
+import com.example.android.requests.activities.ChatActivity;
+import com.example.android.requests.activities.MainActivity;
+import com.example.android.requests.utils.Uti;
 import com.facebook.CallbackManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +25,16 @@ import android.widget.Toast;
 
 import com.example.android.requests.R;
 import com.example.android.requests.activities.FrontPage;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.squareup.okhttp.OkHttpClient;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Login extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -42,16 +59,6 @@ public class Login extends Fragment {
     public Login() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Login.
-     */
-    // TODO: Rename and change types and number of parameters
     public static Login newInstance(String param1, String param2) {
         Login fragment = new Login();
         Bundle args = new Bundle();
@@ -185,5 +192,170 @@ public class Login extends Fragment {
             String result = com.example.android.requests.utils.NetworkUtil.userLogin(username, password);
             return result;
         }
+    }
+
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability api = GoogleApiAvailability.getInstance();
+        //int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        int resultCode = api.isGooglePlayServicesAvailable(getActivity());
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (api.isUserResolvableError(resultCode)) {
+                //GooglePlayServicesUtil.getErrorDialog(resultCode, this, Uti.PLAY_SERVICES_RESOLUTION_REQUEST).show();
+                GoogleApiAvailability.getInstance().getErrorString(resultCode);
+            } else {
+                Log.i(MainActivity.TAG, "This device is not supported.");
+            }
+            return false;
+        }
+        return true;
+    }
+
+    private String getRegistrationId(Context context) {
+        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        String registrationId = prefs.getString(Uti.PROPERTY_REG_ID, "");
+        if (registrationId.isEmpty()) {
+            Log.i(MainActivity.TAG, "Registration not found.");
+            return "";
+        }
+        int registeredVersion = prefs.getInt(Uti.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
+        int currentVersion = getAppVersion(context);
+        if (registeredVersion != currentVersion) {
+            Log.i(MainActivity.TAG, "App version changed.");
+            return "";
+        }
+        return registrationId;
+    }
+
+    private boolean isUserRegistered(Context context) {
+        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        String User_name = prefs.getString(Uti.USER_NAME, "");
+        if (User_name.isEmpty()) {
+            Log.i(MainActivity.TAG, "Registration not found.");
+            return false;
+        }
+        return true;
+    }
+
+    private static int getAppVersion(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+// should never happen
+            throw new RuntimeException("Could not get package name: " + e);
+        }
+    }
+
+    private void storeRegistrationId(Context context, String regId) {
+        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        int appVersion = getAppVersion(context);
+        Log.i(MainActivity.TAG, "Saving regId on app version " + appVersion);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(Uti.PROPERTY_REG_ID, regId);
+        editor.putInt(Uti.PROPERTY_APP_VERSION, appVersion);
+        editor.commit();
+    }
+
+    private void storeUserDetails(Context context) {
+        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        int appVersion = getAppVersion(context);
+        Log.i(MainActivity.TAG, "Saving regId on app version " + appVersion);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(Uti.EMAIL, email.getText().toString());
+        //editor.putString(Uti.USER_NAME, editText_user_na.getText().toString());
+        editor.commit();
+    }
+
+    // private RequestQueue mRequestQueue;
+    private void sendRegistrationIdToBackend() {
+// Your implementation here.
+        new SendGcmToServer().execute();
+// Access the RequestQueue through your singleton class.
+// AppController.getInstance().addToRequestQueue(jsObjRequest, "jsonRequest");
+    }
+
+    private class SendGcmToServer extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+// TODO Auto-generated method stub
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+// TODO Auto-generated method stub Purchased by Tulsi jain, jaintulsi43@gmail.com #7597863
+            String url = Uti.register_url + "?name=" ;
+                    //+
+                    //editText_user_name.getText().toString() + "&email=" + editText_email.getText().toString() + "&regId=" + regid;
+            Log.i("pavan", "url" + url);
+            OkHttpClient client_for_getMyFriends = new OkHttpClient();
+            ;
+            String response = null;
+// String response=Utility.callhttpRequest(url);
+            try {
+                url = url.replace(" ", "%20");
+                response = callOkHttpRequest(new URL(url),
+                        client_for_getMyFriends);
+                for (String subString : response.split("<script", 2)) {
+                    response = subString;
+                    break;
+                }
+            } catch (MalformedURLException e) {
+// TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+// TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+// TODO Auto-generated method stub
+            super.onPostExecute(result);
+//Toast.makeText(context,"response "+result,Toast.LENGTH_LONG).show();
+            if (result != null) {
+                if (result.equals("success")) {
+                    storeUserDetails(getActivity());
+                    startActivity(new Intent(getActivity(), ChatActivity.class));
+                    //finish();
+                } else {
+                    Toast.makeText(getActivity(), "Try Again" + result, Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(getActivity(), "Check net connection ", Toast.LENGTH_LONG).show();
+            }
+        }
+
+
+        // Http request using OkHttpClient
+        String callOkHttpRequest(URL url, OkHttpClient tempClient)
+                throws IOException {
+            HttpURLConnection connection = tempClient.open(url);
+            connection.setConnectTimeout(40000);
+            InputStream in = null;
+            try {
+// Read the response.
+                in = connection.getInputStream();
+                byte[] response = readFully(in);
+                return new String(response, "UTF-8");
+            } finally {
+                if (in != null)
+                    in.close();
+            }
+
+        }
+        byte[] readFully(InputStream in) throws IOException {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            for (int count; (count = in.read(buffer)) != -1;) {
+                out.write(buffer, 0, count);
+            }
+            return out.toByteArray();
+        }
+
     }
 }

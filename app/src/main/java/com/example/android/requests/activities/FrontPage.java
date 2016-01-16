@@ -249,18 +249,13 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 startActivity(location);
                 return true;
             case R.id.dummy2:
-                Intent dummy2 = new Intent(this, Dummy2.class);
+                Intent dummy2 = new Intent(this, MapsActivity.class);
                 startActivity(dummy2);
                 return true;
             default:
             Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
             return true;
     }}
-
-       //----------------------------do not touch this --------------------------------------------------------//
-
-    //----------------------------do not touch this --------------------------------------------------------//
-
 
 }
 
