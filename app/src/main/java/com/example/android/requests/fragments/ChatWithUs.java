@@ -4,6 +4,8 @@ package com.example.android.requests.fragments;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -113,17 +115,18 @@ public class ChatWithUs extends Fragment {
                                           }
                                       }
         );
-//
-//      recieve_chat=new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                String message = intent.getStringExtra("message");
-//                Log.d("pavan", "in local braod " + message);
-//                showChat("recieve", message);
-//            }
-//        };
-//
-//        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(recieve_chat, new IntentFilter("message_recieved"));
+      recieve_chat=new BroadcastReceiver() {
+
+          @Override
+            public void onReceive(Context context, Intent intent) {
+              Log.i("TAG", "someone called me 1");
+                String message = intent.getStringExtra("message");
+                Log.d("pavan", "in local braod " + message);
+                showChat("recieve", message);
+            }
+        };
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(recieve_chat, new IntentFilter("message_recieved"));
 
         return rootView;
     }

@@ -13,9 +13,9 @@
 
     <string name="Google_Api_Key"> AIzaSyCxQss_oep3SsxoNIJU0_rAyloLbaPqf5w </string>
     <string name="Facebook_Api_Key">190365014646527 </string>
-    <string name="guick_blox_appid">33695</string>
-    <string name="quick_blox_authkey_">MCuWOk9-QEaX9r5</string>
-    <string name="quick_authsec">SkFN5C5kckX8OLL</string>
+    <!--<string name="guick_blox_appid">33695</string>-->
+    <!--<string name="quick_blox_authkey_">MCuWOk9-QEaX9r5</string>-->
+    <!--<string name="quick_authsec">SkFN5C5kckX8OLL</string>-->
 
     <!-- /active  -->
 
