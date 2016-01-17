@@ -3,6 +3,7 @@ package com.example.android.requests.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +29,7 @@ import com.example.android.requests.location;
 
 import com.example.android.requests.R;
 import com.example.android.requests.fragments.Wallet;
+import com.example.android.requests.utils.DataBaseHelper;
 
 
 public class FrontPage extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
@@ -44,6 +46,8 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
     public ActionBarDrawerToggle actionBarDrawerToggle;
     private TextView headeremail;
     private TextView headerusername;
+    DataBaseHelper dataBaseHelper;
+    SQLiteDatabase sqLiteDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,8 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         //View vi = inflater.inflate(R.layout.header, null);
 
         setContentView(R.layout.activity_front_page);
+        dataBaseHelper = new DataBaseHelper(this);
+        sqLiteDatabase = dataBaseHelper.getWritableDatabase();
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar1);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -160,6 +166,38 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sqLiteDatabase.close();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sqLiteDatabase = dataBaseHelper.getWritableDatabase();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override

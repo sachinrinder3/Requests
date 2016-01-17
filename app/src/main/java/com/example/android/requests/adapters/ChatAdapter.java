@@ -3,6 +3,7 @@ package com.example.android.requests.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +36,18 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ChatMessage chatMessage = chatList.get(position);
         ((ChatViewHolder)holder).chatmessage.setText(chatMessage.chatmessage);
+//        ((ChatViewHolder) holder).chatmessage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                removeItem(position);
+//                ChatMessage hey = new ChatMessage("jhhj");
+//
+//                addItem(getItemCount(), hey);
+//            }
+//        });
         ((ChatViewHolder) holder).showMessageText(chatMessage.getChatmessage());
     }
 
@@ -53,6 +63,23 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemCount() {
 
         return chatList.size();
+    }
+
+    public void removeItem(int position) {
+        chatList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void addItem(int position, ChatMessage viewModel) {
+        chatList.add(position, viewModel);
+        Log.i("TAG", "ADD ITEM");
+        notifyItemInserted(position);
+    }
+
+    public void updateData(List<ChatMessage> viewModels) {
+        chatList.clear();
+        chatList.addAll(viewModels);
+        notifyDataSetChanged();
     }
 
 

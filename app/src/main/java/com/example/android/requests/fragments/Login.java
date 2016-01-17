@@ -292,13 +292,9 @@ public class Login extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-            String url = Uti.register_url + "?name=";
-            //+
-            //editText_user_name.getText().toString() + "&email=" + editText_email.getText().toString() + "&regId=" + regid;
-            Log.i("pavan", "url" + url);
-            OkHttpClient client_for_getMyFriends = new OkHttpClient();
+
             OkHttpClient client = new OkHttpClient();
-            String uri = "http://192.168.0.103:3000/api/v0/register?register_id=" + regid + "&email=" + emailstring;
+            String uri = "http://192.168.0.5:3000/api/v0/register?register_id=" + regid + "&email=" + emailstring;
             Request request = new Request.Builder().url(uri).build();
             String message = "";
             try {
@@ -320,9 +316,8 @@ public class Login extends Fragment {
             if (result != null) {
                 if (result.equals("success")) {
                     storeUserDetails(getActivity());
-                    //startActivity(new Intent(getActivity(), ChatActivity.class));
                     Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
-                    //finish();
+                    startActivity(new Intent(getActivity(), FrontPage.class));
                 } else {
                     Toast.makeText(getActivity(), "Try Again" + result, Toast.LENGTH_LONG).show();
                 }
