@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -21,11 +22,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.android.requests.R;
+import com.example.android.requests.activities.MainActivity;
 import com.example.android.requests.adapters.ChatAdapter;
 import com.example.android.requests.models.ChatMessage;
+import com.example.android.requests.utils.Constant;
 import com.example.android.requests.utils.DataBaseHelper;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +49,11 @@ public class ChatWithUs extends Fragment {
     DataBaseHelper dataBaseHelper;
     SQLiteDatabase sqLiteDatabase;
     BroadcastReceiver recieve_chat;
+    LocalBroadcastManager localBroadcastManager;
+    private LocalBroadcastManager mLocalBroadcastManager;
     List<ChatMessage> chat_list;
     RecyclerView recList;
+
     public ChatWithUs() {}
 
    public boolean sendChatMessage(){
@@ -77,9 +91,7 @@ public class ChatWithUs extends Fragment {
         sqLiteDatabase = dataBaseHelper.getWritableDatabase();
         recList = (RecyclerView) rootView.findViewById(R.id.message_list);
         recList.setHasFixedSize(true);
-        Log.i("TAG", "yo babydvdvfdvf");
         chatAdapter = new ChatAdapter(getActivity(), getChatListFromDataBase());
-        Log.i("TAG","I AM GETTING CALLEDALKVDSVKLDSV");
         recList.setAdapter(chatAdapter);
         recList.setItemAnimator(new DefaultItemAnimator());
         LinearLayoutManager llm = (new LinearLayoutManager(getActivity()));
@@ -90,7 +102,7 @@ public class ChatWithUs extends Fragment {
 //        //Log.i("TAG",String.valueOf(i));
 //        if(lastCompletelyVisibleItemPosition <chatAdapter.getItemCount()){
 //            Log.i("TAG",String.valueOf(lastCompletelyVisibleItemPosition));
-            llm.setReverseLayout(true);
+            llm.setReverseLayout(false);
         //}
         //else{
             //llm.setReverseLayout(false);
@@ -107,26 +119,27 @@ public class ChatWithUs extends Fragment {
                                           public void onClick(View v) {
                                               String newmessage = sendtext.getText().toString();
                                               sendtext.setText("");
-                                              ChatMessage hey =  new ChatMessage(newmessage);
-                                              addMessageToDataBase(newmessage, "I m a don HAHAHA !");
-                                              Log.i("TAG", String.valueOf(chatAdapter.getItemCount()));
-                                              Log.i("TAG","I AM GETTING CALLED jlknkln nblnlk");
+                                              ChatMessage hey =  new ChatMessage(newmessage, "Y", "N");
+                                              addMessageToDataBase(newmessage, "I m a don HAHAHA !", "Y", "N");
                                               chatAdapter.addItem(chatAdapter.getItemCount(), hey);
+                                              SendMessage runner = new SendMessage();
+                                              runner.execute("");
                                           }
                                       }
         );
-      recieve_chat=new BroadcastReceiver() {
 
-          @Override
+        recieve_chat=new BroadcastReceiver() {
+            @Override
             public void onReceive(Context context, Intent intent) {
-              Log.i("TAG", "someone called me 1");
-                String message = intent.getStringExtra("message");
-                Log.d("pavan", "in local braod " + message);
-                showChat("recieve", message);
+                String received_message = intent.getStringExtra("message");
+                ChatMessage hey1 =  new ChatMessage(received_message, "N", "Y");
+                addMessageToDataBase(received_message, "i m doing my job", "N", "Y");
+                chatAdapter.addItem(chatAdapter.getItemCount(),hey1);
+
             }
         };
 
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(recieve_chat, new IntentFilter("message_recieved"));
+        localBroadcastManager.getInstance(getActivity()).registerReceiver(recieve_chat, new IntentFilter("message_recieved"));
 
         return rootView;
     }
@@ -134,29 +147,29 @@ public class ChatWithUs extends Fragment {
 
         chat_list =  new ArrayList<>();
         String query = "select chat_message from CHAT_TABLE";
-        String[] columns = {"_id", "chat_message", "send_to"};
+        String[] columns = {"_id", "chat_message", "send_to",  "outgoing", "incoming"};
         Cursor c = sqLiteDatabase.query("CHAT_TABLE",columns,null, null, null,null,null);
         //Log.i("TAG",String.valueOf(c.getCount()));
         while (c.moveToNext()){
-           // Log.i("TAG",String.valueOf(c.getCount()));
             String message = c.getString(1);
-            //Log.i("TAG",String.valueOf(c.getCount()));
-            ChatMessage chatMessage = new ChatMessage(message);
-            //Log.i("TAG",String.valueOf(c.getCount()));
+            String outgoing = c.getString(3);
+            String incoming = c.getString(4);
+            ChatMessage chatMessage = new ChatMessage(message, outgoing, incoming);
             chat_list.add(chatMessage);
-            //Log.i("TAG",String.valueOf(c.getCount()));
         }
         //Log.i("TAG","I AM GETTING CALLED");
         return chat_list;
 
     }
 
-    public void addMessageToDataBase (String message, String send_to){
+    public void addMessageToDataBase (String message, String send_to, String outgoing, String incoming ){
         dataBaseHelper = new DataBaseHelper(getActivity());
         SQLiteDatabase sqLiteDatabase = dataBaseHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("chat_message", message);
         contentValues.put("send_to", send_to);
+        contentValues.put("incoming", incoming);
+        contentValues.put("outgoing", outgoing);
         long id = sqLiteDatabase.insert("CHAT_TABLE", null, contentValues);
         Log.i("TAG", String.valueOf(id));
         Log.i("TAG", "VALUE IS INSERTED INTO THE DATABASE");
@@ -172,16 +185,6 @@ public class ChatWithUs extends Fragment {
         return false;
     }
 
-    private void showChat(String type, String message){
-        if(chat_list==null || chat_list.size()==0){
-            chat_list= new ArrayList<ChatMessage>();
-        }
-        chat_list.add(new ChatMessage(message));
-//        chatAdapter=new ChatAdapter(getActivity(),R.layout.chat_view,chat_list);
-//        recList.setAdapter(chatAdapter);
-        //chatAdabter.notifyDataSetChanged();
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -190,66 +193,56 @@ public class ChatWithUs extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        //localBroadcastManager.unregisterReceiver(recieve_chat);
     }
 
     @Override
     public void onDetach() {
+
         super.onDetach();
     }
 
-//    private class SendMessage extends AsyncTask<String, Void, String> {
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//        }
-//        @Override
-//        protected String doInBackground(String... params) {
-//            String url = Uti.send_chat_url+"?email_id=";
-//            //+editText_mail_id.getText().toString()+"&message="+editText_chat_message.getText().toString();
-//            Log.i("pavan", "url" + url);
-//            OkHttpClient client_for_getMyFriends = new OkHttpClient();;
-//            String response = null;
-//            try {
-//                url = url.replace(" ", "%20");
-//                response = callOkHttpRequest(new URL(url),
-//                        client_for_getMyFriends);
-//                for (String subString : response.split("<script", 2)) {
-//                    response = subString;
-//                    break;
-//                }
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            return response;
-//        }
-//        @Override
-//        protected void onPostExecute(String result) {
-//            super.onPostExecute(result);
-//
-//        }
-//    }
-//    String callOkHttpRequest(URL url, OkHttpClient tempClient)
-//            throws IOException {
-//        HttpURLConnection connection = tempClient.open(url);
-//        connection.setConnectTimeout(40000);
-//        InputStream in = null;
-//        try {
-//            in = connection.getInputStream();
-//            byte[] response = readFully(in);
-//            return new String(response, "UTF-8");
-//        } finally {
-//            if (in != null)
-//                in.close();
-//        }
-//    }
-//    byte[] readFully(InputStream in) throws IOException {
-//        ByteArrayOutputStream out = new ByteArrayOutputStream();
-//        byte[] buffer = new byte[1024];
-//        for (int count; (count = in.read(buffer)) != -1;) {
-//            out.write(buffer, 0, count);
-//        }
-        //return out.toByteArray();
+    private class SendMessage extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+        @Override
+        protected String doInBackground(String... params) {
+            String intialUrl = Constant.intialUrl;
+            OkHttpClient client = new OkHttpClient();
+
+
+            String uri = intialUrl + "sendmessage?message=fvfvfvf";
+            Log.i("TAG", uri);
+            Request request = new Request.Builder().url(uri).build();
+            JsonObject jobject = new JsonObject();
+            String status = "failure";
+
+
+            try {
+                Call call = client.newCall(request);
+                Response response = call.execute();
+                JsonElement jelement = new JsonParser().parse(response.body().string());
+                jobject = jelement.getAsJsonObject();
+                status = jobject.get("message").getAsString();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            return status;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if(result.equals("Success")){
+                Log.i("TAG", result);
+                Log.i("TAG", "I am getting called");
+                Toast.makeText(getActivity(), "Message Sent !", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
 }

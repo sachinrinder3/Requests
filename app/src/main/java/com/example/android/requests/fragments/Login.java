@@ -2,9 +2,8 @@ package com.example.android.requests.fragments;
 
 import android.content.Context;
 
-import com.example.android.requests.activities.ChatActivity;
 import com.example.android.requests.activities.MainActivity;
-import com.example.android.requests.utils.Uti;
+import com.example.android.requests.utils.Constant;
 import com.facebook.CallbackManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -213,7 +212,7 @@ public class Login extends Fragment {
         int resultCode = api.isGooglePlayServicesAvailable(getActivity());
         if (resultCode != ConnectionResult.SUCCESS) {
             if (api.isUserResolvableError(resultCode)) {
-                //GooglePlayServicesUtil.getErrorDialog(resultCode, this, Uti.PLAY_SERVICES_RESOLUTION_REQUEST).show();
+                //GooglePlayServicesUtil.getErrorDialog(resultCode, this, Constant.PLAY_SERVICES_RESOLUTION_REQUEST).show();
                 GoogleApiAvailability.getInstance().getErrorString(resultCode);
             } else {
                 Log.i(MainActivity.TAG, "This device is not supported.");
@@ -225,12 +224,12 @@ public class Login extends Fragment {
 
     private String getRegistrationId(Context context) {
         final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        String registrationId = prefs.getString(Uti.PROPERTY_REG_ID, "");
+        String registrationId = prefs.getString(Constant.PROPERTY_REG_ID, "");
         if (registrationId.isEmpty()) {
             Log.i(MainActivity.TAG, "Registration not found.");
             return "";
         }
-        int registeredVersion = prefs.getInt(Uti.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
+        int registeredVersion = prefs.getInt(Constant.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
 
         int currentVersion = getAppVersion(context);
         if (registeredVersion != currentVersion) {
@@ -242,7 +241,7 @@ public class Login extends Fragment {
 
     private boolean isUserRegistered(Context context) {
         final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        String User_name = prefs.getString(Uti.USER_NAME, "");
+        String User_name = prefs.getString(Constant.USER_NAME, "");
         if (User_name.isEmpty()) {
             Log.i(MainActivity.TAG, "Registration not found.");
             return false;
@@ -265,8 +264,8 @@ public class Login extends Fragment {
         int appVersion = getAppVersion(context);
         Log.i(MainActivity.TAG, "Saving regId on app version " + appVersion);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Uti.PROPERTY_REG_ID, regId);
-        editor.putInt(Uti.PROPERTY_APP_VERSION, appVersion);
+        editor.putString(Constant.PROPERTY_REG_ID, regId);
+        editor.putInt(Constant.PROPERTY_APP_VERSION, appVersion);
         editor.commit();
     }
 
@@ -275,8 +274,8 @@ public class Login extends Fragment {
         int appVersion = getAppVersion(context);
         Log.i(MainActivity.TAG, "Saving regId on app version " + appVersion);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Uti.EMAIL, email.getText().toString());
-        //editor.putString(Uti.USER_NAME, editText_user_na.getText().toString());
+        editor.putString(Constant.EMAIL, email.getText().toString());
+        //editor.putString(Constant.USER_NAME, editText_user_na.getText().toString());
         editor.commit();
     }
 
@@ -345,7 +344,7 @@ public class Login extends Fragment {
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(getActivity());
                     }
-                    regid = gcm.register(Uti.SENDER_ID);
+                    regid = gcm.register(Constant.SENDER_ID);
                     msg = "Device registered, registration ID=" + regid;
                     storeRegistrationId(getActivity(), regid);
                 } catch (IOException ex) {

@@ -5,8 +5,6 @@ package com.example.android.requests.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -16,20 +14,7 @@ import android.widget.Toast;
 
 import com.example.android.requests.R;
 import com.example.android.requests.fragments.Startup;
-import com.example.android.requests.utils.Uti;
 import com.facebook.FacebookSdk;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.internal.Util;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "TAG";

@@ -41,30 +41,10 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class NetworkUtil {
-    public static final String HEADER_APP_NAME = "app_name";
-    public static final String HEADER_APP_VERSION = "app_version";
-    public static final String HEADER_LOGIN_AUTH_TOKEN = "login_auth_token";
-    public static final String CONTENT_TYPE_TAG = "Content-Type";
-    public static final String HTTP_HEADER_JSON = "application/json";
-    public static final String HTTP_HEADER_FORM_URLENCODED = "application/x-www-form-urlencoded";
-    public static final String ENCODING = "charset=utf-8";
-    public static final long CONNECTION_TIMEOUT_GET_VALUE = 15;
-    public static final long READ_TIMEOUT_GET_VALUE = 15;
-    public static final long CONNECTION_TIMEOUT_POST_VALUE = 20;
-    public static final long READ_TIMEOUT_POST_VALUE = 20;
-    private static final MediaType JSON = MediaType.parse(HTTP_HEADER_JSON + "; " +
-            ENCODING);
-    private static final MediaType URLENCODED = MediaType.parse(HTTP_HEADER_FORM_URLENCODED + "; " +
-            ENCODING);
-    public static final String UTF_8 = "UTF-8";
-    public static final String ZERO = "0";
-    public static final String MD5 = "MD5";
-    protected static final String intialUrl = "http://192.168.0.3:3000/api/v0/";
-    //protected static final String intialUrl = "http://192.168.0.100:3000/api/v0/";
 
     public static String userLogin(String email, String password){
         OkHttpClient client = new OkHttpClient();
-        String uri = intialUrl + "login?email="+email+"&password="+password;
+        String uri = Constant.intialUrl + "login?email="+email+"&password="+password;
         Request request = new Request.Builder().url(uri).build();
         //String message = "User does not Exits";
         String message = "User Exits";

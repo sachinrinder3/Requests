@@ -14,7 +14,9 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     private static final String id = "_id";
     private static final String chat_message = "chat_message";
     private static final String send_to = "send_to";
-    private static int Database_version =4;
+    private static int Database_version =6;
+    private static String incoming= "incoming";
+    private static String outgoing= "outgoing";
 
     public DataBaseHelper(Context context) {
         super(context, Database_name, null, Database_version);
@@ -25,7 +27,8 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         Log.i("TAG", "DATABASE OF CREATE IS CALLED");
         try {
-            db.execSQL("CREATE TABLE " + Table_name + " ( " + id + " INTEGER PRIMARY KEY AUTOINCREMENT, " + chat_message + " VARCHAR(255), " + send_to + " VARCHAR(255) " + ")");
+            db.execSQL("CREATE TABLE " + Table_name + " ( " + id + " INTEGER PRIMARY KEY AUTOINCREMENT, " + chat_message + " VARCHAR(255), " + send_to + " VARCHAR(255), " +
+                    incoming + " VARCHAR(255), " + outgoing + " VARCHAR(255) " + ")");
         } catch (SQLException e){
             Log.i("TAG", "no create catch");
             e.printStackTrace();

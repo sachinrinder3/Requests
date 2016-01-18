@@ -24,7 +24,7 @@ public class ProfileUtil {
     public static JsonObject profileUpdate(String email, String name){
         Context applicationContext = MainActivity.getContextOfApplication();
 
-        String intialUrl = NetworkUtil.intialUrl;
+        String intialUrl = Constant.intialUrl;
         OkHttpClient client = new OkHttpClient();
         SharedPreferences sharepref = applicationContext.getSharedPreferences("MyPref", applicationContext.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharepref.edit();

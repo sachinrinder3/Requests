@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.example.android.requests.R;
 import com.example.android.requests.chat.ChatViewHolder;
-import com.example.android.requests.models.Address;
 import com.example.android.requests.models.ChatMessage;
 
 import java.util.Collections;
@@ -29,16 +28,24 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        // Create a new view.
-        View v = layoutInflater.from(viewGroup.getContext()).inflate(R.layout.send_chat, viewGroup, false);
-        ChatViewHolder chatViewHolder = new ChatViewHolder(v);
+        View v;
+        if (viewType ==1 ){
+             v= layoutInflater.from(viewGroup.getContext()).inflate(R.layout.send_chat, viewGroup, false);
+        }
+        else {
+             v = layoutInflater.from(viewGroup.getContext()).inflate(R.layout.receive_chat, viewGroup, false);
+        }
+        ChatViewHolder chatViewHolder = new ChatViewHolder(v );
+
         return chatViewHolder;
     }
+
+
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ChatMessage chatMessage = chatList.get(position);
-        ((ChatViewHolder)holder).chatmessage.setText(chatMessage.chatmessage);
+        ((ChatViewHolder)holder).showMessageText(chatMessage.chatmessage);
 //        ((ChatViewHolder) holder).chatmessage.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -55,7 +62,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemViewType(int position) {
         ChatMessage message = chatList.get(position);
-        return position;
+        String incoming = message.incmoing;
+        String outgoing = message.outgoing;
+        if(incoming.equals("N") && outgoing.equals("Y")){
+            return 1;
+        }
+        else {
+            return 2;
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -19,7 +19,6 @@
             android:padding="10dp"
             android:layout_margin="6dp"
             android:background="@drawable/chatpic"
-            android:text="Hk"
             android:textColor="@android:color/white"
             />
     </LinearLayout>

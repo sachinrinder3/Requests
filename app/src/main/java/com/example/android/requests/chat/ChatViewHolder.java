@@ -10,7 +10,7 @@ import com.example.android.requests.R;
 
 
 public  class ChatViewHolder extends RecyclerView.ViewHolder {
-    public TextView chatmessage;
+    private TextView chatmessage;
 
     public ChatViewHolder(View v) {
         super(v);
