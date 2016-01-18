@@ -293,7 +293,7 @@ public class Login extends Fragment {
         protected String doInBackground(String... params) {
 
             OkHttpClient client = new OkHttpClient();
-            String uri = "http://192.168.0.5:3000/api/v0/register?register_id=" + regid + "&email=" + emailstring;
+            String uri = Constant.intialUrl+"register?register_id=" + regid + "&email=" + emailstring;
             Request request = new Request.Builder().url(uri).build();
             String message = "";
             try {
