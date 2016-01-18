@@ -17,7 +17,7 @@
             <android.support.v7.widget.AppCompatEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/fname"
+                android:id="@+id/name_register"
                 android:hint="Full Name"
                 android:textColor="#000000"
                 android:textSize="15sp"/>
@@ -85,7 +85,7 @@
                 android:textSize="15sp"/>
         </android.support.design.widget.TextInputLayout>
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000000"
@@ -93,7 +93,7 @@
             android:id="@+id/register"
             android:textSize="13sp"/>
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000000"

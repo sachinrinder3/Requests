@@ -72,11 +72,11 @@ public class Startup extends Fragment {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Register register = new Register();
-//                FragmentManager manager = getActivity().getSupportFragmentManager();
-//                manager.beginTransaction().replace(R.id.frameholder1, register).commit();
-                Intent intent = new Intent(getActivity(), MyService.class);
-                getActivity().startService(intent);
+                Register register = new Register();
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                manager.beginTransaction().replace(R.id.frameholder1, register).commit();
+//                Intent intent = new Intent(getActivity(), MyService.class);
+//                getActivity().startService(intent);
 
 
             }

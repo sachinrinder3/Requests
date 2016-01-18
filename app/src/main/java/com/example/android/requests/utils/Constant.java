@@ -7,7 +7,11 @@ public class Constant {
     public static final String PROPERTY_APP_VERSION = "appVersion";
 
     public static final String EMAIL = "email";
-    public static final String USER_NAME = "user_name";
+    public static final String NAME = "name";
+    public static final String PHONE = "phone";
+    public static final String PASSWORD = "password";
+    public static final String UUID = "uuid";
+    public static final String LOGINSTATUS = "loginstatus";
     public final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public final static String SENDER_ID = "711149879456";
     public static final String intialUrl = "http://192.168.0.4:3000/api/v0/";

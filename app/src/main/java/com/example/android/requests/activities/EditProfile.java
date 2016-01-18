@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.android.requests.R;
 import com.example.android.requests.fragments.Profile;
+import com.example.android.requests.utils.Constant;
 import com.example.android.requests.utils.ProfileUtil;
 import com.google.gson.JsonObject;
 
@@ -42,13 +43,13 @@ public class EditProfile extends AppCompatActivity {
         name = (AppCompatEditText)findViewById(R.id.user_name);
         email = (AppCompatEditText)findViewById(R.id.user_email);
         SharedPreferences sharepref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        name.setText(sharepref.getString("user_name", "nhi aaya"));
-        email.setText(sharepref.getString("user_email", "nhi aaya"));
+        name.setText(sharepref.getString(Constant.NAME, "nhi aaya"));
+        email.setText(sharepref.getString(Constant.EMAIL, "nhi aaya"));
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                email = (AppCompatEditText)findViewById(R.id.user_email);
-                name = (AppCompatEditText)findViewById(R.id.user_name);
+                email = (AppCompatEditText) findViewById(R.id.user_email);
+                name = (AppCompatEditText) findViewById(R.id.user_name);
                 String emailString = email.getText().toString();
                 String namestring = name.getText().toString();
                 AsyncTaskRunner runner = new AsyncTaskRunner();

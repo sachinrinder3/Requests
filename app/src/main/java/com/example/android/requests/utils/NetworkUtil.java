@@ -46,8 +46,8 @@ public class NetworkUtil {
         OkHttpClient client = new OkHttpClient();
         String uri = Constant.intialUrl + "login?email="+email+"&password="+password;
         Request request = new Request.Builder().url(uri).build();
-        //String message = "User does not Exits";
-        String message = "User Exits";
+        String message = "User does not Exits";
+        //String message = "User Exits";
         Context applicationContext = MainActivity.getContextOfApplication();
         try {
             Call call = client.newCall(request);
@@ -60,12 +60,13 @@ public class NetworkUtil {
             if (message.equals("User Exits")) {
                 SharedPreferences sharepref = applicationContext.getSharedPreferences("MyPref", applicationContext.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharepref.edit();
-                editor.putString("loginStatus", "true");
-                editor.putString("user_password", password);
-                editor.putString("user_name", jobject.get("name").getAsString());
-                editor.putString("user_email", jobject.get("email").getAsString());
-                editor.putString("user_uuid", jobject.get("uuid").getAsString());
-                editor.putString("user_phone", jobject.get("phone").getAsString());
+                editor.putString(Constant.LOGINSTATUS, "true");
+                editor.putString(Constant.PASSWORD, password);
+                editor.putString(Constant.NAME, jobject.get("name").getAsString());
+                editor.putString(Constant.EMAIL, jobject.get("email").getAsString());
+                editor.putString(Constant.UUID, jobject.get("uuid").getAsString());
+                editor.putString(Constant.PHONE, jobject.get("phone").getAsString());
+                editor.putString(Constant.PROPERTY_REG_ID, jobject.get("registration_id").getAsString());
                 editor.commit();
                 //Log.i(MainActivity.TAG,sharepref.getString("user_name", "no values") );
             }

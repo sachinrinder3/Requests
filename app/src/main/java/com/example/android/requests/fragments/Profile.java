@@ -29,6 +29,7 @@ import com.example.android.requests.activities.FrontPage;
 
 import com.example.android.requests.R;
 import com.example.android.requests.activities.MainActivity;
+import com.example.android.requests.utils.Constant;
 
 
 public class Profile extends Fragment {
@@ -78,9 +79,9 @@ public class Profile extends Fragment {
         email = (AppCompatTextView)v.findViewById(R.id.user_email);
         phone = (AppCompatTextView)v.findViewById(R.id.user_phone);
         SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        name.setText(sharepref.getString("user_name", "nhi aaya"));
-        email.setText(sharepref.getString("user_email", "nhi aaya"));
-        phone.setText(sharepref.getString("user_phone", "nhi aaya"));
+        name.setText(sharepref.getString(Constant.NAME, "nhi aaya"));
+        email.setText(sharepref.getString(Constant.EMAIL, "nhi aaya"));
+        phone.setText(sharepref.getString(Constant.PHONE, "nhi aaya"));
 
 
         edit_button = (Button) v.findViewById(R.id.edit_butoon_profile);

@@ -29,6 +29,7 @@ import com.example.android.requests.location;
 
 import com.example.android.requests.R;
 import com.example.android.requests.fragments.Wallet;
+import com.example.android.requests.utils.Constant;
 import com.example.android.requests.utils.DataBaseHelper;
 
 
@@ -68,8 +69,8 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         headeremail = (TextView) header.findViewById(R.id.headeremail);
         SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharepref.edit();
-        headerusername.setText(sharepref.getString("user_name", "username"));
-        headeremail.setText(sharepref.getString("user_email", "useremail"));
+        headerusername.setText(sharepref.getString(Constant.NAME, "username"));
+        headeremail.setText(sharepref.getString(Constant.EMAIL, "useremail"));
 
 
         if (getSupportActionBar() != null) {
@@ -151,12 +152,13 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
             case R.id.logoutmenu:
                 SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharepref.edit();
-                editor.putString("loginStatus", "false");
-                editor.remove("user_name");
-                editor.remove("user_email");
-                editor.remove("user_uuid");
-                editor.remove("user_phone");
-                editor.remove("user_password");
+                editor.putString(Constant.LOGINSTATUS, "false");
+                editor.remove(Constant.NAME);
+                editor.remove(Constant.EMAIL);
+                editor.remove(Constant.UUID);
+                editor.remove(Constant.PHONE);
+                editor.remove(Constant.PASSWORD);
+                editor.remove(Constant.PROPERTY_REG_ID);
                 editor.apply();
                 Intent logout = new Intent(this, MainActivity.class);
                 String fragmnet = "Login";
