@@ -68,7 +68,7 @@ public class NetworkUtil {
                 editor.putString(Constant.PHONE, jobject.get("phone").getAsString());
                 editor.putString(Constant.PROPERTY_REG_ID, jobject.get("registration_id").getAsString());
                 editor.commit();
-                //Log.i(MainActivity.TAG,sharepref.getString("user_name", "no values") );
+                Log.i(MainActivity.TAG, sharepref.getString(Constant.PROPERTY_REG_ID, "no values"));
             }
             else if (message.equals("User does not Exits")){
             }

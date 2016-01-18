@@ -268,6 +268,10 @@ public class Register extends Fragment {
                     Log.i("TAG", "YO MAN"+ regid);
                     msg = "Device registered, registration ID=" + regid;
                     storeRegistrationId(getActivity(), regid);
+
+                    SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+                    Log.i(MainActivity.TAG, sharepref.getString(Constant.PROPERTY_REG_ID, "no values"));
+                    Log.i(MainActivity.TAG, regid);
                 } catch (IOException ex) {
                     msg = "Error :" + ex.getMessage();
                 }
