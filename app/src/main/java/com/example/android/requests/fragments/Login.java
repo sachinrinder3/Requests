@@ -91,11 +91,11 @@ public class Login extends Fragment {
 
         if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(getActivity());
-            //regid = getRegistrationId(getActivity());
-//            if (regid.isEmpty()) {
-//                Log.i("TAG", "empty regid");
-//                registerInBackground();
-//            }
+            regid = getRegistrationId(getActivity());
+            if (regid.isEmpty()) {
+                Log.i("TAG", "empty regid");
+                registerInBackground();
+            }
         } else {
             Log.i("pavan", "No valid Google Play Services APK found.");
         }
@@ -109,7 +109,7 @@ public class Login extends Fragment {
                                             //sendRegistrationIdToBackend();
                                             if (!emailstring.equals("") && !passwordstring.equals("") ){
                                                 AsyncTaskRunner runner = new AsyncTaskRunner();
-                                                runner.execute(emailstring,passwordstring);
+                                                runner.execute(emailstring,passwordstring,regid);
                                             }
                                             else {
                                                 Toast.makeText(getActivity(), "Please enter both email and password", Toast.LENGTH_LONG).show();
@@ -199,7 +199,8 @@ public class Login extends Fragment {
         protected String doInBackground(String...params) {
             String username = params[0];
             String password = params[1];
-            String result = com.example.android.requests.utils.NetworkUtil.userLogin(username, password);
+            String reqid = params[2];
+            String result = com.example.android.requests.utils.NetworkUtil.userLogin(username, password, reqid);
             return result;
         }
     }
@@ -221,42 +222,42 @@ public class Login extends Fragment {
         return true;
     }
 
-//    private String getRegistrationId(Context context) {
-//        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-//        String registrationId = prefs.getString(Constant.PROPERTY_REG_ID, "");
-//        if (registrationId.isEmpty()) {
-//            Log.i(MainActivity.TAG, "Registration not found.");
-//            return "";
-//        }
-//        int registeredVersion = prefs.getInt(Constant.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
-//
-//        int currentVersion = getAppVersion(context);
-//        if (registeredVersion != currentVersion) {
-//            Log.i(MainActivity.TAG, "App version changed.");
-//            return "";
-//        }
-//        return registrationId;
-//    }
+    private String getRegistrationId(Context context) {
+        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        String registrationId = prefs.getString(Constant.PROPERTY_REG_ID, "");
+        if (registrationId.isEmpty()) {
+            Log.i(MainActivity.TAG, "Registration not found.");
+            return "";
+        }
+        int registeredVersion = prefs.getInt(Constant.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
 
-//    private static int getAppVersion(Context context) {
-//        try {
-//            PackageInfo packageInfo = context.getPackageManager()
-//                    .getPackageInfo(context.getPackageName(), 0);
-//            return packageInfo.versionCode;
-//        } catch (PackageManager.NameNotFoundException e) {
-//            throw new RuntimeException("Could not get package name: " + e);
-//        }
-//    }
+        int currentVersion = getAppVersion(context);
+        if (registeredVersion != currentVersion) {
+            Log.i(MainActivity.TAG, "App version changed.");
+            return "";
+        }
+        return registrationId;
+    }
 
-//    private void storeRegistrationId(Context context, String regId) {
-//        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-//        int appVersion = getAppVersion(context);
-//        Log.i(MainActivity.TAG, "Saving regId on app version " + appVersion);
-//        SharedPreferences.Editor editor = prefs.edit();
-//        editor.putString(Constant.PROPERTY_REG_ID, regId);
-//        editor.putInt(Constant.PROPERTY_APP_VERSION, appVersion);
-//        editor.commit();
-//    }
+    private static int getAppVersion(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException("Could not get package name: " + e);
+        }
+    }
+
+    private void storeRegistrationId(Context context, String regId) {
+        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        int appVersion = getAppVersion(context);
+        Log.i(MainActivity.TAG, "Saving regId on app version " + appVersion);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(Constant.PROPERTY_REG_ID, regId);
+        editor.putInt(Constant.PROPERTY_APP_VERSION, appVersion);
+        editor.commit();
+    }
 
 //    private void storeUserDetails(Context context) {
 //        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
@@ -268,10 +269,10 @@ public class Login extends Fragment {
 //        editor.commit();
 //    }
 
-    //private void sendRegistrationIdToBackend() {
-        //new SendGcmToServer().execute();
-    //}
-
+//    private void sendRegistrationIdToBackend() {
+//        new SendGcmToServer().execute();
+//    }
+//
 //    private class SendGcmToServer extends AsyncTask<String, Void, String> {
 //        @Override
 //        protected void onPreExecute() {
@@ -282,7 +283,7 @@ public class Login extends Fragment {
 //        protected String doInBackground(String... params) {
 //
 //            OkHttpClient client = new OkHttpClient();
-//            String uri = Constant.intialUrl+"register?register_id=" + regid + "&email=" + emailstring;
+//            String uri = Constant.intialUrl + "register?register_id=" + regid + "&email=" + emailstring;
 //            Request request = new Request.Builder().url(uri).build();
 //            String message = "";
 //            try {
@@ -297,7 +298,7 @@ public class Login extends Fragment {
 //            }
 //            return message;
 //        }
-
+//
 //        @Override
 //        protected void onPostExecute(String result) {
 //            super.onPostExecute(result);
@@ -312,36 +313,28 @@ public class Login extends Fragment {
 //            } else {
 //                Toast.makeText(getActivity(), "Check net connection ", Toast.LENGTH_LONG).show();
 //            }
-//        }
 //
-//        byte[] readFully(InputStream in) throws IOException {
-//            ByteArrayOutputStream out = new ByteArrayOutputStream();
-//            byte[] buffer = new byte[1024];
-//            for (int count; (count = in.read(buffer)) != -1; ) {
-//                out.write(buffer, 0, count);
-//            }
-//            return out.toByteArray();
 //        }
 //    }
+
 //
-//
-//    private void registerInBackground() {
-//        new AsyncTask() {
-//            @Override
-//            protected String doInBackground(Object[] params) {
-//                try {
-//                    if (gcm == null) {
-//                        gcm = GoogleCloudMessaging.getInstance(getActivity());
-//                    }
-//                    regid = gcm.register(Constant.SENDER_ID);
-//                    msg = "Device registered, registration ID=" + regid;
-//                    storeRegistrationId(getActivity(), regid);
-//                } catch (IOException ex) {
-//                    msg = "Error :" + ex.getMessage();
-//                }
-//                Log.i("TAG", msg);
-//               return msg;
-//            }
-//        }.execute();
-//    }
+    private void registerInBackground() {
+        new AsyncTask() {
+            @Override
+            protected String doInBackground(Object[] params) {
+                try {
+                    if (gcm == null) {
+                        gcm = GoogleCloudMessaging.getInstance(getActivity());
+                    }
+                    regid = gcm.register(Constant.SENDER_ID);
+                    msg = "Device registered, registration ID=" + regid;
+                    storeRegistrationId(getActivity(), regid);
+                } catch (IOException ex) {
+                    msg = "Error :" + ex.getMessage();
+                }
+                Log.i("TAG", msg);
+               return msg;
+            }
+        }.execute();
+    }
 }

@@ -42,9 +42,12 @@ import java.util.concurrent.TimeUnit;
 
 public class NetworkUtil {
 
-    public static String userLogin(String email, String password){
+    public static String userLogin(String email, String password, String reqid){
         OkHttpClient client = new OkHttpClient();
-        String uri = Constant.intialUrl + "login?email="+email+"&password="+password;
+        String uri = Constant.intialUrl + "login?"+Constant.EMAIL+"="+email+"&"+Constant.PASSWORD+"="+password+"&"+Constant.PROPERTY_REG_ID+"="+reqid;
+        Log.i("TAG", "LOGIN");
+        Log.i("TAG", reqid);
+        Log.i("TAG", "LOG");
         Request request = new Request.Builder().url(uri).build();
         String message = "User does not Exits";
         //String message = "User Exits";
@@ -66,9 +69,10 @@ public class NetworkUtil {
                 editor.putString(Constant.EMAIL, jobject.get("email").getAsString());
                 editor.putString(Constant.UUID, jobject.get("uuid").getAsString());
                 editor.putString(Constant.PHONE, jobject.get("phone").getAsString());
-                editor.putString(Constant.PROPERTY_REG_ID, jobject.get("registration_id").getAsString());
+                //editor.putString(Constant.PROPERTY_REG_ID, jobject.get("registration_id").getAsString());
                 editor.commit();
-                
+
+
                 Log.i(MainActivity.TAG, sharepref.getString(Constant.PROPERTY_REG_ID, "no values"));
             }
             else if (message.equals("User does not Exits")){

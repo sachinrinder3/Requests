@@ -45,14 +45,14 @@ import java.util.List;
 public class ChatWithUs extends Fragment {
     private ChatAdapter chatAdapter;
     private AppCompatEditText sendtext;
-    AppCompatButton sendbutton;
-    DataBaseHelper dataBaseHelper;
-    SQLiteDatabase sqLiteDatabase;
-    BroadcastReceiver recieve_chat;
-    LocalBroadcastManager localBroadcastManager;
+    private AppCompatButton sendbutton;
+    private DataBaseHelper dataBaseHelper;
+    private SQLiteDatabase sqLiteDatabase;
+    private BroadcastReceiver recieve_chat;
+    private LocalBroadcastManager localBroadcastManager;
     private LocalBroadcastManager mLocalBroadcastManager;
-    List<ChatMessage> chat_list;
-    RecyclerView recList;
+    private List<ChatMessage> chat_list;
+    private RecyclerView recList;
 
     public ChatWithUs() {}
 

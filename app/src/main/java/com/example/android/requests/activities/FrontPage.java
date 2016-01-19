@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -31,6 +32,13 @@ import com.example.android.requests.R;
 import com.example.android.requests.fragments.Wallet;
 import com.example.android.requests.utils.Constant;
 import com.example.android.requests.utils.DataBaseHelper;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 
 public class FrontPage extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
@@ -43,12 +51,12 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
     private android.support.v4.app.FragmentManager fragmentManager;
     private Toolbar toolbar;
     private NavigationView navigationView;
-    public DrawerLayout drawerLayout;
-    public ActionBarDrawerToggle actionBarDrawerToggle;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
     private TextView headeremail;
     private TextView headerusername;
-    DataBaseHelper dataBaseHelper;
-    SQLiteDatabase sqLiteDatabase;
+    private DataBaseHelper dataBaseHelper;
+    private SQLiteDatabase sqLiteDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +65,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         //View vi = inflater.inflate(R.layout.header, null);
 
         setContentView(R.layout.activity_front_page);
-        dataBaseHelper = new DataBaseHelper(this);
-        sqLiteDatabase = dataBaseHelper.getWritableDatabase();
+       
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar1);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -151,19 +158,30 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 return true;
             case R.id.logoutmenu:
                 SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharepref.edit();
-                editor.putString(Constant.LOGINSTATUS, "false");
-                editor.remove(Constant.NAME);
-                editor.remove(Constant.EMAIL);
-                editor.remove(Constant.UUID);
-                editor.remove(Constant.PHONE);
-                editor.remove(Constant.PASSWORD);
-                editor.remove(Constant.PROPERTY_REG_ID);
-                editor.apply();
-                Intent logout = new Intent(this, MainActivity.class);
-                String fragmnet = "Login";
-                logout.putExtra("fragment", fragmnet);
-                startActivity(logout);
+                //SharedPreferences.Editor editor = sharepref.edit();
+                String emaillogout = sharepref.getString(Constant.EMAIL,"");
+                String reqidlogout = sharepref.getString(Constant.PROPERTY_REG_ID,"");
+//                editor.putString(Constant.LOGINSTATUS, "false");
+//                editor.remove(Constant.NAME);
+//                editor.remove(Constant.EMAIL);
+//                editor.remove(Constant.UUID);
+//                editor.remove(Constant.PHONE);
+//                editor.remove(Constant.PASSWORD);
+//                editor.remove(Constant.PROPERTY_REG_ID);
+//                editor.apply();
+//                Log.i("TAG", sharepref.getString(Constant.NAME, ""));
+//                Log.i("TAG",sharepref.getString(Constant.PHONE,""));
+//                Log.i("TAG",sharepref.getString(Constant.PASSWORD,""));
+//                Log.i("TAG",sharepref.getString(Constant.UUID,""));Log.i("TAG",sharepref.getString(Constant.EMAIL,""));
+//                Log.i("TAG",sharepref.getString(Constant.PROPERTY_REG_ID,""));
+//                Intent logout = new Intent(this, MainActivity.class);
+//                String fragmnet = "Login";
+//                logout.putExtra("fragment", fragmnet);
+//                startActivity(logout);
+                if(!emaillogout.equals("") && !reqidlogout.equals("")) {
+                    AsyncTaskLogout runner = new AsyncTaskLogout();
+                    runner.execute(emaillogout, reqidlogout);
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -296,6 +314,91 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
             Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
             return true;
     }}
+
+
+    private class AsyncTaskLogout extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Toast.makeText(getActivity(), "Async is called", Toast.LENGTH_LONG).show();
+        }
+
+        public AsyncTaskLogout() {
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(FrontPage.this, result, Toast.LENGTH_LONG).show();
+            if (result.equals("Success")){
+                Toast.makeText(FrontPage.this, "Successfully logged-out", Toast.LENGTH_LONG).show();
+                SharedPreferences sharepref = getSharedPreferences("MyPref", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharepref.edit();
+                editor.putString(Constant.LOGINSTATUS, "false");
+                editor.remove(Constant.NAME);
+                editor.remove(Constant.EMAIL);
+                editor.remove(Constant.UUID);
+                editor.remove(Constant.PHONE);
+                editor.remove(Constant.PASSWORD);
+                editor.remove(Constant.PROPERTY_REG_ID);
+                editor.apply();
+				dataBaseHelper = new DataBaseHelper(this);
+                sqLiteDatabase = dataBaseHelper.getWritableDatabase();
+				sqLiteDatabase.execSQL("DELETE FROM "+TABLE_BUS+" WHERE "+KEY_BUS_NUM+"='"+bus_num+"'");
+				sqLiteDatabase.close();
+                Log.i("TAG", sharepref.getString(Constant.NAME, ""));
+                Log.i("TAG",sharepref.getString(Constant.PHONE,""));
+                Log.i("TAG",sharepref.getString(Constant.PASSWORD,""));
+                Log.i("TAG",sharepref.getString(Constant.UUID,""));
+                Log.i("TAG",sharepref.getString(Constant.EMAIL,""));
+                Log.i("TAG",sharepref.getString(Constant.PROPERTY_REG_ID,""));
+                Intent logout = new Intent(FrontPage.this, MainActivity.class);
+                String fragmnet = "Login";
+                logout.putExtra("fragment", fragmnet);
+                startActivity(logout);
+            }
+            else if (result.equals("User does not Exits")){
+                Toast.makeText(FrontPage.this, "Error", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(FrontPage.this, "You can not logged-in hold on", Toast.LENGTH_LONG).show();
+            }
+        }
+
+//        @Override
+//        protected void onProgressUpdate(Void) {
+//            super.onProgressUpdate(values);
+//        }
+
+        @Override
+        protected String doInBackground(String...params) {
+            String emaillog = params[0];
+            String reqidlog = params[1];
+            Log.i("TAG", "LOGOUT");
+            Log.i("TAG", reqidlog);
+            Log.i("TAG", "LOGOUT");
+            OkHttpClient client = new OkHttpClient();
+            String uri = Constant.intialUrl + "logout?"+Constant.EMAIL+"="+emaillog+"&"+Constant.PROPERTY_REG_ID+"="+reqidlog;
+            Log.i("TAG", "cdsdscds");
+            //Log.i("TAG", uri);
+            Log.i("TAG", "FVFDVFD");
+            Request request = new Request.Builder().url(uri).build();
+            String message = "Unsuccess";
+            try {
+                Call call = client.newCall(request);
+                Response response = call.execute();
+                JsonElement jelement = new JsonParser().parse(response.body().string());
+                JsonObject jobject = jelement.getAsJsonObject();
+                message = jobject.get("message").getAsString();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return message;
+        }
+    }
+
 
 }
 

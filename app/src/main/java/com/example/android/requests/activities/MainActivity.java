@@ -1,7 +1,5 @@
 package com.example.android.requests.activities;
 
-
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,9 +9,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.example.android.requests.R;
 import com.example.android.requests.fragments.Startup;
+import com.example.android.requests.utils.Constant;
 import com.facebook.FacebookSdk;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,19 +42,16 @@ public class MainActivity extends AppCompatActivity {
         } else {
             //Log.i(TAG, "Else main condition");
             SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
-            String email = sharepref.getString("user_email", "");
-            String loginStatus = sharepref.getString("loginStatus", "");
-            String password = sharepref.getString("user_password", "");
-            //Log.i(TAG, email);
-            //Log.i(TAG, password);
-            //Log.i(TAG, loginStatus);
-            if (loginStatus.equals("true") && !email.equals("") && !password.equals("")) {
+            String email = sharepref.getString(Constant.EMAIL, "");
+            String loginStatus = sharepref.getString(Constant.LOGINSTATUS, "");
+            String password = sharepref.getString(Constant.PASSWORD, "");
+            String reqid = sharepref.getString(Constant.PROPERTY_REG_ID, "");
+            if (loginStatus.equals("true") && !email.equals("") && !password.equals("") && !reqid.equals("")) {
                 //Log.i("TAG", "Async task is called");
                 AsyncTaskRunner runner = new AsyncTaskRunner();
-                runner.execute(email, password);
+                runner.execute(email, password,reqid);
             } else {
-
-                Startup startup = new Startup();
+				Startup startup = new Startup();
                 fragmentManager.beginTransaction().replace(R.id.frameholder1, startup).commit();
             }
         }
@@ -171,7 +166,8 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String username = params[0];
             String password = params[1];
-            String result = com.example.android.requests.utils.NetworkUtil.userLogin(username, password);
+            String reqid = params[2];
+            String result = com.example.android.requests.utils.NetworkUtil.userLogin(username, password, reqid );
             return result;
         }
     }
