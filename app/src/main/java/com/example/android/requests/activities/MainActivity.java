@@ -37,17 +37,25 @@ public class MainActivity extends AppCompatActivity {
         String forum = "Login";
         Log.e("Test1", "Test1" + fragmentName);
         if (fragmentName != null && fragmentName.equals(forum)) {
+            Log.i("TAG", "logout is clicked ");
             com.example.android.requests.fragments.Login login = new com.example.android.requests.fragments.Login();
             fragmentManager.beginTransaction().replace(R.id.frameholder1, login).commit();
         } else {
+            Log.i("TAG", "coming through main page ");
             //Log.i(TAG, "Else main condition");
             SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
             String email = sharepref.getString(Constant.EMAIL, "");
             String loginStatus = sharepref.getString(Constant.LOGINSTATUS, "");
             String password = sharepref.getString(Constant.PASSWORD, "");
             String reqid = sharepref.getString(Constant.PROPERTY_REG_ID, "");
+            Log.i("TAG", email);
+            Log.i("TAG", loginStatus);
+            Log.i("TAG", password);
+            Log.i("TAG", reqid);
+
+
             if (loginStatus.equals("true") && !email.equals("") && !password.equals("") && !reqid.equals("")) {
-                //Log.i("TAG", "Async task is called");
+                Log.i("TAG", "Async task is called");
                 AsyncTaskRunner runner = new AsyncTaskRunner();
                 runner.execute(email, password,reqid);
             } else {
@@ -147,7 +155,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             SharedPreferences sharepref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
-            String loginStatus = sharepref.getString("loginStatus", "false");
+            String loginStatus = sharepref.getString(Constant.LOGINSTATUS, "false");
+            Log.i("TAG", loginStatus);
+            Log.i("TAG", result);
             if (loginStatus.equals("true") && result.equals("User Exits")) {
                 Toast.makeText(context, "already logged in", Toast.LENGTH_LONG).show();
                 Intent intentlogin = new Intent(context, FrontPage.class);

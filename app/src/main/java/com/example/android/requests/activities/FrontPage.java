@@ -69,7 +69,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar1);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-
+        dataBaseHelper = new DataBaseHelper(FrontPage.this);
         setSupportActionBar(toolbar);
         View header = navigationView.getHeaderView(0);
         headerusername = (TextView) header.findViewById(R.id.headerusername);
@@ -344,9 +344,8 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 editor.remove(Constant.PASSWORD);
                 editor.remove(Constant.PROPERTY_REG_ID);
                 editor.apply();
-				dataBaseHelper = new DataBaseHelper(this);
                 sqLiteDatabase = dataBaseHelper.getWritableDatabase();
-				sqLiteDatabase.execSQL("DELETE FROM "+TABLE_BUS+" WHERE "+KEY_BUS_NUM+"='"+bus_num+"'");
+				sqLiteDatabase.execSQL("DELETE FROM " + DataBaseHelper.Table_name);
 				sqLiteDatabase.close();
                 Log.i("TAG", sharepref.getString(Constant.NAME, ""));
                 Log.i("TAG",sharepref.getString(Constant.PHONE,""));

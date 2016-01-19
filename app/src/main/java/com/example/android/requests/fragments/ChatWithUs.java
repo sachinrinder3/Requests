@@ -213,16 +213,16 @@ public class ChatWithUs extends Fragment {
         protected String doInBackground(String... params) {
             String intialUrl = Constant.intialUrl;
             OkHttpClient client = new OkHttpClient();
-
-
-            String uri = intialUrl + "sendmessage?message=fvfvfvf";
-            Log.i("TAG", uri);
-            Request request = new Request.Builder().url(uri).build();
-            JsonObject jobject = new JsonObject();
             String status = "failure";
+            SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+            String email = sharepref.getString(Constant.EMAIL, "");
+            if(!email.equals("")) {
+                String uri = intialUrl + "sendmessage?" + Constant.EMAIL + "="+email;
+                Log.i("TAG", uri);
+                Request request = new Request.Builder().url(uri).build();
+                JsonObject jobject = new JsonObject();
 
-
-            try {
+                try {
                 Call call = client.newCall(request);
                 Response response = call.execute();
                 JsonElement jelement = new JsonParser().parse(response.body().string());
@@ -231,7 +231,7 @@ public class ChatWithUs extends Fragment {
             }
             catch (Exception e){
                 e.printStackTrace();
-            }
+            }}
             return status;
         }
         @Override

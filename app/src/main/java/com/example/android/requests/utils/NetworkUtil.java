@@ -80,6 +80,7 @@ public class NetworkUtil {
         }catch (Exception e){
             e.printStackTrace();
         }
+        Log.i("TAG",message);
         return message;
     };
 
