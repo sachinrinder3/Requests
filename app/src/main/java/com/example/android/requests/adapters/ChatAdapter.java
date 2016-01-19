@@ -30,10 +30,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v;
         if (viewType ==1 ){
-             v= layoutInflater.from(viewGroup.getContext()).inflate(R.layout.send_chat, viewGroup, false);
+             v= layoutInflater.from(viewGroup.getContext()).inflate(R.layout.send_message_card, viewGroup, false);
         }
         else {
-             v = layoutInflater.from(viewGroup.getContext()).inflate(R.layout.receive_chat, viewGroup, false);
+             v = layoutInflater.from(viewGroup.getContext()).inflate(R.layout.receive_message_card, viewGroup, false);
         }
         ChatViewHolder chatViewHolder = new ChatViewHolder(v );
 
