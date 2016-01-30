@@ -49,7 +49,7 @@ public class NetworkUtil {
         Log.i("TAG", reqid);
         Log.i("TAG", "LOG");
         Request request = new Request.Builder().url(uri).build();
-        String message = "User does not Exits";
+        String message = "User Exits";
         //String message = "User Exits";
         Context applicationContext = MainActivity.getContextOfApplication();
         try {

@@ -8,8 +8,14 @@
                 android:checked="false"
                 android:icon="@drawable/user"
                 android:title="@string/chat_with_us" />
+        <item
+            android:id="@+id/service_based_chat"
+            android:checked="false"
+            android:icon="@drawable/user"
+            android:title="@string/service_based_chat" />
 
-            <item
+
+        <item
                 android:id="@+id/your_order"
                 android:checked="false"
                 android:icon="@drawable/order"

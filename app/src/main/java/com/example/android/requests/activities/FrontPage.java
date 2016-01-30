@@ -25,6 +25,7 @@ import com.example.android.requests.fragments.Notification;
 import com.example.android.requests.fragments.SavedAddress;
 import com.example.android.requests.fragments.ChatWithUs;
 import com.example.android.requests.fragments.Profile;
+import com.example.android.requests.fragments.ServiceBasedChat;
 import com.example.android.requests.fragments.YourOrder;
 import com.example.android.requests.location;
 
@@ -124,7 +125,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         ft.replace(R.id.frameholder, myFragment0);
         ft.addToBackStack("chat_fragment");
         ft.commit();
-        Log.i(MainActivity.TAG, "this is create method last line");
+        //Log.i(MainActivity.TAG, "this is create method last line");
     }
 
     @Override
@@ -132,7 +133,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         super.onPostCreate(savedInstanceState);
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
-        Log.i(MainActivity.TAG, "Post Create of FrontPage Activity");
+        //Log.i(MainActivity.TAG, "Post Create of FrontPage Activity");
    }
 
     @Override
@@ -161,23 +162,8 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 //SharedPreferences.Editor editor = sharepref.edit();
                 String emaillogout = sharepref.getString(Constant.EMAIL,"");
                 String reqidlogout = sharepref.getString(Constant.PROPERTY_REG_ID,"");
-//                editor.putString(Constant.LOGINSTATUS, "false");
-//                editor.remove(Constant.NAME);
-//                editor.remove(Constant.EMAIL);
-//                editor.remove(Constant.UUID);
-//                editor.remove(Constant.PHONE);
-//                editor.remove(Constant.PASSWORD);
-//                editor.remove(Constant.PROPERTY_REG_ID);
-//                editor.apply();
-//                Log.i("TAG", sharepref.getString(Constant.NAME, ""));
-//                Log.i("TAG",sharepref.getString(Constant.PHONE,""));
-//                Log.i("TAG",sharepref.getString(Constant.PASSWORD,""));
-//                Log.i("TAG",sharepref.getString(Constant.UUID,""));Log.i("TAG",sharepref.getString(Constant.EMAIL,""));
-//                Log.i("TAG",sharepref.getString(Constant.PROPERTY_REG_ID,""));
-//                Intent logout = new Intent(this, MainActivity.class);
-//                String fragmnet = "Login";
-//                logout.putExtra("fragment", fragmnet);
-//                startActivity(logout);
+                Log.i("TAG", emaillogout);
+                Log.i("TAG", reqidlogout);
                 if(!emaillogout.equals("") && !reqidlogout.equals("")) {
                     AsyncTaskLogout runner = new AsyncTaskLogout();
                     runner.execute(emaillogout, reqidlogout);
@@ -268,6 +254,13 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 ft_chat_with_us.commit();
                 return true;
 
+            case R.id.service_based_chat:
+                ServiceBasedChat fragment_service_based_chat = new ServiceBasedChat();
+                FragmentTransaction ft_service_based_chat = getSupportFragmentManager().beginTransaction();
+                ft_service_based_chat.replace(R.id.frameholder, fragment_service_based_chat);
+                ft_service_based_chat.commit();
+                return true;
+
             case R.id.your_order:
                 YourOrder fragment_your_order = new YourOrder();
                 FragmentTransaction ft_your_order = getSupportFragmentManager().beginTransaction();
@@ -344,15 +337,16 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 editor.remove(Constant.PASSWORD);
                 editor.remove(Constant.PROPERTY_REG_ID);
                 editor.apply();
+                Log.i("TAG", "VCFV");
                 sqLiteDatabase = dataBaseHelper.getWritableDatabase();
 				sqLiteDatabase.execSQL("DELETE FROM " + DataBaseHelper.Table_name);
 				sqLiteDatabase.close();
-                Log.i("TAG", sharepref.getString(Constant.NAME, ""));
-                Log.i("TAG",sharepref.getString(Constant.PHONE,""));
-                Log.i("TAG",sharepref.getString(Constant.PASSWORD,""));
-                Log.i("TAG",sharepref.getString(Constant.UUID,""));
-                Log.i("TAG",sharepref.getString(Constant.EMAIL,""));
-                Log.i("TAG",sharepref.getString(Constant.PROPERTY_REG_ID,""));
+//                Log.i("TAG", sharepref.getString(Constant.NAME, ""));
+//                Log.i("TAG",sharepref.getString(Constant.PHONE,""));
+//                Log.i("TAG",sharepref.getString(Constant.PASSWORD,""));
+//                Log.i("TAG",sharepref.getString(Constant.UUID,""));
+//                Log.i("TAG",sharepref.getString(Constant.EMAIL,""));
+                //Log.i("TAG",sharepref.getString(Constant.PROPERTY_REG_ID,""));
                 Intent logout = new Intent(FrontPage.this, MainActivity.class);
                 String fragmnet = "Login";
                 logout.putExtra("fragment", fragmnet);

@@ -94,7 +94,7 @@ public class Login extends Fragment {
             regid = getRegistrationId(getActivity());
             if (regid.isEmpty()) {
                 Log.i("TAG", "empty regid");
-                registerInBackground();
+                //registerInBackground();
             }
         } else {
             Log.i("pavan", "No valid Google Play Services APK found.");
@@ -224,6 +224,9 @@ public class Login extends Fragment {
 
     private String getRegistrationId(Context context) {
         final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(Constant.PROPERTY_REG_ID, "");
+        editor.commit();
         String registrationId = prefs.getString(Constant.PROPERTY_REG_ID, "");
         if (registrationId.isEmpty()) {
             Log.i(MainActivity.TAG, "Registration not found.");

@@ -84,15 +84,16 @@
             android:name=".receivers.GcmBroadcastReceiver"
             android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND">
-
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="com.example.gcm" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".services.GcmIntentService"></service>
-        <service android:name=".services.MyService"
+        <service android:name=".services.GcmIntentService" />
+        <service
+            android:name=".services.MyService"
             android:enabled="true"
             android:exported="true" />
 
@@ -131,7 +132,11 @@
 
         <service
             android:name=".services.MyIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:name=".activities.Shopping" />
+        <activity android:name=".activities.Food" />
+        <activity android:name=".activities.HomeServices"></activity>
     </application>
 
 </manifest>
