@@ -18,7 +18,7 @@
             android:layout_gravity="right"
             android:padding="10dp"
             android:layout_margin="6dp"
-            android:background="@drawable/chatpic"
+            android:background="@drawable/outgoing_message_bg"
             android:textColor="@android:color/white"
             />
     </LinearLayout>

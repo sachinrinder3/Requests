@@ -30,16 +30,16 @@ public class Dummy extends AppCompatActivity {
         dummybutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                  Intent Gpsactivity= new Intent(Dummy.this, PlaceActivity.class);
-                  startActivity(Gpsactivity);
+//                  Intent Gpsactivity= new Intent(Dummy.this, PlaceActivity.class);
+//                  startActivity(Gpsactivity);
             }
         });
 
         dummybutton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mapsactivity= new Intent(Dummy.this, MapsActivity.class);
-                startActivity(mapsactivity);
+//                Intent mapsactivity= new Intent(Dummy.this, MapsActivity.class);
+//                startActivity(mapsactivity);
             }
         });
 

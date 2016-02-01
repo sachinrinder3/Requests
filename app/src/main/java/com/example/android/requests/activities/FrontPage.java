@@ -20,7 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
+//import com.livechatinc.inappchat.ChatWindowActivity;
 import com.example.android.requests.fragments.Notification;
 import com.example.android.requests.fragments.SavedAddress;
 import com.example.android.requests.fragments.ChatWithUs;
@@ -28,7 +28,6 @@ import com.example.android.requests.fragments.Profile;
 import com.example.android.requests.fragments.ServiceBasedChat;
 import com.example.android.requests.fragments.YourOrder;
 import com.example.android.requests.location;
-
 import com.example.android.requests.R;
 import com.example.android.requests.fragments.Wallet;
 import com.example.android.requests.utils.Constant;
@@ -302,6 +301,10 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
             case R.id.dummy2:
                 Intent dummy2 = new Intent(this, MapsActivity.class);
                 startActivity(dummy2);
+//                Intent intent = new Intent(this, com.livechatinc.inappchat.ChatWindowActivity.class);
+//                intent.putExtra(com.livechatinc.inappchat.ChatWindowActivity.KEY_GROUP_ID, "your_group_id");
+//                intent.putExtra(com.livechatinc.inappchat.ChatWindowActivity.KEY_LICENSE_NUMBER, "your_license_number");
+//                startActivity(intent);
                 return true;
             default:
             Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();

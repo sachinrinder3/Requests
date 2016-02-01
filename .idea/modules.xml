@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/LiveChatWindow/LiveChatWindow.iml" filepath="$PROJECT_DIR$/LiveChatWindow/LiveChatWindow.iml" />
       <module fileurl="file://$PROJECT_DIR$/Requests.iml" filepath="$PROJECT_DIR$/Requests.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
