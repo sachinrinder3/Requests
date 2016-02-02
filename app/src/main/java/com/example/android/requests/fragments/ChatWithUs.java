@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.android.requests.R;
@@ -53,6 +56,9 @@ public class ChatWithUs extends Fragment {
     private LocalBroadcastManager mLocalBroadcastManager;
     private List<ChatMessage> chat_list;
     private RecyclerView recList;
+    private AppCompatImageButton stickerButton;
+    private boolean isStickersFrameVisible;
+    private View stickersFrame;
 
     public ChatWithUs() {}
 
@@ -119,14 +125,43 @@ public class ChatWithUs extends Fragment {
                                           public void onClick(View v) {
                                               String newmessage = sendtext.getText().toString();
                                               sendtext.setText("");
-                                              ChatMessage hey =  new ChatMessage(newmessage, "Y", "N");
-                                              addMessageToDataBase(newmessage, "I m a don HAHAHA !", "Y", "N");
-                                              chatAdapter.addItem(chatAdapter.getItemCount(), hey);
-                                              SendMessage runner = new SendMessage();
-                                              runner.execute("");
+                                              if (!newmessage.equals(""));
+                                              {
+                                                  ChatMessage hey = new ChatMessage(newmessage, "Y", "N");
+                                                  addMessageToDataBase(newmessage, "I m a don HAHAHA !", "Y", "N");
+                                                  chatAdapter.addItem(chatAdapter.getItemCount(), hey);
+                                                  SendMessage runner = new SendMessage();
+                                                  runner.execute("");
+                                              }
                                           }
                                       }
         );
+
+        stickersFrame = rootView.findViewById(R.id.frame);
+        stickerButton = (AppCompatImageButton)rootView.findViewById(R.id.stickers_button);
+
+        stickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isStickersFrameVisible) {
+                    showKeyboard();
+                    stickerButton.setImageResource(R.drawable.ic_action_insert_emoticon);
+                } else {
+                    //if (keyboardHandleLayout.isKeyboardVisible()) {
+//                        keyboardHandleLayout.hideKeyboard(getActivity(), new KeyboardHandleRelativeLayout.OnKeyboardHideCallback() {
+//                            @Override
+//                            public void onKeyboardHide() {
+//                                stickerButton.setImageResource(R.drawable.ic_action_keyboard);
+//                                setStickersFrameVisible(true);
+//                            }
+//                        });
+//                    } else {
+//                        stickerButton.setImageResource(R.drawable.ic_action_keyboard);
+//                        setStickersFrameVisible(true);
+//                    }
+                }
+            }
+        });
 
         recieve_chat=new BroadcastReceiver() {
             @Override
@@ -244,5 +279,9 @@ public class ChatWithUs extends Fragment {
             }
 
         }
+    }
+
+    private void showKeyboard() {
+        //((InputMethodManager) messageEditText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(messageEditText, InputMethodManager.SHOW_IMPLICIT);
     }
 }
