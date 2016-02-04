@@ -27,7 +27,6 @@ import com.example.android.requests.fragments.ChatWithUs;
 import com.example.android.requests.fragments.Profile;
 import com.example.android.requests.fragments.ServiceBasedChat;
 import com.example.android.requests.fragments.YourOrder;
-import com.example.android.requests.location;
 import com.example.android.requests.R;
 import com.example.android.requests.fragments.Wallet;
 import com.example.android.requests.utils.Constant;
@@ -161,9 +160,10 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 //SharedPreferences.Editor editor = sharepref.edit();
                 String emaillogout = sharepref.getString(Constant.EMAIL,"");
                 String reqidlogout = sharepref.getString(Constant.PROPERTY_REG_ID,"");
+                reqidlogout="hey";
                 Log.i("TAG", emaillogout);
                 Log.i("TAG", reqidlogout);
-                if(!emaillogout.equals("") && !reqidlogout.equals("")) {
+                if(!emaillogout.equals("")) {
                     AsyncTaskLogout runner = new AsyncTaskLogout();
                     runner.execute(emaillogout, reqidlogout);
                 }
@@ -295,7 +295,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 return true;
 
             case R.id.dummy:
-                Intent location = new Intent(this, location.class);
+                Intent location = new Intent(this, CurrentLocation.class);
                 startActivity(location);
                 return true;
             case R.id.dummy2:

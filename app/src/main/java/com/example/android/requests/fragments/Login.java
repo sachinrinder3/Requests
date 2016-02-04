@@ -90,12 +90,12 @@ public class Login extends Fragment {
         Log.i("TAG", String.valueOf(checkPlayServices()));
 
         if (checkPlayServices()) {
-            gcm = GoogleCloudMessaging.getInstance(getActivity());
-            regid = getRegistrationId(getActivity());
-            if (regid.isEmpty()) {
-                Log.i("TAG", "empty regid");
+            //gcm = GoogleCloudMessaging.getInstance(getActivity());
+            //regid = getRegistrationId(getActivity());
+            //if (regid.isEmpty()) {
+                //Log.i("TAG", "empty regid");
                 //registerInBackground();
-            }
+            //}
         } else {
             Log.i("pavan", "No valid Google Play Services APK found.");
         }
@@ -107,6 +107,7 @@ public class Login extends Fragment {
                                             emailstring =  email.getText().toString();
                                             passwordstring = password.getText().toString();
                                             //sendRegistrationIdToBackend();
+                                            regid="hey";
                                             if (!emailstring.equals("") && !passwordstring.equals("") ){
                                                 AsyncTaskRunner runner = new AsyncTaskRunner();
                                                 runner.execute(emailstring,passwordstring,regid);

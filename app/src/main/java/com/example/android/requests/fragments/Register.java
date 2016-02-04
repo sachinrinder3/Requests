@@ -112,14 +112,14 @@ public class Register extends Fragment {
         regisbtn = (AppCompatButton)v.findViewById(R.id.register);
 
         if (checkPlayServices()) {
-            Log.i("TAG", "I AM CALLED HERE");
-            gcm = GoogleCloudMessaging.getInstance(getActivity());
-            regid = getRegistrationId(getActivity());
-            Log.i("TAG", regid);
-            if (regid.isEmpty()) {
-                Log.i("TAG", "empty regid");
-                registerInBackground();
-            }
+//            Log.i("TAG", "I AM CALLED HERE");
+//            //gcm = GoogleCloudMessaging.getInstance(getActivity());
+//            regid = getRegistrationId(getActivity());
+//            Log.i("TAG", regid);
+//            if (regid.isEmpty()) {
+//                Log.i("TAG", "empty regid");
+//                registerInBackground();
+//            }
         } else {
             Log.i("TAG", "No valid Google Play Services APK found.");
         }
@@ -132,6 +132,7 @@ public class Register extends Fragment {
                 nameString = name.getText().toString();
                 final SharedPreferences prefs = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 String registrationId = prefs.getString(Constant.PROPERTY_REG_ID, "");
+                registrationId="hey";
                 if (!registrationId.equals("")){
                     sendRegistrationIdToBackend();
                 }
@@ -177,31 +178,31 @@ public class Register extends Fragment {
         return true;
     }
 
-    private String getRegistrationId(Context context) {
-        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Constant.PROPERTY_REG_ID, "");
-        editor.commit();
-        String registrationId = prefs.getString(Constant.PROPERTY_REG_ID, "");
-        Log.i("TAG", "REQID"+registrationId);
-        if (registrationId.isEmpty()) {
-            Log.i("TAG", "REQID is emtty"+registrationId);
-            Log.i(MainActivity.TAG, "Registration not found.");
-            return "";
-        }
-        int registeredVersion = prefs.getInt(Constant.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
-        int currentVersion = getAppVersion(context);
-        if (registeredVersion != currentVersion) {
-            Log.i("TAG", "REQID is emxsxsxsdxtty"+registrationId);
-            Log.i(MainActivity.TAG, "App version changed.");
-            return "";
-        }
-        return registrationId;
-    }
+//    private String getRegistrationId(Context context) {
+//        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.putString(Constant.PROPERTY_REG_ID, "");
+//        editor.commit();
+//        String registrationId = prefs.getString(Constant.PROPERTY_REG_ID, "");
+//        Log.i("TAG", "REQID"+registrationId);
+//        if (registrationId.isEmpty()) {
+//            Log.i("TAG", "REQID is emtty"+registrationId);
+//            Log.i(MainActivity.TAG, "Registration not found.");
+//            return "";
+//        }
+//        int registeredVersion = prefs.getInt(Constant.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
+//        int currentVersion = getAppVersion(context);
+//        if (registeredVersion != currentVersion) {
+//            Log.i("TAG", "REQID is emxsxsxsdxtty"+registrationId);
+//            Log.i(MainActivity.TAG, "App version changed.");
+//            return "";
+//        }
+//        return registrationId;
+//    }
     private void storeUserDetails(Context context) {
         final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        int appVersion = getAppVersion(context);
-        Log.i(MainActivity.TAG, "Saving regId on app version " + appVersion);
+        //int appVersion = getAppVersion(context);
+        //Log.i(MainActivity.TAG, "Saving regId on app version " + appVersion);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(Constant.EMAIL, email.getText().toString());
         editor.putString(Constant.NAME, name.getText().toString());
@@ -256,54 +257,54 @@ public class Register extends Fragment {
     }
 
 
-    private void registerInBackground() {
-        new AsyncTask() {
-            @Override
-            protected String doInBackground(Object[] params) {
-                try {
-                    if (gcm == null) {
-                        gcm = GoogleCloudMessaging.getInstance(getActivity());
-                    }
-                    regid = gcm.register(Constant.SENDER_ID);
-                    Log.i("TAG", "YO MAN"+ regid);
-                    msg = "Device registered, registration ID=" + regid;
-                    storeRegistrationId(getActivity(), regid);
-                    SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
-                    Log.i(MainActivity.TAG, sharepref.getString(Constant.PROPERTY_REG_ID, "no values"));
-                    Log.i(MainActivity.TAG, regid);
-                } catch (IOException ex) {
-                    msg = "Error :" + ex.getMessage();
-                }
-                Log.i("TAG", msg);
-                return msg;
-            }
-        }.execute();
-    }
+//    private void registerInBackground() {
+//        new AsyncTask() {
+//            @Override
+//            protected String doInBackground(Object[] params) {
+////                try {
+////                    if (gcm == null) {
+////                        gcm = GoogleCloudMessaging.getInstance(getActivity());
+////                    }
+////                    regid = gcm.register(Constant.SENDER_ID);
+////                    Log.i("TAG", "YO MAN"+ regid);
+////                    msg = "Device registered, registration ID=" + regid;
+////                    storeRegistrationId(getActivity(), regid);
+////                    SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+////                    Log.i(MainActivity.TAG, sharepref.getString(Constant.PROPERTY_REG_ID, "no values"));
+////                    Log.i(MainActivity.TAG, regid);
+////                } catch (IOException ex) {
+////                    msg = "Error :" + ex.getMessage();
+////                }
+//                Log.i("TAG", msg);
+//                return msg;
+//            }
+//        }.execute();
+    //}
 
-    private void storeRegistrationId(Context context, String regId) {
-        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        int appVersion = getAppVersion(context);
-        Log.i(MainActivity.TAG, "Saving regId on app version " + appVersion);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Constant.PROPERTY_REG_ID, regId);
-        editor.putInt(Constant.PROPERTY_APP_VERSION, appVersion);
-        editor.commit();
-
-    }
+//    private void storeRegistrationId(Context context, String regId) {
+//        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+//        int appVersion = getAppVersion(context);
+//        Log.i(MainActivity.TAG, "Saving regId on app version " + appVersion);
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.putString(Constant.PROPERTY_REG_ID, regId);
+//        editor.putInt(Constant.PROPERTY_APP_VERSION, appVersion);
+//        editor.commit();
+//
+//    }
 
     private void sendRegistrationIdToBackend() {
         new
                 SendGcmToServer().execute();
     }
 
-    private static int getAppVersion(Context context) {
-        try {
-            PackageInfo packageInfo = context.getPackageManager()
-                    .getPackageInfo(context.getPackageName(), 0);
-            return packageInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            throw new RuntimeException("Could not get package name: " + e);
-        }
-    }
+//    private static int getAppVersion(Context context) {
+//        try {
+//            PackageInfo packageInfo = context.getPackageManager()
+//                    .getPackageInfo(context.getPackageName(), 0);
+//            return packageInfo.versionCode;
+//        } catch (PackageManager.NameNotFoundException e) {
+//            throw new RuntimeException("Could not get package name: " + e);
+//        }
+//    }
 
 }

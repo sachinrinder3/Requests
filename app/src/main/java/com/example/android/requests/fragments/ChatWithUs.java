@@ -130,8 +130,8 @@ public class ChatWithUs extends Fragment {
                                                   ChatMessage hey = new ChatMessage(newmessage, "Y", "N");
                                                   addMessageToDataBase(newmessage, "I m a don HAHAHA !", "Y", "N");
                                                   chatAdapter.addItem(chatAdapter.getItemCount(), hey);
-                                                  SendMessage runner = new SendMessage();
-                                                  runner.execute("");
+//                                                  SendMessage runner = new SendMessage();
+//                                                  runner.execute("");
                                               }
                                           }
                                       }
@@ -237,49 +237,49 @@ public class ChatWithUs extends Fragment {
         super.onDetach();
     }
 
-    private class SendMessage extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-        @Override
-        protected String doInBackground(String... params) {
-            String intialUrl = Constant.intialUrl;
-            OkHttpClient client = new OkHttpClient();
-            String status = "failure";
-            SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
-            String email = sharepref.getString(Constant.EMAIL, "");
-            if(!email.equals("")) {
-                String uri = intialUrl + "sendmessage?" + Constant.EMAIL + "="+email;
-                Log.i("TAG", uri);
-                Request request = new Request.Builder().url(uri).build();
-                JsonObject jobject = new JsonObject();
-
-                try {
-                Call call = client.newCall(request);
-                Response response = call.execute();
-                JsonElement jelement = new JsonParser().parse(response.body().string());
-                jobject = jelement.getAsJsonObject();
-                status = jobject.get("message").getAsString();
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }}
-            return status;
-        }
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if(result.equals("Success")){
-                Log.i("TAG", result);
-                Log.i("TAG", "I am getting called");
-                Toast.makeText(getActivity(), "Message Sent !", Toast.LENGTH_SHORT).show();
-            }
-
-        }
-    }
+//    private class SendMessage extends AsyncTask<String, Void, String> {
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//
+//        }
+//        @Override
+//        protected String doInBackground(String... params) {
+//            String intialUrl = Constant.intialUrl;
+//            OkHttpClient client = new OkHttpClient();
+//            String status = "failure";
+//            SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+//            String email = sharepref.getString(Constant.EMAIL, "");
+//            if(!email.equals("")) {
+//                String uri = intialUrl + "sendmessage?" + Constant.EMAIL + "="+email;
+//                Log.i("TAG", uri);
+//                Request request = new Request.Builder().url(uri).build();
+//                JsonObject jobject = new JsonObject();
+//
+//                try {
+//                Call call = client.newCall(request);
+//                Response response = call.execute();
+//                JsonElement jelement = new JsonParser().parse(response.body().string());
+//                jobject = jelement.getAsJsonObject();
+//                status = jobject.get("message").getAsString();
+//            }
+//            catch (Exception e){
+//                e.printStackTrace();
+//            }}
+//            return status;
+//        }
+//        @Override
+//        protected void onPostExecute(String result) {
+//            super.onPostExecute(result);
+//            if(result.equals("Success")){
+//                Log.i("TAG", result);
+//                Log.i("TAG", "I am getting called");
+//                Toast.makeText(getActivity(), "Message Sent !", Toast.LENGTH_SHORT).show();
+//            }
+//
+//        }
+//    }
 
     private void showKeyboard() {
         //((InputMethodManager) messageEditText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(messageEditText, InputMethodManager.SHOW_IMPLICIT);

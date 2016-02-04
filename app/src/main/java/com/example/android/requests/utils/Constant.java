@@ -14,7 +14,7 @@ public class Constant {
     public static final String LOGINSTATUS = "loginstatus";
     public final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public final static String SENDER_ID = "711149879456";
-    public static final String intialUrl = "http://192.168.100.2:3000/api/v0/";
+    public static final String intialUrl = "http://192.168.0.5:3000/api/v0/";
     public static final String HEADER_APP_NAME = "app_name";
     public static final String HEADER_APP_VERSION = "app_version";
     public static final String HEADER_LOGIN_AUTH_TOKEN = "login_auth_token";

@@ -51,9 +51,6 @@ package="com.example.android.requests">
     <!--android:label="@string/title_activity_place"-->
     <!--android:theme="@style/AppTheme" />-->
 
-    <activity android:name=".location"
-        android:screenOrientation="portrait"/>
-
     <activity android:name=".activities.NewAddress"
         android:screenOrientation="portrait"
         android:label="@string/title_activity_new_address"
@@ -74,6 +71,10 @@ package="com.example.android.requests">
         android:screenOrientation="portrait">
 
     </activity>
+
+    <activity android:name=".activities.CurrentLocation"
+        android:screenOrientation="portrait">
+        </activity>
     <activity android:name=".activities.PlaceActivity"
         android:screenOrientation="portrait">
 
