@@ -1,6 +1,5 @@
 package com.example.android.requests.fragments;
 
-
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -24,7 +23,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.pubnub.api.Callback;
@@ -47,8 +45,11 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class ChatWithUs extends Fragment {
@@ -104,9 +105,7 @@ public class ChatWithUs extends Fragment {
             pubnub.subscribe(Constant.HOME_SERVICES, new Callback() {
                         @Override
                         public void connectCallback(String channel, Object message) {
-                            System.out.println("SUBSCRIBE : CONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
+
                             Log.i("TAG", "11");
                             Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
                                     + " : " + message.getClass() + " : "
@@ -115,9 +114,7 @@ public class ChatWithUs extends Fragment {
 
                         @Override
                         public void disconnectCallback(String channel, Object message) {
-                            System.out.println("SUBSCRIBE : DISCONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
+
                             Log.i("TAG", "12");
                             Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
                                     + " : " + message.getClass() + " : "
@@ -125,9 +122,6 @@ public class ChatWithUs extends Fragment {
                         }
 
                         public void reconnectCallback(String channel, Object message) {
-                            System.out.println("SUBSCRIBE : RECONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
                             Log.i("TAG", "13");
                             Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
                                     + " : " + message.getClass() + " : "
@@ -136,25 +130,40 @@ public class ChatWithUs extends Fragment {
 
                         @Override
                         public void successCallback(String channel, Object message) {
-                            System.out.println("SUBSCRIBE : " + channel + " : "
-                                    + message.getClass() + " : " + message.toString());
+                            final Object ob = message;
+
+                            new Thread()
+                            {
+                                public void run()
+                                {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        public void run()
+                                        {
+                                            Toast.makeText(getActivity(), "Hello", Toast.LENGTH_LONG).show();
+                                            String received_message = ob.toString();
+                                            ChatMessage hey1 =  new ChatMessage(received_message, "N", "Y");
+                                            addMessageToDataBase(received_message, "hey", "N", "Y");
+                                            chatAdapter.addItem(chatAdapter.getItemCount(), hey1);
+                                        }
+                                    });
+                                }
+                            }.start();
+
+
+
                             Log.i("TAG", "14");
                             Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
                                     + " : " + message.getClass() + " : "
                                     + message.toString());
-                            String received_message = message.toString();
-                            ChatMessage hey1 =  new ChatMessage(received_message, "N", "Y");
-                            chatAdapter.addItem(chatAdapter.getItemCount(), hey1);
-                            ChatMessage hey2 =  new ChatMessage("vfvdf", "N", "Y");
-                            chatAdapter.addItem(chatAdapter.getItemCount(),hey2);
 
-                            addMessageToDataBase(received_message, "hey", "N", "Y");
+                            //ChatMessage hey2 =  new ChatMessage("vfvdf", "N", "Y");
+                            //chatAdapter.addItem(chatAdapter.getItemCount(),hey2);
+
+
                         }
 
                         @Override
                         public void errorCallback(String channel, PubnubError error) {
-                            System.out.println("SUBSCRIBE : ERROR on channel " + channel
-                                    + " : " + error.toString());
                             Log.i("TAG", "15");
                             Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
                                     + " : " + error.getClass() + " : "
@@ -200,23 +209,25 @@ public class ChatWithUs extends Fragment {
                                               sendtext.setText("");
                                               if (!newmessage.equals(""));
                                               {
-                                                  ChatMessage hey = new ChatMessage(newmessage, "Y", "N");
 
-                                                  Callback callback = new Callback() {
-                                                      public void successCallback(String channel, Object response) {
-                                                          Log.i("TAG", "SUCCESSFULL SENT");
-                                                          System.out.println(response.toString());
-                                                      }
-                                                      public void errorCallback(String channel, PubnubError error) {
-                                                          System.out.println(error.toString());
-                                                          Log.i("TAG", "ERROR IN SENDIND");
-                                                      }
-                                                  };
-                                                  pubnub.publish(Constant.HOME_SERVICES, newmessage , callback);
-                                                  addMessageToDataBase(newmessage, "I m a don HAHAHA !", "Y", "N");
-                                                  //SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
-                                                  //String email = sharepref.getString(Constant.EMAIL, "");
-                                                  chatAdapter.addItem(chatAdapter.getItemCount(), hey);
+                                                  SendMessage runner = new SendMessage();
+                                                  runner.execute(newmessage);
+
+//                                                  pubnub.publish(Constant.HOME_SERVICES, newmessage, new Callback() {
+//                                                      public void successCallback(String channel, Object response) {
+//                                                          Log.i("TAG", "SUCCESSFULL SENT");
+//                                                          System.out.println(response.toString());
+//                                                      }
+//                                                      public void errorCallback(String channel, PubnubError error) {
+//                                                          System.out.println(error.toString());
+//                                                          Log.i("TAG", "ERROR IN SENDIND");
+//                                                      }
+//                                                  });
+//                                                  addMessageToDataBase(newmessage, "I m a don HAHAHA !", "Y", "N");
+//                                                  //SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+//                                                  //String email = sharepref.getString(Constant.EMAIL, "");
+//                                                  ChatMessage hey = new ChatMessage(newmessage, "Y", "N");
+//                                                  chatAdapter.addItem(chatAdapter.getItemCount(), hey);
 //                                                  SendMessage runner = new SendMessage();
 //                                                  runner.execute("");
                                               }
@@ -322,6 +333,65 @@ public class ChatWithUs extends Fragment {
     public void onDetach() {
 
         super.onDetach();
+    }
+
+
+    private class SendMessage extends AsyncTask<String, Void, JsonObject> {
+//        @Override
+//        protected void onPreExecute() {
+//           super.onPreExecute();
+//
+//       }
+
+        @Override
+        protected JsonObject doInBackground(String... params) {
+            Log.i("TAG", "SUCCESSFULL SENT");
+            //final JSONObject json = new JSONObject();
+            final JsonObject jso = new JsonObject();
+            jso.addProperty("status", "Sent");
+             pubnub.publish(Constant.HOME_SERVICES, params[0], new Callback() {
+                public void successCallback(String channel, Object response) {
+                    Log.i("TAG", "SUCCESSFULL SENT");
+
+                        jso.addProperty("status", "Sent");
+
+                    System.out.println(response.toString());
+                }
+                public void errorCallback(String channel, PubnubError error) {
+                    System.out.println(error.toString());
+
+                        jso.addProperty("status", "Error");
+
+                    Log.i("TAG", "ERROR IN SENDIND");
+                }
+            });
+
+                jso.addProperty("message", params[0]);
+
+
+
+            return jso;
+        }
+
+
+        @Override
+        protected void onPostExecute(JsonObject json) {
+
+            Log.i("TAG","hvhj");
+            super.onPostExecute(json);
+
+                Log.i("TAG",json.get("status").getAsString());
+                Log.i("TAG",json.get("message").getAsString());
+                if (json.get("status").getAsString().equals("Sent")) {
+                    addMessageToDataBase(json.get("message").getAsString(), "I m a don HAHAHA !", "Y", "N");
+                    //SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+                    //String email = sharepref.getString(Constant.EMAIL, "");
+                    ChatMessage hey = new ChatMessage(json.get("message").getAsString(), "Y", "N");
+                    chatAdapter.addItem(chatAdapter.getItemCount(), hey);
+                }
+
+
+        }
     }
 
 //    private class SendMessage extends AsyncTask<String, Void, String> {
