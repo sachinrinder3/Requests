@@ -1,5 +1,6 @@
 package com.example.android.requests.utils;
 
+import com.pubnub.api.Pubnub;
 import com.squareup.okhttp.MediaType;
 
 public class Constant {
@@ -30,6 +31,9 @@ public class Constant {
     public static final String UTF_8 = "UTF-8";
     public static final String ZERO = "0";
     public static final String MD5 = "MD5";
+
+    //public static final Pubnub pubnub1 = pubnub;
+
 
 
 

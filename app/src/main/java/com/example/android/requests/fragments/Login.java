@@ -3,6 +3,7 @@ package com.example.android.requests.fragments;
 import android.content.Context;
 
 import com.example.android.requests.activities.MainActivity;
+import com.example.android.requests.models.ChatMessage;
 import com.example.android.requests.utils.Constant;
 import com.facebook.CallbackManager;
 import android.content.Intent;
@@ -28,6 +29,10 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.pubnub.api.Callback;
+import com.pubnub.api.Pubnub;
+import com.pubnub.api.PubnubError;
+import com.pubnub.api.PubnubException;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.OkHttpClient;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -43,6 +48,7 @@ public class Login extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private CallbackManager callbackManager;
     com.facebook.login.widget.LoginButton loginButton;
+    public static final Pubnub pubnub = new Pubnub("pub-c-0e57abe1-40bd-4357-8754-ec6d0e4a5add", "sub-c-38127c1c-cb42-11e5-a316-0619f8945a4f");
 
     private String mParam1;
     private String mParam2;
@@ -180,6 +186,77 @@ public class Login extends Fragment {
             Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
             if (result.equals("User Exits")){
                 Toast.makeText(getActivity(), "You are successfully logged-in", Toast.LENGTH_LONG).show();
+
+                try {
+                    //pubnub.subscribe(Constant.HOME_SERVICES, new Callback())
+                    pubnub.subscribe(Constant.HOME_SERVICES, new Callback() {
+                                @Override
+                                public void connectCallback(String channel, Object message) {
+
+                                    Log.i("TAG", "11");
+                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+                                            + " : " + message.getClass() + " : "
+                                            + message.toString());
+                                }
+
+                                @Override
+                                public void disconnectCallback(String channel, Object message) {
+
+                                    Log.i("TAG", "12");
+                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+                                            + " : " + message.getClass() + " : "
+                                            + message.toString());
+                                }
+
+                                public void reconnectCallback(String channel, Object message) {
+                                    Log.i("TAG", "13");
+                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+                                            + " : " + message.getClass() + " : "
+                                            + message.toString());
+                                }
+
+                                @Override
+                                public void successCallback(String channel, Object message) {
+                                    final Object ob = message;
+
+                                    new Thread() {
+                                        public void run() {
+                                            getActivity().runOnUiThread(new Runnable() {
+                                                public void run() {
+                                                    Toast.makeText(getActivity(), "Hello", Toast.LENGTH_LONG).show();
+                                                    String received_message = ob.toString();
+                                                    //ChatMessage hey1 = new ChatMessage(received_message, "N", "Y");
+                                                    //addMessageToDataBase(received_message, "hey", "N", "Y");
+                                                    //chatAdapter.addItem(chatAdapter.getItemCount(), hey1);
+                                                }
+                                            });
+                                        }
+                                    }.start();
+
+
+                                    Log.i("TAG", "14");
+                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+                                            + " : " + message.getClass() + " : "
+                                            + message.toString());
+
+                                    //ChatMessage hey2 =  new ChatMessage("vfvdf", "N", "Y");
+                                    //chatAdapter.addItem(chatAdapter.getItemCount(),hey2);
+
+
+                                }
+
+                                @Override
+                                public void errorCallback(String channel, PubnubError error) {
+                                    Log.i("TAG", "15");
+                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+                                            + " : " + error.getClass() + " : "
+                                            + error.toString());
+                                }
+                            }
+                    );
+                } catch (PubnubException e) {
+                    System.out.println(e.toString());
+                }
                 Intent intentlogin = new Intent(getActivity(), FrontPage.class);
                 startActivity(intentlogin);
             }

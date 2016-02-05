@@ -29,6 +29,10 @@ import com.google.android.gms.location.LocationServices;
 import com.example.android.requests.R;
 import android.location.LocationManager;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class CurrentLocation extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     private static final String TAG = "TAG";
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
@@ -134,6 +138,8 @@ public class CurrentLocation extends AppCompatActivity implements GoogleApiClien
     }
 
     private void displayLocation(){
+        double latitude = 0.0;
+        double longitude = 0.0;
         if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.i("TAG", "PERMISSION");
@@ -143,13 +149,17 @@ public class CurrentLocation extends AppCompatActivity implements GoogleApiClien
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if(mLastLocation!= null){
-            double latitude = mLastLocation.getLatitude();
-            double longitude = mLastLocation.getLongitude();
+             latitude = mLastLocation.getLatitude();
+             longitude = mLastLocation.getLongitude();
             lblLocation.setText(latitude + "," + longitude);
         }
         else{
             lblLocation.setText("could not get location");
         }
+       //List<Float> hey = new ArrayList<>();
+        //hey.add()
+//        double array [] = {latitude,longitude};
+//        return  array;
     }
 
 //    private void displayLocation(){

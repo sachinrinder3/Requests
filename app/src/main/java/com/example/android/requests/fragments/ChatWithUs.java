@@ -132,23 +132,19 @@ public class ChatWithUs extends Fragment {
                         public void successCallback(String channel, Object message) {
                             final Object ob = message;
 
-                            new Thread()
-                            {
-                                public void run()
-                                {
+                            new Thread() {
+                                public void run() {
                                     getActivity().runOnUiThread(new Runnable() {
-                                        public void run()
-                                        {
+                                        public void run() {
                                             Toast.makeText(getActivity(), "Hello", Toast.LENGTH_LONG).show();
                                             String received_message = ob.toString();
-                                            ChatMessage hey1 =  new ChatMessage(received_message, "N", "Y");
+                                            ChatMessage hey1 = new ChatMessage(received_message, "N", "Y");
                                             addMessageToDataBase(received_message, "hey", "N", "Y");
                                             chatAdapter.addItem(chatAdapter.getItemCount(), hey1);
                                         }
                                     });
                                 }
                             }.start();
-
 
 
                             Log.i("TAG", "14");
