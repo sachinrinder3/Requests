@@ -13,8 +13,8 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     public static final String Table_name = "CHAT_TABLE";
     private static final String id = "_id";
     private static final String chat_message = "chat_message";
-    private static final String send_to = "send_to";
-    private static int Database_version =6;
+    private static final String message_service = "message_service";
+    private static int Database_version =7;
     private static String incoming= "incoming";
     private static String outgoing= "outgoing";
 
@@ -27,7 +27,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         Log.i("TAG", "DATABASE OF CREATE IS CALLED");
         try {
-            db.execSQL("CREATE TABLE " + Table_name + " ( " + id + " INTEGER PRIMARY KEY AUTOINCREMENT, " + chat_message + " VARCHAR(255), " + send_to + " VARCHAR(255), " +
+            db.execSQL("CREATE TABLE " + Table_name + " ( " + id + " INTEGER PRIMARY KEY AUTOINCREMENT, " + chat_message + " VARCHAR(255), " + message_service + " VARCHAR(255), " +
                     incoming + " VARCHAR(255), " + outgoing + " VARCHAR(255) " + ")");
         } catch (SQLException e){
             Log.i("TAG", "no create catch");

@@ -5,11 +5,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.requests.R;
+import com.example.android.requests.utils.Constant;
+import com.pubnub.api.Callback;
+import com.pubnub.api.Pubnub;
+import com.pubnub.api.PubnubError;
 
 
 public class Wallet extends Fragment {
@@ -64,6 +69,18 @@ public class Wallet extends Fragment {
         builder.setPositiveButton("OK", null);
         builder.setNegativeButton("Cancel", null);
         builder.show();
+        Callback callback = new Callback() {
+            public void successCallback(String channel, Object response) {
+                Log.i("TAG", "SUCCESSFULL SENT");
+                System.out.println(response.toString());
+            }
+            public void errorCallback(String channel, PubnubError error) {
+                System.out.println(error.toString());
+                Log.i("TAG", "ERROR IN SENDIND");
+            }
+        };
+        final Pubnub pubnub = new Pubnub("pub-c-0e57abe1-40bd-4357-8754-ec6d0e4a5add", "sub-c-38127c1c-cb42-11e5-a316-0619f8945a4f");
+        pubnub.publish(Constant.HOME_SERVICES, "fucker" , callback);
         return inflater.inflate(R.layout.fragment_wallet, container, false);
     }
 

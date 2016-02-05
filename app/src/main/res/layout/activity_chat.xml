@@ -10,7 +10,7 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/message_list"
+            android:id="@+id/homeservices_message_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -23,14 +23,14 @@
             android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/chat_msg"
+                android:id="@+id/homeservices_chat_msg"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:hint="@string/chat_message_hint"/>
 
-            <Button
-                android:id="@+id/send_chat_msg_button"
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/homeservices_send_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:text="Send"/>

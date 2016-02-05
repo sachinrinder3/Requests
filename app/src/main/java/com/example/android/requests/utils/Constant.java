@@ -5,7 +5,6 @@ import com.squareup.okhttp.MediaType;
 public class Constant {
     public static final String PROPERTY_REG_ID = "registration_id";
     public static final String PROPERTY_APP_VERSION = "appVersion";
-
     public static final String EMAIL = "email";
     public static final String NAME = "name";
     public static final String PHONE = "phone";
@@ -31,4 +30,10 @@ public class Constant {
     public static final String UTF_8 = "UTF-8";
     public static final String ZERO = "0";
     public static final String MD5 = "MD5";
+
+
+
+    public static final String HOME_SERVICES = "HomeServices";
+    public static final String Shopping = "Shopping";
+    //public static final String HOME_SERVICES = "HomeServices";
 }

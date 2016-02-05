@@ -27,6 +27,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.pubnub.api.Callback;
+import com.pubnub.api.Pubnub;
+import com.pubnub.api.PubnubException;
+import com.pubnub.api.PubnubError;
+
+
 import com.example.android.requests.R;
 import com.example.android.requests.activities.MainActivity;
 import com.example.android.requests.adapters.ChatAdapter;
@@ -59,8 +65,12 @@ public class ChatWithUs extends Fragment {
     private AppCompatImageButton stickerButton;
     private boolean isStickersFrameVisible;
     private View stickersFrame;
+    public static final Pubnub pubnub = new Pubnub("pub-c-0e57abe1-40bd-4357-8754-ec6d0e4a5add", "sub-c-38127c1c-cb42-11e5-a316-0619f8945a4f");
 
-    public ChatWithUs() {}
+
+    public ChatWithUs() {
+
+    }
 
    public boolean sendChatMessage(){
 
@@ -90,8 +100,71 @@ public class ChatWithUs extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        try {
+            pubnub.subscribe(Constant.HOME_SERVICES, new Callback() {
+                        @Override
+                        public void connectCallback(String channel, Object message) {
+                            System.out.println("SUBSCRIBE : CONNECT on channel:" + channel
+                                    + " : " + message.getClass() + " : "
+                                    + message.toString());
+                            Log.i("TAG", "11");
+                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+                                    + " : " + message.getClass() + " : "
+                                    + message.toString());
+                        }
 
+                        @Override
+                        public void disconnectCallback(String channel, Object message) {
+                            System.out.println("SUBSCRIBE : DISCONNECT on channel:" + channel
+                                    + " : " + message.getClass() + " : "
+                                    + message.toString());
+                            Log.i("TAG", "12");
+                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+                                    + " : " + message.getClass() + " : "
+                                    + message.toString());
+                        }
 
+                        public void reconnectCallback(String channel, Object message) {
+                            System.out.println("SUBSCRIBE : RECONNECT on channel:" + channel
+                                    + " : " + message.getClass() + " : "
+                                    + message.toString());
+                            Log.i("TAG", "13");
+                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+                                    + " : " + message.getClass() + " : "
+                                    + message.toString());
+                        }
+
+                        @Override
+                        public void successCallback(String channel, Object message) {
+                            System.out.println("SUBSCRIBE : " + channel + " : "
+                                    + message.getClass() + " : " + message.toString());
+                            Log.i("TAG", "14");
+                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+                                    + " : " + message.getClass() + " : "
+                                    + message.toString());
+                            String received_message = message.toString();
+                            ChatMessage hey1 =  new ChatMessage(received_message, "N", "Y");
+                            chatAdapter.addItem(chatAdapter.getItemCount(), hey1);
+                            ChatMessage hey2 =  new ChatMessage("vfvdf", "N", "Y");
+                            chatAdapter.addItem(chatAdapter.getItemCount(),hey2);
+
+                            addMessageToDataBase(received_message, "hey", "N", "Y");
+                        }
+
+                        @Override
+                        public void errorCallback(String channel, PubnubError error) {
+                            System.out.println("SUBSCRIBE : ERROR on channel " + channel
+                                    + " : " + error.toString());
+                            Log.i("TAG", "15");
+                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+                                    + " : " + error.getClass() + " : "
+                                    + error.toString());
+                        }
+                    }
+            );
+        } catch (PubnubException e) {
+            System.out.println(e.toString());
+        }
         View rootView = inflater.inflate(R.layout.fragment_chat_with_us, container, false);
         dataBaseHelper = new DataBaseHelper(getActivity());
         sqLiteDatabase = dataBaseHelper.getWritableDatabase();
@@ -128,7 +201,21 @@ public class ChatWithUs extends Fragment {
                                               if (!newmessage.equals(""));
                                               {
                                                   ChatMessage hey = new ChatMessage(newmessage, "Y", "N");
+
+                                                  Callback callback = new Callback() {
+                                                      public void successCallback(String channel, Object response) {
+                                                          Log.i("TAG", "SUCCESSFULL SENT");
+                                                          System.out.println(response.toString());
+                                                      }
+                                                      public void errorCallback(String channel, PubnubError error) {
+                                                          System.out.println(error.toString());
+                                                          Log.i("TAG", "ERROR IN SENDIND");
+                                                      }
+                                                  };
+                                                  pubnub.publish(Constant.HOME_SERVICES, newmessage , callback);
                                                   addMessageToDataBase(newmessage, "I m a don HAHAHA !", "Y", "N");
+                                                  //SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+                                                  //String email = sharepref.getString(Constant.EMAIL, "");
                                                   chatAdapter.addItem(chatAdapter.getItemCount(), hey);
 //                                                  SendMessage runner = new SendMessage();
 //                                                  runner.execute("");
@@ -181,8 +268,8 @@ public class ChatWithUs extends Fragment {
     public List<ChatMessage> getChatListFromDataBase(){
 
         chat_list =  new ArrayList<>();
-        String query = "select chat_message from CHAT_TABLE";
-        String[] columns = {"_id", "chat_message", "send_to",  "outgoing", "incoming"};
+        //String query = "select chat_message from CHAT_TABLE";
+        String[] columns = {"_id", "chat_message", "message_service",  "outgoing", "incoming"};
         Cursor c = sqLiteDatabase.query("CHAT_TABLE",columns,null, null, null,null,null);
         //Log.i("TAG",String.valueOf(c.getCount()));
         while (c.moveToNext()){
@@ -197,16 +284,16 @@ public class ChatWithUs extends Fragment {
 
     }
 
-    public void addMessageToDataBase (String message, String send_to, String outgoing, String incoming ){
+    public void addMessageToDataBase (String message, String message_service, String outgoing, String incoming ){
         dataBaseHelper = new DataBaseHelper(getActivity());
         SQLiteDatabase sqLiteDatabase = dataBaseHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("chat_message", message);
-        contentValues.put("send_to", send_to);
+        contentValues.put("message_service", message_service);
         contentValues.put("incoming", incoming);
         contentValues.put("outgoing", outgoing);
         long id = sqLiteDatabase.insert("CHAT_TABLE", null, contentValues);
-        Log.i("TAG", String.valueOf(id));
+        //Log.i("TAG", String.valueOf(id));
         Log.i("TAG", "VALUE IS INSERTED INTO THE DATABASE");
 
     }
