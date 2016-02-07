@@ -299,7 +299,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 startActivity(location);
                 return true;
             case R.id.dummy2:
-                Intent dummy2 = new Intent(this, PlaceActivity.class);
+                Intent dummy2 = new Intent(this, ImageUploading.class);
                 startActivity(dummy2);
 //                Intent intent = new Intent(this, com.livechatinc.inappchat.ChatWindowActivity.class);
 //                intent.putExtra(com.livechatinc.inappchat.ChatWindowActivity.KEY_GROUP_ID, "your_group_id");
