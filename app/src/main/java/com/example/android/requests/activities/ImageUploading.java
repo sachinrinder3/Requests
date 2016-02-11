@@ -35,6 +35,7 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import android.provider.MediaStore.Images;
 
 public class ImageUploading extends AppCompatActivity {
     ImageView ivImage;
@@ -118,7 +119,7 @@ public class ImageUploading extends AppCompatActivity {
             if (requestCode == REQUEST_CAMERA) {
                 Bundle extras = data.getExtras();
                 Bitmap thumbnail = (Bitmap) extras.get("data");
-                saveToInternalStorage(thumbnail);
+                saveToGallery(thumbnail);
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
 //                File destination = new File(Environment.getExternalStorageDirectory(),
@@ -166,40 +167,51 @@ public class ImageUploading extends AppCompatActivity {
         }
 
     }
-    private String saveToInternalStorage(Bitmap bitmapImage){
+    private String saveToGallery(Bitmap bitmapImage){
         //ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        // path to /data/data/yourapp/app_data/Alternative Images
-        File imagesFolder = new File(Environment.getExternalStorageDirectory(), "Alternative Images");
-        // Create imageDir
-        FileOutputStream fos = null;
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        try {
-            File mypath = File.createTempFile("Profile-" + timeStamp, ".jpg", imagesFolder);
-            fos = new FileOutputStream(mypath);
-            // Use the compress method on the BitMap object to write image to the OutputStream
+        if (isExternalStorageWritable()){
+            File imagesFolder = new File(Environment.getExternalStorageDirectory(), "Alternative Images");
+            if(!imagesFolder.mkdirs()){
+                Log.i("TAG", "NOT CREATED 1");
+            }
+            OutputStream fos = null;
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            File mypath = new File(imagesFolder, "Profile"+timeStamp+".jpg");
+            if(!mypath.mkdirs()){
+                Log.i("TAG", "NOT CREATED 2");
+            }
+            Log.i("TAG", String.valueOf(mypath.exists()));
+            Log.i("TAG", String.valueOf(imagesFolder.exists()));
+            try {
+
+                fos = new FileOutputStream(mypath);
+
+            } catch (FileNotFoundException t) {
+                t.printStackTrace();
+                Log.i("TAG", "GBGF");
+            }
 
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            Log.i("TAG", mypath.getAbsolutePath());
-            //ContentResolver cr = getContentResolver();
-            //ContentValues values = new ContentValues();
-            // ÷ISPLAY_NAME, file.getName().toLowerCase(Locale.US));
-            //values.put("_data", mypath.getAbsolutePath());
-            //cr.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-            return mypath.getAbsolutePath();
-        }
-        catch (Exception e){
-            e.printStackTrace();
+            try {
+                fos.close();
+                fos.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            ContentResolver cr = getContentResolver();
+            ContentValues values = new ContentValues();
+            values.put("_data", bitmapImage.toString());
+            Log.i("TAG", "EXCEPTION3");
+            values.put(Images.Media.MIME_TYPE, "image/*");
+            Log.i("TAG", "EXCEPTION4");
+            values.put(Images.Media.DATE_TAKEN, System.currentTimeMillis());
+            values.put(MediaStore.MediaColumns.DATA, bitmapImage.toString());
+            cr.insert(Images.Media.EXTERNAL_CONTENT_URI, values);
+            Log.i("TAG", "EXCEPTION5");
         }
 
-        try {
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-
-            //fos.close();
-        }
         return "";
 
     }

@@ -22,6 +22,9 @@ public class ServiceBasedChat extends Fragment {
     private AppCompatImageButton shopping;
     private AppCompatImageButton homeservices;
     private AppCompatImageButton foods;
+    private AppCompatImageButton recharge;
+    private AppCompatImageButton cabs;
+    private AppCompatImageButton travel;
 
     public ServiceBasedChat() {
         // Required empty public constructor
@@ -45,6 +48,9 @@ public class ServiceBasedChat extends Fragment {
         shopping = (AppCompatImageButton)v.findViewById(R.id.shopping);
         homeservices = (AppCompatImageButton)v.findViewById(R.id.homeservices);
         foods = (AppCompatImageButton)v.findViewById(R.id.food);
+        recharge = (AppCompatImageButton)v.findViewById(R.id.recharge);
+        cabs = (AppCompatImageButton)v.findViewById(R.id.cabs);
+        travel = (AppCompatImageButton)v.findViewById(R.id.travel);
         shopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +69,32 @@ public class ServiceBasedChat extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent foodactivity = new Intent(getActivity(), com.example.android.requests.activities.Food.class);
+                foodactivity.putExtra("Service", "Food");
                 startActivity(foodactivity);
+            }
+        });
+        recharge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent recharge = new Intent(getActivity(), com.example.android.requests.activities.Food.class);
+                recharge.putExtra("Service", "Recharge");
+                startActivity(recharge);
+            }
+        });
+        cabs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent recharge = new Intent(getActivity(), com.example.android.requests.activities.Food.class);
+                recharge.putExtra("Service", "Cabs");
+                startActivity(recharge);
+            }
+        });
+        travel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent recharge = new Intent(getActivity(), com.example.android.requests.activities.Food.class);
+                recharge.putExtra("Service", "Travel");
+                startActivity(recharge);
             }
         });
         return v;

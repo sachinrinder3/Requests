@@ -341,49 +341,45 @@ public class ChatWithUs extends Fragment {
 
         @Override
         protected JsonObject doInBackground(String... params) {
-            Log.i("TAG", "SUCCESSFULL SENT");
             //final JSONObject json = new JSONObject();
-            final JsonObject jso = new JsonObject();
-            jso.addProperty("status", "Sent");
+             final JsonObject jso = new JsonObject();
+             jso.addProperty("message", params[0]);
              pubnub.publish(Constant.HOME_SERVICES, params[0], new Callback() {
-                public void successCallback(String channel, Object response) {
-                    Log.i("TAG", "SUCCESSFULL SENT");
+                 public void successCallback(String channel, Object response) {
+                     Log.i("TAG", "SUCCESSFULL SENT");
+                     jso.addProperty("status", "Sent");
+                     Log.i("TAG", "SUCCESSFULL SENT");
+                     System.out.println(response.toString());
+                     Log.i("TAG", "SUCCESSFULL SENT");
+                 }
 
-                        jso.addProperty("status", "Sent");
-
-                    System.out.println(response.toString());
-                }
-                public void errorCallback(String channel, PubnubError error) {
-                    System.out.println(error.toString());
-
-                        jso.addProperty("status", "Error");
-
-                    Log.i("TAG", "ERROR IN SENDIND");
-                }
-            });
-
-                jso.addProperty("message", params[0]);
-
-
-
+                 public void errorCallback(String channel, PubnubError error) {
+                     System.out.println(error.toString());
+                     jso.addProperty("status", "Error");
+                     Log.i("TAG", "ERROR IN SENDIND");
+                 }
+             });
+            Log.i("TAG",jso.get("status").getAsString());
             return jso;
         }
 
 
+
         @Override
         protected void onPostExecute(JsonObject json) {
-
-            Log.i("TAG","hvhj");
             super.onPostExecute(json);
 
                 Log.i("TAG",json.get("status").getAsString());
-                Log.i("TAG",json.get("message").getAsString());
+                //Log.i("TAG",json.get("message").getAsString());
                 if (json.get("status").getAsString().equals("Sent")) {
                     addMessageToDataBase(json.get("message").getAsString(), "I m a don HAHAHA !", "Y", "N");
                     //SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
                     //String email = sharepref.getString(Constant.EMAIL, "");
                     ChatMessage hey = new ChatMessage(json.get("message").getAsString(), "Y", "N");
                     chatAdapter.addItem(chatAdapter.getItemCount(), hey);
+                }
+                if (json.get("status").getAsString().equals("Error")){
+                    Toast.makeText(getActivity(), "You are not connected to internet ", Toast.LENGTH_SHORT).show();
                 }
 
 

@@ -116,7 +116,6 @@ public class HomeServices extends AppCompatActivity {
                             addMessageToDataBase(received_message, Constant.HOME_SERVICES, "N", "Y");
                             homeservices_chatAdapter.addItem(homeservices_chatAdapter.getItemCount(), hey1);
                         }
-
                         @Override
                         public void errorCallback(String channel, PubnubError error) {
                             System.out.println("SUBSCRIBE : ERROR on channel " + channel
@@ -132,7 +131,6 @@ public class HomeServices extends AppCompatActivity {
         System.out.println(e.toString());
         }
 
-
         homeservice_recList.setHasFixedSize(true);
         homeservices_chatAdapter = new ChatAdapter(this, getChatListFromDataBase());
         homeservice_recList.setAdapter(homeservices_chatAdapter);
@@ -140,7 +138,6 @@ public class HomeServices extends AppCompatActivity {
         LinearLayoutManager homeservice_llm = (new LinearLayoutManager(HomeServices.this));
         homeservice_llm.setOrientation(LinearLayoutManager.VERTICAL);
         homeservice_recList.setLayoutManager(homeservice_llm);
-
         homeservices_sendButton.setOnClickListener(new View.OnClickListener() {
                                           @Override
                                           public void onClick(View v) {

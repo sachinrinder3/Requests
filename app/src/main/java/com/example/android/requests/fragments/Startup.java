@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class Startup extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private ViewPager vp;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -57,6 +59,7 @@ public class Startup extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_startup, container, false);
+        vp = (ViewPager)v.findViewById(R.id.viewpager1);
         AppCompatButton signin = (AppCompatButton) v.findViewById(R.id.signin);
         AppCompatButton register = (AppCompatButton) v.findViewById(R.id.register);
         signin.setOnClickListener(new View.OnClickListener() {
