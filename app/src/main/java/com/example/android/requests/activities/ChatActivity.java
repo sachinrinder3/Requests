@@ -215,7 +215,7 @@ public class ChatActivity extends AppCompatActivity {
                 Log.i("TAG", "ERROR IN SENDIND");
             }
         };
-        ChatWithUs.pubnub.publish(channelName, Message, callback);
+        //ChatWithUs.pubnub.publish(channelName, Message, callback);
         return true;
     }
     private ServiceConnection serviceConnection = new ServiceConnection() {

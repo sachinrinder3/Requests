@@ -66,7 +66,7 @@ public class ChatWithUs extends Fragment {
     private AppCompatImageButton stickerButton;
     private boolean isStickersFrameVisible;
     private View stickersFrame;
-    public static final Pubnub pubnub = new Pubnub("pub-c-0e57abe1-40bd-4357-8754-ec6d0e4a5add", "sub-c-38127c1c-cb42-11e5-a316-0619f8945a4f");
+    //public static final Pubnub pubnub = new Pubnub("pub-c-0e57abe1-40bd-4357-8754-ec6d0e4a5add", "sub-c-38127c1c-cb42-11e5-a316-0619f8945a4f");
 
 
     public ChatWithUs() {
@@ -207,8 +207,8 @@ public class ChatWithUs extends Fragment {
                                               if (!newmessage.equals(""));
                                               {
 
-                                                  SendMessage runner = new SendMessage();
-                                                  runner.execute(newmessage);
+                                                  //SendMessage runner = new SendMessage();
+                                                  //runner.execute(newmessage);
 
 //                                                  pubnub.publish(Constant.HOME_SERVICES, newmessage, new Callback() {
 //                                                      public void successCallback(String channel, Object response) {
@@ -239,7 +239,7 @@ public class ChatWithUs extends Fragment {
             @Override
             public void onClick(View v) {
                 if (isStickersFrameVisible) {
-                    showKeyboard();
+                    //showKeyboard();
                     stickerButton.setImageResource(R.drawable.ic_action_insert_emoticon);
                 } else {
                     //if (keyboardHandleLayout.isKeyboardVisible()) {
@@ -333,59 +333,59 @@ public class ChatWithUs extends Fragment {
     }
 
 
-    private class SendMessage extends AsyncTask<String, Void, JsonObject> {
-//        @Override
-//        protected void onPreExecute() {
-//           super.onPreExecute();
+//    private class SendMessage extends AsyncTask<String, Void, JsonObject> {
+////        @Override
+////        protected void onPreExecute() {
+////           super.onPreExecute();
+////
+////       }
 //
-//       }
-
-        @Override
-        protected JsonObject doInBackground(String... params) {
-            //final JSONObject json = new JSONObject();
-             final JsonObject jso = new JsonObject();
-             jso.addProperty("message", params[0]);
-             pubnub.publish(Constant.HOME_SERVICES, params[0], new Callback() {
-                 public void successCallback(String channel, Object response) {
-                     Log.i("TAG", "SUCCESSFULL SENT");
-                     jso.addProperty("status", "Sent");
-                     Log.i("TAG", "SUCCESSFULL SENT");
-                     System.out.println(response.toString());
-                     Log.i("TAG", "SUCCESSFULL SENT");
-                 }
-
-                 public void errorCallback(String channel, PubnubError error) {
-                     System.out.println(error.toString());
-                     jso.addProperty("status", "Error");
-                     Log.i("TAG", "ERROR IN SENDIND");
-                 }
-             });
-            Log.i("TAG",jso.get("status").getAsString());
-            return jso;
-        }
-
-
-
-        @Override
-        protected void onPostExecute(JsonObject json) {
-            super.onPostExecute(json);
-
-                Log.i("TAG",json.get("status").getAsString());
-                //Log.i("TAG",json.get("message").getAsString());
-                if (json.get("status").getAsString().equals("Sent")) {
-                    addMessageToDataBase(json.get("message").getAsString(), "I m a don HAHAHA !", "Y", "N");
-                    //SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
-                    //String email = sharepref.getString(Constant.EMAIL, "");
-                    ChatMessage hey = new ChatMessage(json.get("message").getAsString(), "Y", "N");
-                    chatAdapter.addItem(chatAdapter.getItemCount(), hey);
-                }
-                if (json.get("status").getAsString().equals("Error")){
-                    Toast.makeText(getActivity(), "You are not connected to internet ", Toast.LENGTH_SHORT).show();
-                }
-
-
-        }
-    }
+//        @Override
+//        protected JsonObject doInBackground(String... params) {
+//            //final JSONObject json = new JSONObject();
+//             final JsonObject jso = new JsonObject();
+//             jso.addProperty("message", params[0]);
+//             //pubnub.publish(Constant.HOME_SERVICES, params[0], new Callback() {
+//                 public void successCallback(String channel, Object response) {
+//                     Log.i("TAG", "SUCCESSFULL SENT");
+//                     //jso.addProperty("status", "Sent");
+//                     Log.i("TAG", "SUCCESSFULL SENT");
+//                     System.out.println(response.toString());
+//                     Log.i("TAG", "SUCCESSFULL SENT");
+//                 }
+//
+//                 public void errorCallback(String channel, PubnubError error) {
+//                     System.out.println(error.toString());
+//                    // jso.addProperty("status", "Error");
+//                     Log.i("TAG", "ERROR IN SENDIND");
+//                 }
+//             });
+//            //Log.i("TAG",jso.get("status").getAsString());
+//            //return jso;
+//        }
+//
+//
+//
+//        @Override
+//        protected void onPostExecute(JsonObject json) {
+//            super.onPostExecute(json);
+//
+//                Log.i("TAG",json.get("status").getAsString());
+//                //Log.i("TAG",json.get("message").getAsString());
+//                if (json.get("status").getAsString().equals("Sent")) {
+//                    addMessageToDataBase(json.get("message").getAsString(), "I m a don HAHAHA !", "Y", "N");
+//                    //SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+//                    //String email = sharepref.getString(Constant.EMAIL, "");
+//                    ChatMessage hey = new ChatMessage(json.get("message").getAsString(), "Y", "N");
+//                    chatAdapter.addItem(chatAdapter.getItemCount(), hey);
+//                }
+//                if (json.get("status").getAsString().equals("Error")){
+//                    Toast.makeText(getActivity(), "You are not connected to internet ", Toast.LENGTH_SHORT).show();
+//                }
+//
+//
+//        }
+//    }
 
 //    private class SendMessage extends AsyncTask<String, Void, String> {
 //
@@ -431,7 +431,7 @@ public class ChatWithUs extends Fragment {
 //        }
 //    }
 
-    private void showKeyboard() {
-        //((InputMethodManager) messageEditText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(messageEditText, InputMethodManager.SHOW_IMPLICIT);
-    }
+//    private void showKeyboard() {
+//        //((InputMethodManager) messageEditText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(messageEditText, InputMethodManager.SHOW_IMPLICIT);
+//    }
 }

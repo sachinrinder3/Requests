@@ -25,6 +25,7 @@ public class ChatMessage {
     public static final String CHATTMESSAGE = "chattmessage";
     public static final String INCOMING = "incoming";
     public static final String OUTGOING = "outgoing";
+    public static final String SERVICE = "service";
 
 
 
@@ -39,6 +40,7 @@ public class ChatMessage {
     public String chatmessage;
     public String outgoing;
     public String incoming;
+    public String service;
 
 
 
@@ -57,6 +59,7 @@ public class ChatMessage {
         ChatMessage message = new ChatMessage();
         //String deviceTag = obj.getString(DEVICETAG);
         String type = obj.getString(TYPE);
+        String Service = obj.getString(SERVICE);
         //String incoming = obj.getString(INCOMING);
         //String outgoing = obj.getString(OUTGOING);
         //String from = obj.getString(FROM);
@@ -70,6 +73,7 @@ public class ChatMessage {
         message.setType(type);
         //message.setFrom(from);
         message.setSentOn(new Date());
+        message.setservice(Service);
         //message.setSenderUUID(uuid);
         //message.setEmoticon(emoticon);
         message.setMessageContent(messageContent);
@@ -94,6 +98,16 @@ public class ChatMessage {
 
         return outgoing;
     }
+
+    public void setservice(String service) {
+
+        this.service = service;
+    }
+    public String getservice() {
+
+        return service;
+    }
+
 
 
 

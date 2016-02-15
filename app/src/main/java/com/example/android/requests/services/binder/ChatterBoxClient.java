@@ -97,7 +97,11 @@ public class ChatterBoxClient extends Binder {
             Log.i("TAG", "CONNECTED");
             boolean bfound = false;
             String[] currentChannels = chatterBoxService.getPubNub().getSubscribedChannelsArray();
+            int i =0;
+            Log.i("TAG", String.valueOf(currentChannels.length));
             for (String c : currentChannels) {
+                Log.i("TAG", c);
+                i=i+1;
                 if (c.equals(roomName)) {
                     bfound = true;
                     break;
@@ -160,6 +164,7 @@ public class ChatterBoxClient extends Binder {
 
                     l.add(listener); //add the listener for this room.
                     chatterBoxService.getListeners().put(roomName, l);
+                    Log.i("TAG",chatterBoxService.getListeners().size()+"");
 
                     //Set up the Presence on this Room
                     //chatterBoxService.getPubNub().presence(roomName, new PresenceCallback(l, chatterBoxService.getPubNub(), chatterBoxService.getPresenceCache()));
@@ -191,20 +196,32 @@ public class ChatterBoxClient extends Binder {
             }
 
             l.add(listener); //add the listener for this room.
-            int i = chatterBoxService.getListeners().size();
+             i = chatterBoxService.getListeners().size();
             Log.i("TAG", ""+i);
             chatterBoxService.getListeners().put("Food", l);
-            l = null;
-            //Log.i("TAG", chatterBoxService.getListeners().containsKey("Food")+"");
-            if (!chatterBoxService.getListeners().containsKey("HomeServices")) {
+           l = null;
+//            //Log.i("TAG", chatterBoxService.getListeners().containsKey("Food")+"");
+            if (!chatterBoxService.getListeners().containsKey("Shopping")) {
                 l = new ArrayList<>();
             } else {
-                l = chatterBoxService.getListeners().get("HomeServices");
+                l = chatterBoxService.getListeners().get("Shopping");
             }
 
             l.add(listener); //add the listener for this room.
 
-            chatterBoxService.getListeners().put("HomeServices", l);
+            chatterBoxService.getListeners().put("Shopping", l);
+//
+//            l = null;
+//            //Log.i("TAG", chatterBoxService.getListeners().containsKey("Food")+"");
+//            if (!chatterBoxService.getListeners().containsKey("HomeServices")) {
+//                l = new ArrayList<>();
+//            } else {
+//                l = chatterBoxService.getListeners().get("HomeServices");
+//            }
+//
+//            l.add(listener); //add the listener for this room.
+//
+//            chatterBoxService.getListeners().put("HomeServices", l);
 
         }
     }

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.example.android.requests.R;
 import com.example.android.requests.activities.ChatActivity;
+import com.example.android.requests.activities.HomeServices;
 import com.example.android.requests.services.binder.ChatterBoxClient;
 import com.example.android.requests.utils.Constant;
 
@@ -61,29 +62,35 @@ public class ServiceBasedChat extends Fragment {
         shopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent shoppingactivity = new Intent(getActivity(), com.example.android.requests.activities.Shopping.class);
-                startActivity(shoppingactivity);
+//                Intent shoppingactivity = new Intent(getActivity(), com.example.android.requests.activities.Shopping.class);
+//                startActivity(shoppingactivity);
+                Intent foodactivity = new Intent(getActivity(), HomeServices.class);
+                foodactivity.putExtra("Service", "Shopping");
+                startActivity(foodactivity);
             }
         });
         homeservices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent homeservicesactivity = new Intent(getActivity(), com.example.android.requests.activities.HomeServices.class);
-                startActivity(homeservicesactivity);
+//                Intent homeservicesactivity = new Intent(getActivity(), com.example.android.requests.activities.HomeServices.class);
+//                startActivity(homeservicesactivity);
+                Intent foodactivity = new Intent(getActivity(), HomeServices.class);
+                foodactivity.putExtra("Service", "HomeServices");
+                startActivity(foodactivity);
             }
         });
         foods.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent foodactivity = new Intent(getActivity(), ChatActivity.class);
-                foodactivity.putExtra("Service", "ChatActivity");
+                Intent foodactivity = new Intent(getActivity(), HomeServices.class);
+                foodactivity.putExtra("Service", "Food");
                 startActivity(foodactivity);
             }
         });
         recharge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent recharge = new Intent(getActivity(), ChatActivity.class);
+                Intent recharge = new Intent(getActivity(), HomeServices.class);
                 recharge.putExtra("Service", "Recharge");
                 startActivity(recharge);
             }
@@ -91,7 +98,7 @@ public class ServiceBasedChat extends Fragment {
         cabs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent recharge = new Intent(getActivity(), ChatActivity.class);
+                Intent recharge = new Intent(getActivity(), HomeServices.class);
                 recharge.putExtra("Service", "Cabs");
                 startActivity(recharge);
             }
@@ -99,7 +106,7 @@ public class ServiceBasedChat extends Fragment {
         travel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent recharge = new Intent(getActivity(), ChatActivity.class);
+                Intent recharge = new Intent(getActivity(), HomeServices.class);
                 recharge.putExtra("Service", "Travel");
                 startActivity(recharge);
             }

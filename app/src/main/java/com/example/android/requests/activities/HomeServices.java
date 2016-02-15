@@ -55,6 +55,7 @@ public class HomeServices extends AppCompatActivity {
     private boolean isStickersFrameVisible;
     private ChatterBoxClient chatterBoxServiceClient;
     boolean mServiceBound = false;
+    String channelName;
     String roomChannel;
     //private View stickersFrame;
 
@@ -76,9 +77,13 @@ public class HomeServices extends AppCompatActivity {
         @Override
         public void onMessage(ChatMessage message) {
             super.onMessage(message);
-            ChatMessage hey = new ChatMessage(message.getMessageContent(), "N", "Y");
-            homeservices_chatAdapter.addItem(homeservices_chatAdapter.getItemCount(), hey);
-            addMessageToDataBase(message.getMessageContent(), Constant.HOME_SERVICES, "N", "Y");
+            Log.i("TAG", channelName);
+            Log.i("TAG", message.getservice());
+            if (message.getservice().equals(channelName)) {
+                ChatMessage hey = new ChatMessage(message.getMessageContent(), "N", "Y");
+                homeservices_chatAdapter.addItem(homeservices_chatAdapter.getItemCount(), hey);
+            }
+            addMessageToDataBase(message.getMessageContent(), message.getservice(), "N", "Y");
             //Log.i(Constant.TAG, "Message received callback");
         }
     };
@@ -135,7 +140,7 @@ public class HomeServices extends AppCompatActivity {
 
         String Service = i.getStringExtra("Service");
 
-        String channelName = Service;
+         channelName = Service;
         if (Service.equals("Food")){
             getSupportActionBar().setTitle("Food");
         }else if (Service.equals("HomeServices")){
@@ -148,8 +153,7 @@ public class HomeServices extends AppCompatActivity {
             getSupportActionBar().setTitle("Cabs");
         }else if (Service.equals("Recharge")){
             getSupportActionBar().setTitle("Recharge");
-        }
-        else if (Service.equals("Shopping")){
+        } else if (Service.equals("Shopping")){
             getSupportActionBar().setTitle("Shopping");
         }
         //boolean bfound = false;
@@ -260,7 +264,7 @@ public class HomeServices extends AppCompatActivity {
                                                       chatterBoxServiceClient.publish(channelname, message);
                                                       ChatMessage hey = new ChatMessage(newmessage, "Y", "N");
                                                       homeservices_chatAdapter.addItem(homeservices_chatAdapter.getItemCount(), hey);
-                                                      addMessageToDataBase(newmessage, Constant.HOME_SERVICES, "Y", "N");
+                                                      addMessageToDataBase(newmessage, channelName, "Y", "N");
                                                       txtedit.setText("");
                                                   }
                                               }
@@ -275,7 +279,7 @@ public class HomeServices extends AppCompatActivity {
         //String query = "select chat_message from CHAT_TABLE";
         String[] columns = {"_id", "chat_message", "message_service",  "outgoing", "incoming"};
         String whereClause = "message_service=Home_Services";
-        Cursor c = sqLiteDatabase.query("CHAT_TABLE",columns,"message_service=?", new String[] { Constant.HOME_SERVICES }, null, null,null,null);
+        Cursor c = sqLiteDatabase.query("CHAT_TABLE",columns,"message_service=?", new String[] { channelName }, null, null,null,null);
         //Log.i("TAG",String.valueOf(c.getCount()));
         while (c.moveToNext()){
             String message = c.getString(1);
@@ -318,7 +322,7 @@ public class HomeServices extends AppCompatActivity {
         super.onStart();
         SharedPreferences sharepref =getSharedPreferences("MyPref", MODE_PRIVATE);
         emailid = sharepref.getString(Constant.EMAIL, "jaintulsi");
-        Log.i("TAG", emailid);
+        //Log.i("TAG", emailid);
         emailid="jaintulsi";
         setRoomChannel(emailid);
         Intent chatterBoxServiceIntent = new Intent(HomeServices.this, ChatterBoxService.class);
@@ -337,6 +341,7 @@ public class HomeServices extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         Intent chatterBoxServiceIntent = new Intent(HomeServices.this, ChatterBoxService.class);
         HomeServices.this.bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
