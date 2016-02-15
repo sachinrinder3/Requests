@@ -14,18 +14,22 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission  android:name = "android.permission.READ_EXTERNAL_STORAGE"  />
-    <uses-permission  android:name = "android.permission.WRITE_EXTERNAL_STORAGE"  />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- <permission android:name="com.example.android.requests.MAPS_RECEIVE" android:protectionLevel="signature" /> -->
     <!-- <uses-permission android:name="com.example.android.requests.permission.MAPS_RECEIVE" /> -->
     <!-- <permission android:name="com.example.android.permission.C2D_MESSAGE" android:protectionLevel="signature" /> -->
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
         android:normalScreens="true"
         android:smallScreens="true"
         android:xlargeScreens="true" />
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -91,21 +95,21 @@
             android:name=".activities.Shopping"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.Food"
+            android:name=".activities.ChatActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.HomeServices"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.CurrentLocation"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.PlaceActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.MapsActivity"
             android:label="@string/title_activity_maps"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <!-- <activity android:name="com.livechatinc.inappchat.ChatWindowActivity" -->
         <!-- android:configChanges="orientation|screenSize" /> -->
@@ -176,7 +180,14 @@
             android:name=".services.MyIntentService"
             android:exported="false" />
 
-        <activity android:name=".activities.ImageUploading"></activity>
+        <activity android:name=".activities.ImageUploading" />
+
+        <service
+            android:name=".services.ChatterBoxService"
+            android:enabled="true"
+            android:exported="true">
+
+        </service>
     </application>
 
 </manifest>

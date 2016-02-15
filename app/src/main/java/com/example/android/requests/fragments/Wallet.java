@@ -1,9 +1,14 @@
 package com.example.android.requests.fragments;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.requests.R;
+import com.example.android.requests.activities.MainActivity;
 import com.example.android.requests.utils.Constant;
 import com.pubnub.api.Callback;
 import com.pubnub.api.Pubnub;
@@ -63,24 +69,39 @@ public class Wallet extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle);
-        builder.setTitle("AppCompatDialog");
-        builder.setMessage("Lorem ipsum dolor...");
-        builder.setPositiveButton("OK", null);
-        builder.setNegativeButton("Cancel", null);
-        builder.show();
-        Callback callback = new Callback() {
-            public void successCallback(String channel, Object response) {
-                Log.i("TAG", "SUCCESSFULL SENT");
-                System.out.println(response.toString());
-            }
-            public void errorCallback(String channel, PubnubError error) {
-                System.out.println(error.toString());
-                Log.i("TAG", "ERROR IN SENDIND");
-            }
-        };
-        final Pubnub pubnub = new Pubnub("pub-c-0e57abe1-40bd-4357-8754-ec6d0e4a5add", "sub-c-38127c1c-cb42-11e5-a316-0619f8945a4f");
-        pubnub.publish(Constant.HOME_SERVICES, "fucker" , callback);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle);
+//        builder.setTitle("AppCompatDialog");
+//        builder.setMessage("Lorem ipsum dolor...");
+//        builder.setPositiveButton("OK", null);
+//        builder.setNegativeButton("Cancel", null);
+//        builder.show();
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext());
+        builder.setSmallIcon(R.drawable.common_plus_signin_btn_icon_dark_normal);
+        builder.setContentText("This is my first notification");
+        builder.setContentTitle("First Notification");
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(getActivity());
+        taskStackBuilder.addParentStack(MainActivity.class);
+        taskStackBuilder.addNextIntent(intent);
+        PendingIntent pendingIntent =  taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
+        NotificationManager NM = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+
+                NM.notify(0, builder.build());
+
+//        Callback callback = new Callback() {
+//            public void successCallback(String channel, Object response) {
+//                Log.i("TAG", "SUCCESSFULL SENT");
+//                System.out.println(response.toString());
+//            }
+//            public void errorCallback(String channel, PubnubError error) {
+//                System.out.println(error.toString());
+//                Log.i("TAG", "ERROR IN SENDIND");
+//            }
+//        };
+        //final Pubnub pubnub = new Pubnub("pub-c-0e57abe1-40bd-4357-8754-ec6d0e4a5add", "sub-c-38127c1c-cb42-11e5-a316-0619f8945a4f");
+        //pubnub.publish(Constant.HOME_SERVICES, "fucker" , callback);
         return inflater.inflate(R.layout.fragment_wallet, container, false);
     }
 

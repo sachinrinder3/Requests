@@ -1,10 +1,14 @@
 package com.example.android.requests.activities;
 
+import android.content.ComponentName;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -22,9 +26,10 @@ import com.example.android.requests.R;
 import com.example.android.requests.adapters.ChatAdapter;
 import com.example.android.requests.fragments.ChatWithUs;
 import com.example.android.requests.models.ChatMessage;
+import com.example.android.requests.services.ChatterBoxService;
+import com.example.android.requests.services.binder.ChatterBoxClient;
 import com.example.android.requests.utils.Constant;
 import com.example.android.requests.utils.DataBaseHelper;
-import com.google.gson.JsonObject;
 import com.pubnub.api.Callback;
 import com.pubnub.api.PubnubError;
 import com.pubnub.api.PubnubException;
@@ -35,13 +40,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Food extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ChatAdapter homeservices_chatAdapter;
     private AppCompatEditText homeservices_sendText;
     private AppCompatButton homeservices_sendButton;
     private DataBaseHelper dataBaseHelper;
+
+    private ChatterBoxClient chatterBoxServiceClient;
     private SQLiteDatabase sqLiteDatabase;
+
     //private BroadcastReceiver recieve_chat;
     //private LocalBroadcastManager localBroadcastManager;
     //private LocalBroadcastManager mLocalBroadcastManager;
@@ -49,6 +57,7 @@ public class Food extends AppCompatActivity {
     private RecyclerView homeservice_recList;
     private AppCompatImageButton stickerButton;
     private boolean isStickersFrameVisible;
+    private boolean mServiceBound;
     //private View stickersFrame;
 
     @Override
@@ -76,8 +85,8 @@ public class Food extends AppCompatActivity {
             getSupportActionBar().setTitle("Recharge");
             channelName=email+Service;
             //Log.i("TAG",channelName);
-        }else if (Service.equals("Food")){
-            getSupportActionBar().setTitle("Food");
+        }else if (Service.equals("ChatActivity")){
+            getSupportActionBar().setTitle("ChatActivity");
             channelName=email+Service;
         }else if (Service.equals("Travel")){
             getSupportActionBar().setTitle("Travel");
@@ -90,78 +99,78 @@ public class Food extends AppCompatActivity {
         homeservices_chatAdapter = new ChatAdapter(this, getChatListFromDataBase(Service));
         homeservice_recList.setAdapter(homeservices_chatAdapter);
         homeservice_recList.setItemAnimator(new DefaultItemAnimator());
-        LinearLayoutManager homeservice_llm = (new LinearLayoutManager(Food.this));
+        LinearLayoutManager homeservice_llm = (new LinearLayoutManager(ChatActivity.this));
         homeservice_llm.setOrientation(LinearLayoutManager.VERTICAL);
         homeservice_recList.setLayoutManager(homeservice_llm);
-        try {
-            ChatWithUs.pubnub.subscribe("jaintulsiRecharge", new Callback() {
-                        @Override
-                        public void connectCallback(String channel, Object message) {
-                            System.out.println("SUBSCRIBE : CONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                            Log.i("TAG", "11");
-                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                        }
-
-                        @Override
-                        public void disconnectCallback(String channel, Object message) {
-                            System.out.println("SUBSCRIBE : DISCONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                            Log.i("TAG", "12");
-                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                        }
-
-                        public void reconnectCallback(String channel, Object message) {
-                            System.out.println("SUBSCRIBE : RECONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                            Log.i("TAG", "13");
-                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                        }
-
-                        @Override
-                        public void successCallback(String channel, Object message) {
-                            JSONObject json = (JSONObject)message;
-                            try {
-                                String trywece = json.getString("color");
-                                String received_message = trywece;
-                                //ChatMessage hey1 = new ChatMessage(received_message, "N", "Y");
-                                faltu(received_message, Service);
-//                                addMessageToDataBase(received_message,Service, "N", "Y");
-//                                homeservices_chatAdapter.addItem(homeservices_chatAdapter.getItemCount(), hey1);
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }
-                            System.out.println("SUBSCRIBE : " + channel + " : "
-                                    + message.getClass() + " : " + message.toString());
-                            Log.i("TAG", "14");
-                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel + " : " + message.getClass() + " : " + message.toString());
-                            //String received_message = message.toString();
-
-
-                        }
-                        @Override
-                        public void errorCallback(String channel, PubnubError error) {
-                            System.out.println("SUBSCRIBE : ERROR on channel " + channel
-                                    + " : " + error.toString());
-                            Log.i("TAG", "15");
-                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-                                    + " : " + error.getClass() + " : "
-                                    + error.toString());
-                        }
-                    }
-            );
-        } catch (PubnubException e) {
-            System.out.println(e.toString());
-        }
+//        try {
+//            ChatWithUs.pubnub.subscribe(channelName, new Callback() {
+//                        @Override
+//                        public void connectCallback(String channel, Object message) {
+//                            System.out.println("SUBSCRIBE : CONNECT on channel:" + channel
+//                                    + " : " + message.getClass() + " : "
+//                                    + message.toString());
+//                            Log.i("TAG", "11");
+//                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+//                                    + " : " + message.getClass() + " : "
+//                                    + message.toString());
+//                        }
+//
+//                        @Override
+//                        public void disconnectCallback(String channel, Object message) {
+//                            System.out.println("SUBSCRIBE : DISCONNECT on channel:" + channel
+//                                    + " : " + message.getClass() + " : "
+//                                    + message.toString());
+//                            Log.i("TAG", "12");
+//                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+//                                    + " : " + message.getClass() + " : "
+//                                    + message.toString());
+//                        }
+//
+//                        public void reconnectCallback(String channel, Object message) {
+//                            System.out.println("SUBSCRIBE : RECONNECT on channel:" + channel
+//                                    + " : " + message.getClass() + " : "
+//                                    + message.toString());
+//                            Log.i("TAG", "13");
+//                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+//                                    + " : " + message.getClass() + " : "
+//                                    + message.toString());
+//                        }
+//
+//                        @Override
+//                        public void successCallback(String channel, Object message) {
+//                            JSONObject json = (JSONObject)message;
+//                            try {
+//                                String trywece = json.getString("color");
+//                                String received_message = trywece;
+//                                //ChatMessage hey1 = new ChatMessage(received_message, "N", "Y");
+//                                faltu(received_message, Service);
+////                                addMessageToDataBase(received_message,Service, "N", "Y");
+////                                homeservices_chatAdapter.addItem(homeservices_chatAdapter.getItemCount(), hey1);
+//                            }catch (Exception e){
+//                                e.printStackTrace();
+//                            }
+//                            System.out.println("SUBSCRIBE : " + channel + " : "
+//                                    + message.getClass() + " : " + message.toString());
+//                            Log.i("TAG", "14");
+//                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel + " : " + message.getClass() + " : " + message.toString());
+//                            //String received_message = message.toString();
+//
+//
+//                        }
+//                        @Override
+//                        public void errorCallback(String channel, PubnubError error) {
+//                            System.out.println("SUBSCRIBE : ERROR on channel " + channel
+//                                    + " : " + error.toString());
+//                            Log.i("TAG", "15");
+//                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+//                                    + " : " + error.getClass() + " : "
+//                                    + error.toString());
+//                        }
+//                    }
+//            );
+//        } catch (PubnubException e) {
+//            System.out.println(e.toString());
+//        }
         final String pubstring = channelName;
         homeservices_sendButton.setOnClickListener(new View.OnClickListener() {
                                                        @Override
@@ -170,21 +179,11 @@ public class Food extends AppCompatActivity {
                                                            homeservices_sendText.setText("");
                                                            if (!newmessage.equals("")) ;
                                                            {
-                                                               Callback callback = new Callback() {
-                                                                   public void successCallback(String channel, Object response) {
-                                                                       Log.i("TAG", "SUCCESSFULL SENT");
-                                                                       System.out.println(response.toString());
-                                                                   }
-
-                                                                   public void errorCallback(String channel, PubnubError error) {
-                                                                       System.out.println(error.toString());
-                                                                       Log.i("TAG", "ERROR IN SENDIND");
-                                                                   }
+                                                               if (publish(pubstring, newmessage)) {
+//                                                                   ChatMessage hey = new ChatMessage(newmessage, "Y", "N");
+//                                                                   addMessageToDataBase(newmessage, Service, "Y", "N");
+//                                                                   homeservices_chatAdapter.addItem(homeservices_chatAdapter.getItemCount(), hey);
                                                                };
-                                                               ChatWithUs.pubnub.publish(pubstring, newmessage, callback);
-                                                               ChatMessage hey = new ChatMessage(newmessage, "Y", "N");
-                                                               addMessageToDataBase(newmessage, Service, "Y", "N");
-                                                               homeservices_chatAdapter.addItem(homeservices_chatAdapter.getItemCount(), hey);
 
 //                                                             SendMessage runner = new SendMessage();
 //                                                             runner.execute("");
@@ -204,7 +203,33 @@ public class Food extends AppCompatActivity {
         homeservices_chatAdapter.addItem(homeservices_chatAdapter.getItemCount(), hey1);
         Log.i("TAG", received_message);
     }
+    public Boolean publish(String channelName, String Message){
+        Callback callback = new Callback() {
+            public void successCallback(String channel, Object response) {
+                Log.i("TAG", "SUCCESSFULL SENT");
+                System.out.println(response.toString());
+            }
 
+            public void errorCallback(String channel, PubnubError error) {
+                System.out.println(error.toString());
+                Log.i("TAG", "ERROR IN SENDIND");
+            }
+        };
+        ChatWithUs.pubnub.publish(channelName, Message, callback);
+        return true;
+    }
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.i(Constant.TAG, "connecting to service");
+            chatterBoxServiceClient = (ChatterBoxClient) service;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Log.i(Constant.TAG, "disconnecting from service");
+        }
+    };
 
     public List<ChatMessage> getChatListFromDataBase(String service){
 
@@ -245,5 +270,22 @@ public class Food extends AppCompatActivity {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onStart(){
+        super.onStart();
+        mServiceBound=true;
+        Intent intent = new Intent(this, ChatterBoxService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mServiceBound) {
+            ChatActivity.this.unbindService(serviceConnection);
+        }
+        mServiceBound = false;
     }
 }

@@ -3,11 +3,11 @@
 
     <group android:checkableBehavior="single">
 
-            <item
-                android:id="@+id/chat_with_us"
-                android:checked="false"
-                android:icon="@drawable/user"
-                android:title="@string/chat_with_us" />
+            <!--<item-->
+                <!--android:id="@+id/chat_with_us"-->
+                <!--android:checked="false"-->
+                <!--android:icon="@drawable/user"-->
+                <!--android:title="@string/chat_with_us" />-->
         <item
             android:id="@+id/service_based_chat"
             android:checked="false"

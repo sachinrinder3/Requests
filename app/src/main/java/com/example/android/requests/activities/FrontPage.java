@@ -118,7 +118,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
 //        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         //getSupportActionBar().setIcon(R.drawable.user);
         fragmentManager = getSupportFragmentManager();
-        ChatWithUs myFragment0 = new ChatWithUs();
+        ServiceBasedChat myFragment0 = new ServiceBasedChat();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.frameholder, myFragment0);
         ft.addToBackStack("chat_fragment");
@@ -246,12 +246,12 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         //Replacing the main content with ContentFragment Which is our Inbox View;
         switch (menuItem.getItemId()) {
 
-            case R.id.chat_with_us:
-                ChatWithUs fragment_chat_with_us = new ChatWithUs();
-                FragmentTransaction ft_chat_with_us = getSupportFragmentManager().beginTransaction();
-                ft_chat_with_us.replace(R.id.frameholder, fragment_chat_with_us);
-                ft_chat_with_us.commit();
-                return true;
+//            case R.id.chat_with_us:
+//                ChatWithUs fragment_chat_with_us = new ChatWithUs();
+//                FragmentTransaction ft_chat_with_us = getSupportFragmentManager().beginTransaction();
+//                ft_chat_with_us.replace(R.id.frameholder, fragment_chat_with_us);
+//                ft_chat_with_us.commit();
+//                return true;
 
             case R.id.service_based_chat:
                 ServiceBasedChat fragment_service_based_chat = new ServiceBasedChat();

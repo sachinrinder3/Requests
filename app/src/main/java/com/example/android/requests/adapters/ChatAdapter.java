@@ -62,7 +62,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemViewType(int position) {
         ChatMessage message = chatList.get(position);
-        String incoming = message.incmoing;
+        String incoming = message.incoming;
         String outgoing = message.outgoing;
         if(incoming.equals("N") && outgoing.equals("Y")){
             return 1;

@@ -96,80 +96,81 @@ public class ChatWithUs extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //pubnub.subscribe("vdvd",fvrv);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        try {
-            pubnub.subscribe(Constant.HOME_SERVICES, new Callback() {
-                        @Override
-                        public void connectCallback(String channel, Object message) {
-
-                            Log.i("TAG", "11");
-                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                        }
-
-                        @Override
-                        public void disconnectCallback(String channel, Object message) {
-
-                            Log.i("TAG", "12");
-                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                        }
-
-                        public void reconnectCallback(String channel, Object message) {
-                            Log.i("TAG", "13");
-                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                        }
-
-                        @Override
-                        public void successCallback(String channel, Object message) {
-                            final Object ob = message;
-
-                            new Thread() {
-                                public void run() {
-                                    getActivity().runOnUiThread(new Runnable() {
-                                        public void run() {
-                                            Toast.makeText(getActivity(), "Hello", Toast.LENGTH_LONG).show();
-                                            String received_message = ob.toString();
-                                            ChatMessage hey1 = new ChatMessage(received_message, "N", "Y");
-                                            addMessageToDataBase(received_message, "hey", "N", "Y");
-                                            chatAdapter.addItem(chatAdapter.getItemCount(), hey1);
-                                        }
-                                    });
-                                }
-                            }.start();
-
-
-                            Log.i("TAG", "14");
-                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-
-                            //ChatMessage hey2 =  new ChatMessage("vfvdf", "N", "Y");
-                            //chatAdapter.addItem(chatAdapter.getItemCount(),hey2);
-
-
-                        }
-
-                        @Override
-                        public void errorCallback(String channel, PubnubError error) {
-                            Log.i("TAG", "15");
-                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-                                    + " : " + error.getClass() + " : "
-                                    + error.toString());
-                        }
-                    }
-            );
-        } catch (PubnubException e) {
-            System.out.println(e.toString());
-        }
+//        try {
+//            pubnub.subscribe(Constant.HOME_SERVICES, new Callback() {
+//                        @Override
+//                        public void connectCallback(String channel, Object message) {
+//
+//                            Log.i("TAG", "11");
+//                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+//                                    + " : " + message.getClass() + " : "
+//                                    + message.toString());
+//                        }
+//
+//                        @Override
+//                        public void disconnectCallback(String channel, Object message) {
+//
+//                            Log.i("TAG", "12");
+//                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+//                                    + " : " + message.getClass() + " : "
+//                                    + message.toString());
+//                        }
+//
+//                        public void reconnectCallback(String channel, Object message) {
+//                            Log.i("TAG", "13");
+//                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+//                                    + " : " + message.getClass() + " : "
+//                                    + message.toString());
+//                        }
+//
+//                        @Override
+//                        public void successCallback(String channel, Object message) {
+//                            final Object ob = message;
+//
+//                            new Thread() {
+//                                public void run() {
+//                                    getActivity().runOnUiThread(new Runnable() {
+//                                        public void run() {
+//                                            Toast.makeText(getActivity(), "Hello", Toast.LENGTH_LONG).show();
+//                                            String received_message = ob.toString();
+//                                            ChatMessage hey1 = new ChatMessage(received_message, "N", "Y");
+//                                            addMessageToDataBase(received_message, "hey", "N", "Y");
+//                                            chatAdapter.addItem(chatAdapter.getItemCount(), hey1);
+//                                        }
+//                                    });
+//                                }
+//                            }.start();
+//
+//
+//                            Log.i("TAG", "14");
+//                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+//                                    + " : " + message.getClass() + " : "
+//                                    + message.toString());
+//
+//                            //ChatMessage hey2 =  new ChatMessage("vfvdf", "N", "Y");
+//                            //chatAdapter.addItem(chatAdapter.getItemCount(),hey2);
+//
+//
+//                        }
+//
+//                        @Override
+//                        public void errorCallback(String channel, PubnubError error) {
+//                            Log.i("TAG", "15");
+//                            Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+//                                    + " : " + error.getClass() + " : "
+//                                    + error.toString());
+//                        }
+//                    }
+//            );
+//        } catch (PubnubException e) {
+//            System.out.println(e.toString());
+//        }
         View rootView = inflater.inflate(R.layout.fragment_chat_with_us, container, false);
         dataBaseHelper = new DataBaseHelper(getActivity());
         sqLiteDatabase = dataBaseHelper.getWritableDatabase();
