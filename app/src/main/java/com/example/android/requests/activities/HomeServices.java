@@ -1,6 +1,5 @@
 
 package com.example.android.requests.activities;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,7 +9,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -60,6 +58,9 @@ public class HomeServices extends AppCompatActivity {
     //private View stickersFrame;
 
     private DefaultChatterBoxCallback roomListener = new DefaultChatterBoxCallback() {
+
+
+
         @Override
         public void onMessagePublished(String timeToken) {
             Log.i(Constant.TAG, "inside: onMessagePublished");
@@ -73,7 +74,6 @@ public class HomeServices extends AppCompatActivity {
             });
 
         }
-
         @Override
         public void onMessage(ChatMessage message) {
             super.onMessage(message);
@@ -87,6 +87,8 @@ public class HomeServices extends AppCompatActivity {
             //Log.i(Constant.TAG, "Message received callback");
         }
     };
+
+
     private void setRoomChannel(String roomChannel){
 
         this.roomChannel = roomChannel;
@@ -101,9 +103,7 @@ public class HomeServices extends AppCompatActivity {
             chatterBoxServiceClient = (ChatterBoxClient) service;
             if(chatterBoxServiceClient.isConnected() == false){
                 chatterBoxServiceClient.connect(emailid);
-                Log.i("TAG", "CONDCED");
                 Log.i("TAG", String.valueOf(chatterBoxServiceClient.connect(emailid)));
-                Log.i("TAG", "CONDCED");
             }
             chatterBoxServiceClient.addRoom(roomChannel,roomListener);
         }
@@ -120,6 +120,10 @@ public class HomeServices extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent i = getIntent();
+        String Service = i.getStringExtra("Service");
+
+        channelName = Service;
         setContentView(R.layout.activity_home_services);
         toolbar = (Toolbar) findViewById(R.id.toolbar1);
         homeservices_sendButton =(AppCompatButton)findViewById(R.id.homeservices_send_msg);
@@ -132,15 +136,6 @@ public class HomeServices extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         SharedPreferences sharepref =getSharedPreferences("MyPref", MODE_PRIVATE);
         final String email = sharepref.getString(Constant.EMAIL, "");
-        Intent chatterBoxServiceIntent = new Intent(HomeServices.this, ChatterBoxService.class);
-        HomeServices.this.bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
-
-        Intent i = getIntent();
-
-
-        String Service = i.getStringExtra("Service");
-
-         channelName = Service;
         if (Service.equals("Food")){
             getSupportActionBar().setTitle("Food");
         }else if (Service.equals("HomeServices")){
@@ -156,80 +151,7 @@ public class HomeServices extends AppCompatActivity {
         } else if (Service.equals("Shopping")){
             getSupportActionBar().setTitle("Shopping");
         }
-        //boolean bfound = false;
-//        String[] currentChannels = ChatWithUs.pubnub.getSubscribedChannelsArray();
-//        for (String c : currentChannels) {
-//            if (c.equals(email+Constant.HOME_SERVICES)) {
-//                bfound = true;
-//                break;
-//            }
-//        }
-//        if (!bfound) {
-//            Log.i("TAG", "SUBSCRIBE");
-//
-//            try {
-//                ChatWithUs.pubnub.subscribe(email + Constant.HOME_SERVICES, new Callback() {
-//                            @Override
-//                            public void connectCallback(String channel, Object message) {
-//                                System.out.println("SUBSCRIBE : CONNECT on channel:" + channel
-//                                        + " : " + message.getClass() + " : "
-//                                        + message.toString());
-//                                Log.i("TAG", "11");
-//                                Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-//                                        + " : " + message.getClass() + " : "
-//                                        + message.toString());
-//                            }
-//
-//                            @Override
-//                            public void disconnectCallback(String channel, Object message) {
-//                                System.out.println("SUBSCRIBE : DISCONNECT on channel:" + channel
-//                                        + " : " + message.getClass() + " : "
-//                                        + message.toString());
-//                                Log.i("TAG", "12");
-//                                Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-//                                        + " : " + message.getClass() + " : "
-//                                        + message.toString());
-//                            }
-//
-//                            public void reconnectCallback(String channel, Object message) {
-//                                System.out.println("SUBSCRIBE : RECONNECT on channel:" + channel
-//                                        + " : " + message.getClass() + " : "
-//                                        + message.toString());
-//                                Log.i("TAG", "13");
-//                                Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-//                                        + " : " + message.getClass() + " : "
-//                                        + message.toString());
-//                            }
-//
-//                            @Override
-//                            public void successCallback(String channel, Object message) {
-//                                System.out.println("SUBSCRIBE : " + channel + " : "
-//                                        + message.getClass() + " : " + message.toString());
-//                                Log.i("TAG", "14");
-//                                Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-//                                        + " : " + message.getClass() + " : "
-//                                        + message.toString());
-//                                String received_message = message.toString();
-//                                ChatMessage hey1 = new ChatMessage(received_message, "N", "Y");
-//                                addMessageToDataBase(received_message, Constant.HOME_SERVICES, "N", "Y");
-//                                homeservices_chatAdapter.addItem(homeservices_chatAdapter.getItemCount(), hey1);
-//                            }
-//
-//                            @Override
-//                            public void errorCallback(String channel, PubnubError error) {
-//                                System.out.println("SUBSCRIBE : ERROR on channel " + channel
-//                                        + " : " + error.toString());
-//                                Log.i("TAG", "15");
-//                                Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-//                                        + " : " + error.getClass() + " : "
-//                                        + error.toString());
-//                            }
-//                        }
-//                );
-//            } catch (PubnubException e) {
-//                System.out.println(e.toString());
-//            }
-//        }
+
         final String  channelname = channelName;
         homeservice_recList.setHasFixedSize(true);
         homeservices_chatAdapter = new ChatAdapter(this, getChatListFromDataBase());
@@ -259,11 +181,10 @@ public class HomeServices extends AppCompatActivity {
                                                   message.setSentOn(new Date());
                                                   txtedit.setEnabled(false);
                                                   btn.setEnabled(false);
-
                                                   if (chatterBoxServiceClient.isConnected()) {
                                                       chatterBoxServiceClient.publish(channelname, message);
-                                                      ChatMessage hey = new ChatMessage(newmessage, "Y", "N");
-                                                      homeservices_chatAdapter.addItem(homeservices_chatAdapter.getItemCount(), hey);
+                                                      ChatMessage sendmessage = new ChatMessage(newmessage, "Y", "N");
+                                                      homeservices_chatAdapter.addItem(homeservices_chatAdapter.getItemCount(), sendmessage);
                                                       addMessageToDataBase(newmessage, channelName, "Y", "N");
                                                       txtedit.setText("");
                                                   }
@@ -278,7 +199,7 @@ public class HomeServices extends AppCompatActivity {
         homeservices_chatList =  new ArrayList<>();
         //String query = "select chat_message from CHAT_TABLE";
         String[] columns = {"_id", "chat_message", "message_service",  "outgoing", "incoming"};
-        String whereClause = "message_service=Home_Services";
+
         Cursor c = sqLiteDatabase.query("CHAT_TABLE",columns,"message_service=?", new String[] { channelName }, null, null,null,null);
         //Log.i("TAG",String.valueOf(c.getCount()));
         while (c.moveToNext()){
@@ -344,5 +265,14 @@ public class HomeServices extends AppCompatActivity {
 
         Intent chatterBoxServiceIntent = new Intent(HomeServices.this, ChatterBoxService.class);
         HomeServices.this.bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        chatterBoxServiceClient.removeRoomListener(this.roomName,roomListener);
+        if (mServiceBound) {
+            HomeServices.this.unbindService(serviceConnection);
+        }
     }
 }

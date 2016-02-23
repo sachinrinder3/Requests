@@ -111,28 +111,30 @@ public class ChatterBoxClient extends Binder {
 
             if (!bfound) { //no one subscription to this room, add one
                 try {
-                    //PubNub Specific
-                    //Log.i("TAG", "CONNECTED");
-
                     chatterBoxService.getPubNub().subscribe(roomName, new Callback() {
                         @Override
 
                         public void successCallback(String channel, Object message, String timetoken) {
                             try {
+                                Log.i("TAG", "I AM GETTING CALLED BROTHER");
                                 //Log.i(Constant.TAG, "received message on channel: " + channel);
                                 if (message instanceof JSONObject) {
-
                                     JSONObject jmessage = (JSONObject) message;
                                     String messageType = jmessage.getString(ChatMessage.TYPE);
                                     if (messageType.equals("chattmessage")) {
                                         //Log.i("TAG", "MESSAGE HAS BEEN RECEIVED");
                                         ChatMessage msg = ChatMessage.create(jmessage, timetoken);
                                         List<ChatterBoxCallback> thisRoomListeners = chatterBoxService.getListeners().get(roomName);
-                                        int j = thisRoomListeners.size();
-                                        Log.i("TAG", "LIST:"+j);
+                                        //int j = thisRoomListeners.size();
+                                        //Log.i("TAG", "LIST:"+j);
+                                       // int i=0;
+                                        //ChatterBoxCallback l;
                                         for (ChatterBoxCallback l : thisRoomListeners) {
                                             //Log.i("TAG", "INSIDE FOR LOOP");
-                                            l.onMessage(msg);
+//                                            if (i<1) {
+                                                l.onMessage(msg);
+//                                            }
+//                                            i=1;
                                         }
                                     }
                                 }
@@ -188,7 +190,7 @@ public class ChatterBoxClient extends Binder {
             }
 
             List<ChatterBoxCallback> l = null;
-            //Log.i("TAG", chatterBoxService.getListeners().containsKey("Food")+"");
+
             if (!chatterBoxService.getListeners().containsKey("Food")) {
                 l = new ArrayList<>();
             } else {
@@ -210,18 +212,17 @@ public class ChatterBoxClient extends Binder {
             l.add(listener); //add the listener for this room.
 
             chatterBoxService.getListeners().put("Shopping", l);
-//
-//            l = null;
-//            //Log.i("TAG", chatterBoxService.getListeners().containsKey("Food")+"");
-//            if (!chatterBoxService.getListeners().containsKey("HomeServices")) {
-//                l = new ArrayList<>();
-//            } else {
-//                l = chatterBoxService.getListeners().get("HomeServices");
-//            }
-//
-//            l.add(listener); //add the listener for this room.
-//
-//            chatterBoxService.getListeners().put("HomeServices", l);
+            l = null;
+            //Log.i("TAG", chatterBoxService.getListeners().containsKey("Food")+"");
+            if (!chatterBoxService.getListeners().containsKey("HomeServices")) {
+                l = new ArrayList<>();
+            } else {
+                l = chatterBoxService.getListeners().get("HomeServices");
+            }
+
+            l.add(listener); //add the listener for this room.
+
+            chatterBoxService.getListeners().put("HomeServices", l);
 
         }
     }

@@ -248,7 +248,7 @@ public class Register extends Fragment {
                     Toast.makeText(getActivity(), "You have been successfully registered", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(getActivity(), FrontPage.class));
                 } else {
-                    Toast.makeText(getActivity(), "Try Again" + result, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Trytrytry Again" + result, Toast.LENGTH_LONG).show();
                 }
             } else {
                 Toast.makeText(getActivity(), "Check net connection it has some problem", Toast.LENGTH_LONG).show();

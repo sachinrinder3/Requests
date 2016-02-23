@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.requests.R;
-import com.example.android.requests.activities.ChatActivity;
+//import com.example.android.requests.activities.ChatActivity;
 import com.example.android.requests.activities.HomeServices;
 import com.example.android.requests.services.binder.ChatterBoxClient;
 import com.example.android.requests.utils.Constant;
@@ -98,17 +98,17 @@ public class ServiceBasedChat extends Fragment {
         cabs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent recharge = new Intent(getActivity(), HomeServices.class);
-                recharge.putExtra("Service", "Cabs");
-                startActivity(recharge);
+                Intent cabs = new Intent(getActivity(), HomeServices.class);
+                cabs.putExtra("Service", "Cabs");
+                startActivity(cabs);
             }
         });
         travel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent recharge = new Intent(getActivity(), HomeServices.class);
-                recharge.putExtra("Service", "Travel");
-                startActivity(recharge);
+                Intent travel = new Intent(getActivity(), HomeServices.class);
+                travel.putExtra("Service", "Travel");
+                startActivity(travel);
             }
         });
         return v;

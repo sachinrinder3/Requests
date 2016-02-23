@@ -1,11 +1,8 @@
 package com.example.android.requests.services;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.example.android.requests.BuildConfig;
 import com.example.android.requests.services.binder.ChatterBoxClient;

@@ -1,18 +1,24 @@
 package com.example.android.requests.fragments;
 
+import android.content.ComponentName;
 import android.content.Context;
 
 import com.example.android.requests.activities.MainActivity;
 import com.example.android.requests.models.ChatMessage;
+import com.example.android.requests.services.ChatterBoxService;
+import com.example.android.requests.services.DefaultChatterBoxCallback;
+import com.example.android.requests.services.binder.ChatterBoxClient;
 import com.example.android.requests.utils.Constant;
 import com.facebook.CallbackManager;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,11 +50,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class Login extends Fragment {
+    public  String roomChannel;
+    public ChatterBoxClient chatterBoxServiceClient;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private CallbackManager callbackManager;
     com.facebook.login.widget.LoginButton loginButton;
-    public static final Pubnub pubnub = new Pubnub("pub-c-0e57abe1-40bd-4357-8754-ec6d0e4a5add", "sub-c-38127c1c-cb42-11e5-a316-0619f8945a4f");
 
     private String mParam1;
     private String mParam2;
@@ -59,6 +66,8 @@ public class Login extends Fragment {
     GoogleCloudMessaging gcm;
     String regid;
     String msg;
+    boolean mServiceBound;
+    String e1;
 
     private OnFragmentInteractionListener mListener;
 
@@ -81,10 +90,19 @@ public class Login extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        e1="jaintulsi";
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setRoomChannel(e1);
+        Intent chatterBoxServiceIntent = new Intent(getActivity(), ChatterBoxService.class);
+        getActivity().bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    private void setRoomChannel(String roomChannel){
+
+        this.roomChannel = roomChannel;
     }
 
     @Override
@@ -146,6 +164,29 @@ public class Login extends Fragment {
         );
         return v;
     }
+    public DefaultChatterBoxCallback roomListener;
+
+
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.i(Constant.TAG, "connecting to service");
+            mServiceBound = true;
+            chatterBoxServiceClient = (ChatterBoxClient) service;
+            if(chatterBoxServiceClient.isConnected() == false){
+                chatterBoxServiceClient.connect(e1);
+                Log.i("TAG", String.valueOf(chatterBoxServiceClient.connect(e1)));
+            }
+            chatterBoxServiceClient.addRoom(roomChannel,roomListener);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Log.i(Constant.TAG, "disconnecting from service");
+
+        }
+    };
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -187,76 +228,76 @@ public class Login extends Fragment {
             if (result.equals("User Exits")){
                 Toast.makeText(getActivity(), "You are successfully logged-in", Toast.LENGTH_LONG).show();
 
-                try {
-                    //pubnub.subscribe(Constant.HOME_SERVICES, new Callback())
-                    pubnub.subscribe(Constant.HOME_SERVICES, new Callback() {
-                                @Override
-                                public void connectCallback(String channel, Object message) {
-
-                                    Log.i("TAG", "11");
-                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-                                            + " : " + message.getClass() + " : "
-                                            + message.toString());
-                                }
-
-                                @Override
-                                public void disconnectCallback(String channel, Object message) {
-
-                                    Log.i("TAG", "12");
-                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-                                            + " : " + message.getClass() + " : "
-                                            + message.toString());
-                                }
-
-                                public void reconnectCallback(String channel, Object message) {
-                                    Log.i("TAG", "13");
-                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-                                            + " : " + message.getClass() + " : "
-                                            + message.toString());
-                                }
-
-                                @Override
-                                public void successCallback(String channel, Object message) {
-                                    final Object ob = message;
-
-                                    new Thread() {
-                                        public void run() {
-                                            getActivity().runOnUiThread(new Runnable() {
-                                                public void run() {
-                                                    Toast.makeText(getActivity(), "Hello", Toast.LENGTH_LONG).show();
-                                                    String received_message = ob.toString();
-                                                    //ChatMessage hey1 = new ChatMessage(received_message, "N", "Y");
-                                                    //addMessageToDataBase(received_message, "hey", "N", "Y");
-                                                    //chatAdapter.addItem(chatAdapter.getItemCount(), hey1);
-                                                }
-                                            });
-                                        }
-                                    }.start();
-
-
-                                    Log.i("TAG", "14");
-                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-                                            + " : " + message.getClass() + " : "
-                                            + message.toString());
-
-                                    //ChatMessage hey2 =  new ChatMessage("vfvdf", "N", "Y");
-                                    //chatAdapter.addItem(chatAdapter.getItemCount(),hey2);
-
-
-                                }
-
-                                @Override
-                                public void errorCallback(String channel, PubnubError error) {
-                                    Log.i("TAG", "15");
-                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-                                            + " : " + error.getClass() + " : "
-                                            + error.toString());
-                                }
-                            }
-                    );
-                } catch (PubnubException e) {
-                    System.out.println(e.toString());
-                }
+//                try {
+//                    //pubnub.subscribe(Constant.HOME_SERVICES, new Callback())
+//                    pubnub.subscribe(Constant.HOME_SERVICES, new Callback() {
+//                                @Override
+//                                public void connectCallback(String channel, Object message) {
+//
+//                                    Log.i("TAG", "11");
+//                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+//                                            + " : " + message.getClass() + " : "
+//                                            + message.toString());
+//                                }
+//
+//                                @Override
+//                                public void disconnectCallback(String channel, Object message) {
+//
+//                                    Log.i("TAG", "12");
+//                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+//                                            + " : " + message.getClass() + " : "
+//                                            + message.toString());
+//                                }
+//
+//                                public void reconnectCallback(String channel, Object message) {
+//                                    Log.i("TAG", "13");
+//                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+//                                            + " : " + message.getClass() + " : "
+//                                            + message.toString());
+//                                }
+//
+//                                @Override
+//                                public void successCallback(String channel, Object message) {
+//                                    final Object ob = message;
+//
+//                                    new Thread() {
+//                                        public void run() {
+//                                            getActivity().runOnUiThread(new Runnable() {
+//                                                public void run() {
+//                                                    Toast.makeText(getActivity(), "Hello", Toast.LENGTH_LONG).show();
+//                                                    String received_message = ob.toString();
+//                                                    //ChatMessage hey1 = new ChatMessage(received_message, "N", "Y");
+//                                                    //addMessageToDataBase(received_message, "hey", "N", "Y");
+//                                                    //chatAdapter.addItem(chatAdapter.getItemCount(), hey1);
+//                                                }
+//                                            });
+//                                        }
+//                                    }.start();
+//
+//
+//                                    Log.i("TAG", "14");
+//                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+//                                            + " : " + message.getClass() + " : "
+//                                            + message.toString());
+//
+//                                    //ChatMessage hey2 =  new ChatMessage("vfvdf", "N", "Y");
+//                                    //chatAdapter.addItem(chatAdapter.getItemCount(),hey2);
+//
+//
+//                                }
+//
+//                                @Override
+//                                public void errorCallback(String channel, PubnubError error) {
+//                                    Log.i("TAG", "15");
+//                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
+//                                            + " : " + error.getClass() + " : "
+//                                            + error.toString());
+//                                }
+//                            }
+//                    );
+//                } catch (PubnubException e) {
+//                    System.out.println(e.toString());
+//                }
                 Intent intentlogin = new Intent(getActivity(), FrontPage.class);
                 startActivity(intentlogin);
             }
@@ -389,7 +430,7 @@ public class Login extends Fragment {
 //                    Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
 //                    startActivity(new Intent(getActivity(), FrontPage.class));
 //                } else {
-//                    Toast.makeText(getActivity(), "Try Again" + result, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getActivity(), "Trytrytry Again" + result, Toast.LENGTH_LONG).show();
 //                }
 //            } else {
 //                Toast.makeText(getActivity(), "Check net connection ", Toast.LENGTH_LONG).show();
