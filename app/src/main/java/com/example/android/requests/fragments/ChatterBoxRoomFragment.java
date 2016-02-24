@@ -1,14 +1,26 @@
 package com.example.android.requests.fragments;
 
+import android.app.Activity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.content.ComponentName;
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.requests.R;
+import com.example.android.requests.services.ChatterBoxService;
+import com.example.android.requests.services.DefaultChatterBoxCallback;
+import com.example.android.requests.services.binder.ChatterBoxClient;
+import com.example.android.requests.utils.Constant;
+import com.example.android.requests.utils.RoomHost;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,91 +31,157 @@ import com.example.android.requests.R;
  * create an instance of this fragment.
  */
 public class ChatterBoxRoomFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private RoomHost mListener;
+    private String emailid;
+    private ChatterBoxClient chatterBoxServiceClient;
+    private ChatterBoxMessageSendFragment chatterBoxMessageSendFragment;
+    private ChatterBoxMessageFragment chatterBoxMessageListFragment;
+    private String roomTitle;
+    private String roomChannel;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private DefaultChatterBoxCallback roomListener = new DefaultChatterBoxCallback(){
+//        @Override
+//        public void onPresence(ChatterBoxPresenceMessage pmessage) {
+//
+//        }
 
-    public ChatterBoxRoomFragment() {
-        // Required empty public constructor
+        @Override
+        public void onHeartBeat(boolean error) {
+
+        }
+
+        @Override
+        public void onError(String e) {
+
+        }
+
+//        @Override
+//        public void onPrivateChatRequest(ChatterBoxPrivateChatRequest request) {
+//
+//        }
+
+        @Override
+        public void onDisconnect() {
+
+        }
+
+        @Override
+        public void onConnect() {
+
+        }
+
+    };
+
+
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.i(Constant.TAG, "connecting to service");
+            chatterBoxServiceClient = (ChatterBoxClient) service;
+            if(chatterBoxServiceClient.isConnected() == false){
+                chatterBoxServiceClient.connect(emailid);
+            }
+            chatterBoxServiceClient.addRoom(roomChannel,roomListener);
+            mListener.connectedToRoom(roomTitle,roomChannel);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Log.i(Constant.TAG, "disconnecting from service");
+        }
+    };
+
+    public void setCurrentUserProfile(String emailid) {
+        this.emailid = emailid;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChatterBoxRoomFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChatterBoxRoomFragment newInstance(String param1, String param2) {
+
+    private void setChatterBoxMessageSendFragment(ChatterBoxMessageSendFragment
+                                                          sendFragment){
+        this.chatterBoxMessageSendFragment = sendFragment;
+    }
+
+    private void setChatterBoxMessageFragment(ChatterBoxMessageFragment fragment){
+        this.chatterBoxMessageListFragment = fragment;
+    }
+
+    private void setRoomTitle(String roomTitle){
+
+        this.roomTitle = roomTitle;
+    }
+
+    private void setRoomChannel(String roomChannel){
+        this.roomChannel = roomChannel;
+    }
+
+
+    private void configureRoom() {
+        //Load up the Message View
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.message_display_fragment_container, chatterBoxMessageListFragment);
+        fragmentTransaction.replace(R.id.message_input_fragment_container, chatterBoxMessageSendFragment);
+        fragmentTransaction.commit();
+    }
+
+
+    private void configureWhoIsOnLine() {
+        mListener.connectedToRoom(this.roomTitle,this.roomChannel);
+    }
+
+
+    public static ChatterBoxRoomFragment newInstance(String emailid, String roomChannel, String roomTitle) {
         ChatterBoxRoomFragment fragment = new ChatterBoxRoomFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+        fragment.setCurrentUserProfile(emailid);
+        fragment.setRoomTitle(roomTitle);
+        fragment.setRoomChannel(roomChannel);
+        fragment.setChatterBoxMessageFragment(ChatterBoxMessageFragment.newInstance(emailid, roomChannel));
+        fragment.setChatterBoxMessageSendFragment(ChatterBoxMessageSendFragment.newInstance(emailid, roomChannel));
         return fragment;
+    }
+
+    public ChatterBoxRoomFragment() {
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_chatter_box_room, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (RoomHost) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement RoomHost");
         }
+
+        Intent chatterBoxServiceIntent = new Intent(getActivity(), ChatterBoxService.class);
+        getActivity().bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+        configureRoom();
+        configureWhoIsOnLine();
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        chatterBoxServiceClient.removeRoomListener(roomChannel, roomListener);
+        mListener.disconnectingFromRoom(roomChannel);
         mListener = null;
-    }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }
