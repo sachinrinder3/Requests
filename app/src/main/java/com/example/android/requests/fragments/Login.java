@@ -90,20 +90,20 @@ public class Login extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        e1="jaintulsi";
+        //e1="jaintulsi";
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        setRoomChannel(e1);
-        Intent chatterBoxServiceIntent = new Intent(getActivity(), ChatterBoxService.class);
-        getActivity().bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+//        setRoomChannel(e1);
+//        Intent chatterBoxServiceIntent = new Intent(getActivity(), ChatterBoxService.class);
+//        getActivity().bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
-    private void setRoomChannel(String roomChannel){
-
-        this.roomChannel = roomChannel;
-    }
+//    private void setRoomChannel(String roomChannel){
+//
+//        this.roomChannel = roomChannel;
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -167,26 +167,26 @@ public class Login extends Fragment {
     public DefaultChatterBoxCallback roomListener;
 
 
-    private ServiceConnection serviceConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.i(Constant.TAG, "connecting to service");
-            mServiceBound = true;
-            chatterBoxServiceClient = (ChatterBoxClient) service;
-            if(chatterBoxServiceClient.isConnected() == false){
-                chatterBoxServiceClient.connect(e1);
-                Log.i("TAG", String.valueOf(chatterBoxServiceClient.connect(e1)));
-            }
-            chatterBoxServiceClient.addRoom(roomChannel,roomListener);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            Log.i(Constant.TAG, "disconnecting from service");
-
-        }
-    };
+//    private ServiceConnection serviceConnection = new ServiceConnection() {
+//
+//        @Override
+//        public void onServiceConnected(ComponentName name, IBinder service) {
+//            Log.i(Constant.TAG, "connecting to service");
+//            mServiceBound = true;
+//            chatterBoxServiceClient = (ChatterBoxClient) service;
+//            if(chatterBoxServiceClient.isConnected() == false){
+//                chatterBoxServiceClient.connect(e1);
+//                Log.i("TAG", String.valueOf(chatterBoxServiceClient.connect(e1)));
+//            }
+//            chatterBoxServiceClient.addRoom(roomChannel,roomListener);
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName name) {
+//            Log.i(Constant.TAG, "disconnecting from service");
+//
+//        }
+//    };
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

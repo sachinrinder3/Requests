@@ -24,6 +24,7 @@ import android.view.View;
 
 import com.example.android.requests.adapters.ChatAdapter;
 import com.example.android.requests.models.ChatMessage;
+import com.example.android.requests.services.ChatterBoxCallback;
 import com.example.android.requests.services.ChatterBoxService;
 import com.example.android.requests.services.DefaultChatterBoxCallback;
 import com.example.android.requests.services.binder.ChatterBoxClient;
@@ -84,7 +85,11 @@ public class HomeServices extends AppCompatActivity {
                 homeservices_chatAdapter.addItem(homeservices_chatAdapter.getItemCount(), hey);
             }
             addMessageToDataBase(message.getMessageContent(), message.getservice(), "N", "Y");
-            //Log.i(Constant.TAG, "Message received callback");
+        }
+
+        @Override
+        public void onError(String message) {
+            Log.i("TAG", "error while listening for message");
         }
     };
 
@@ -114,7 +119,6 @@ public class HomeServices extends AppCompatActivity {
 
         }
     };
-
 
 
     @Override
@@ -252,12 +256,13 @@ public class HomeServices extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        Log.i("TAG", "STOP IS CALLED");
         super.onStop();
-        chatterBoxServiceClient.removeRoomListener(this.roomName,roomListener);
-        if (mServiceBound) {
-            HomeServices.this.unbindService(serviceConnection);
-        }
-        mServiceBound = false;
+//        chatterBoxServiceClient.removeRoomListener(this.roomName,roomListener);
+//        if (mServiceBound) {
+//            HomeServices.this.unbindService(serviceConnection);
+//        }
+//        mServiceBound = false;
     }
     @Override
     protected void onResume() {
@@ -269,10 +274,12 @@ public class HomeServices extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        Log.i("TAG", "DESTROY IS CALLED");
         super.onDestroy();
         chatterBoxServiceClient.removeRoomListener(this.roomName,roomListener);
         if (mServiceBound) {
             HomeServices.this.unbindService(serviceConnection);
         }
+        //chatterBoxServiceClient.leaveRoom(roomChannel);
     }
 }
