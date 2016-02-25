@@ -88,12 +88,13 @@ public class ChatterBoxRoomFragment extends Fragment {
     };
 
     public void setCurrentUserEmailid(String emailid) {
+
         this.emailid = emailid;
     }
 
 
-    private void setChatterBoxMessageSendFragment(ChatterBoxMessageSendFragment
-                                                          sendFragment){
+    private void setChatterBoxMessageSendFragment(ChatterBoxMessageSendFragment sendFragment){
+
         this.chatterBoxMessageSendFragment = sendFragment;
     }
 
