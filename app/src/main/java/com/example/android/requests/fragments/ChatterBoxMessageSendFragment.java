@@ -1,11 +1,11 @@
 package com.example.android.requests.fragments;
 
-import android.app.Activity;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
@@ -15,9 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
-
 import com.example.android.requests.R;
 import com.example.android.requests.models.ChatMessage;
 import com.example.android.requests.services.ChatterBoxService;
@@ -65,7 +62,6 @@ public class ChatterBoxMessageSendFragment extends Fragment {
             if(chatterBoxServiceClient.isConnected() == false){
                 chatterBoxServiceClient.connect(emailid);
             }
-
             chatterBoxServiceClient.addRoom(roomName,roomListener);
         }
 
@@ -119,36 +115,35 @@ public class ChatterBoxMessageSendFragment extends Fragment {
                 if ((content.length() == 0) || (content.equals(""))) {
                     return;
                 }
-
                 ChatMessage message = ChatMessage.create();
                 message.setDeviceTag("android");
+                message.setservice(roomNameF);
+                Log.i("TAG", message.getservice());
                 //message.setSenderUUID(currentUserProfile.getId());
                 message.setType(ChatMessage.CHATTMESSAGE);
                 message.setMessageContent(txtMsg.getText().toString());
                 //message.setFrom(currentUserProfile.getEmail());
                 message.setSentOn(new Date());
+                message.setoutgoing("Y");
+                message.setincoming("N");
 
                 txtMsg.setEnabled(false);
                 btn.setEnabled(false);
 
                 if (chatterBoxServiceClient.isConnected()) {
                     chatterBoxServiceClient.publish(roomNameF, message);
-                    txtMsg.setText("");
                 }
 
             }
         });
-
-
-
         return messageControlsView;
     }
 
 
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         Intent chatterBoxServiceIntent = new Intent(getActivity(), ChatterBoxService.class);
         getActivity().bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }

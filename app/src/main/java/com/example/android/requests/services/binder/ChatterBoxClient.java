@@ -43,6 +43,7 @@ public class ChatterBoxClient extends Binder {
             messageJSON.put(ChatMessage.SENDERUUID, chatterBoxService.getPubNub().getUUID()); //Set the uuid
             //messageJSON.put(ChatterBoxMessage.EMOTICON, "");
             messageJSON.put(ChatMessage.FROM, message.getFrom());
+            messageJSON.put(ChatMessage.SERVICE, message.getservice());
             messageJSON.put(ChatMessage.INCOMING, message.getincoming());
             messageJSON.put(ChatMessage.OUTGOING, message.getoutgoing());
             messageJSON.put(ChatMessage.SENTON, new Date().getTime());
@@ -56,7 +57,6 @@ public class ChatterBoxClient extends Binder {
                     Log.i("TAG", channel);
                     List<ChatterBoxCallback> listeners = chatterBoxService.getListeners().get(channel);
                     //String status = "";
-                    Log.i("TAG", "yahu");
                     Log.i("TAG", String.valueOf(listeners));
                     String timeToken = "";
                     //String resultCode = "";
@@ -67,8 +67,6 @@ public class ChatterBoxClient extends Binder {
                         Log.i(Constant.TAG, "Exception while attempting to process publish results.");
                     }
 
-                    //Give the timeToken back to all listeners on that channel
-                    //make sure the callback runs on the UI thread!!!
                     for (ChatterBoxCallback chatterBoxCallback : listeners) {
                         chatterBoxCallback.onMessagePublished(timeToken);
                     }
@@ -108,7 +106,6 @@ public class ChatterBoxClient extends Binder {
                 }
             }
             Log.i("TAG", String.valueOf(!bfound));
-
             if (!bfound) { //no one subscription to this room, add one
                 try {
                     chatterBoxService.getPubNub().subscribe(roomName, new Callback() {
@@ -116,15 +113,19 @@ public class ChatterBoxClient extends Binder {
 
                         public void successCallback(String channel, Object message, String timetoken) {
                             try {
-                                Log.i("TAG", "I AM GETTING CALLED BROTHER");
+                                //Log.i("TAG", "I AM GETTING CALLED BROTHER");
                                 //Log.i(Constant.TAG, "received message on channel: " + channel);
                                 if (message instanceof JSONObject) {
+                                    //Log.i("TAG", "I AM GETTING CALLED BROTHER another");
                                     JSONObject jmessage = (JSONObject) message;
                                     String messageType = jmessage.getString(ChatMessage.TYPE);
                                     if (messageType.equals("chattmessage")) {
+                                        //Log.i("TAG", "I AM GETTING CALLED BROTHER another two");
                                         //Log.i("TAG", "MESSAGE HAS BEEN RECEIVED");
                                         ChatMessage msg = ChatMessage.create(jmessage, timetoken);
                                         List<ChatterBoxCallback> thisRoomListeners = chatterBoxService.getListeners().get(roomName);
+                                        //Log.i("TAG", roomName);
+                                        //Log.i("TAG", thisRoomListeners.toString()+"");
                                         //int j = thisRoomListeners.size();
                                         //Log.i("TAG", "LIST:"+j);
                                        // int i=0;
@@ -132,6 +133,7 @@ public class ChatterBoxClient extends Binder {
                                         for (ChatterBoxCallback l : thisRoomListeners) {
                                             //Log.i("TAG", "INSIDE FOR LOOP");
 //                                            if (i<1) {
+                                            Log.i("TAG", "I AM GETTING CALLED BROTHER another three");
                                                 l.onMessage(msg);
 //                                            }
 //                                            i=1;

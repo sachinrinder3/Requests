@@ -46,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
         Intent i = getIntent();
         String fragmentName = i.getStringExtra("fragment");
         String forum = "Login";
-        Log.e("Test1", "Test1" + fragmentName);
+        //Log.e("Test1", "Test1" + fragmentName);
         if (fragmentName != null && fragmentName.equals(forum)) {
-            Log.i("TAG", "logout is clicked ");
+            //Log.i("TAG", "logout is clicked ");
             com.example.android.requests.fragments.Login login = new com.example.android.requests.fragments.Login();
             fragmentManager.beginTransaction().replace(R.id.frameholder1, login).commit();
         } else {
-            Log.i("TAG", "coming through main page ");
+            //Log.i("TAG", "coming through main page ");
             //Log.i(TAG, "Else main condition");
             SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
             email  = sharepref.getString(Constant.EMAIL, "");
@@ -68,20 +68,21 @@ public class MainActivity extends AppCompatActivity {
             //registerInBackground();
 
             if (loginStatus.equals("true") && !email.equals("") && !password.equals("")) {
-                Log.i("TAG", "Async task is called");
+                //
+                // Log.i("TAG", "Async task is called");
 
                 if (checkPlayServices()) {
                     //gcm = GoogleCloudMessaging.getInstance(MainActivity.this);
                     //regid = getRegistrationId(MainActivity.this);
                     //reqid ="";
                     //if (regid.isEmpty()) {
-                        Log.i("TAG", "empty regid");
+                        //Log.i("TAG", "empty regid");
 //                        Startup startup1 = new Startup();
 //                        fragmentManager.beginTransaction().replace(R.id.frameholder1, startup1).commit();
                         registerInBackground();
                     //}
                 } else {
-                    Log.i("TAG", "No valid Google Play Services APK found.");
+                    //Log.i("TAG", "No valid Google Play Services APK found.");
                 }
 
             } else {
@@ -182,8 +183,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             SharedPreferences sharepref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
             String loginStatus = sharepref.getString(Constant.LOGINSTATUS, "false");
-            Log.i("TAG", loginStatus);
-            Log.i("TAG", result);
+            //Log.i("TAG", loginStatus);
+            //Log.i("TAG", result);
             if (loginStatus.equals("true") && result.equals("User Exits")) {
                 Toast.makeText(context, "already logged in", Toast.LENGTH_LONG).show();
                 Intent intentlogin = new Intent(context, FrontPage.class);

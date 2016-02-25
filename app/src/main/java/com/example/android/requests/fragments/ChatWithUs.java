@@ -91,6 +91,7 @@ public class ChatWithUs extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+
         super.onAttach(context);
     }
     @Override

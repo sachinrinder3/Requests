@@ -1,6 +1,6 @@
 package com.example.android.requests.fragments;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.content.ComponentName;
@@ -10,6 +10,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,14 +23,7 @@ import com.example.android.requests.services.binder.ChatterBoxClient;
 import com.example.android.requests.utils.Constant;
 import com.example.android.requests.utils.RoomHost;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ChatterBoxRoomFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ChatterBoxRoomFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ChatterBoxRoomFragment extends Fragment {
     private RoomHost mListener;
     private String emailid;
@@ -80,10 +74,11 @@ public class ChatterBoxRoomFragment extends Fragment {
             Log.i(Constant.TAG, "connecting to service");
             chatterBoxServiceClient = (ChatterBoxClient) service;
             if(chatterBoxServiceClient.isConnected() == false){
+                Log.i("TAG", emailid);
                 chatterBoxServiceClient.connect(emailid);
             }
-            chatterBoxServiceClient.addRoom(roomChannel,roomListener);
-            mListener.connectedToRoom(roomTitle,roomChannel);
+            chatterBoxServiceClient.addRoom(roomChannel, roomListener);
+           // mListener.connectedToRoom(roomTitle,roomChannel);
         }
 
         @Override
@@ -92,7 +87,7 @@ public class ChatterBoxRoomFragment extends Fragment {
         }
     };
 
-    public void setCurrentUserProfile(String emailid) {
+    public void setCurrentUserEmailid(String emailid) {
         this.emailid = emailid;
     }
 
@@ -106,19 +101,20 @@ public class ChatterBoxRoomFragment extends Fragment {
         this.chatterBoxMessageListFragment = fragment;
     }
 
-    private void setRoomTitle(String roomTitle){
-
-        this.roomTitle = roomTitle;
-    }
+//    private void setRoomTitle(String roomTitle){
+//
+//        this.roomTitle = roomTitle;
+//    }
 
     private void setRoomChannel(String roomChannel){
+
         this.roomChannel = roomChannel;
     }
 
 
     private void configureRoom() {
         //Load up the Message View
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.message_display_fragment_container, chatterBoxMessageListFragment);
         fragmentTransaction.replace(R.id.message_input_fragment_container, chatterBoxMessageSendFragment);
@@ -126,16 +122,15 @@ public class ChatterBoxRoomFragment extends Fragment {
     }
 
 
-    private void configureWhoIsOnLine() {
-        mListener.connectedToRoom(this.roomTitle,this.roomChannel);
-    }
+//    private void configureWhoIsOnLine() {
+//        mListener.connectedToRoom(this.roomTitle,this.roomChannel);
+//    }
 
 
-    public static ChatterBoxRoomFragment newInstance(String emailid, String roomChannel, String roomTitle) {
+    public static ChatterBoxRoomFragment newInstance(String emailid, String roomChannel) {
         ChatterBoxRoomFragment fragment = new ChatterBoxRoomFragment();
-        fragment.setCurrentUserProfile(emailid);
-        fragment.setRoomTitle(roomTitle);
-        fragment.setRoomChannel(roomChannel);
+        fragment.setCurrentUserEmailid(emailid);
+        fragment.setRoomChannel(emailid);
         fragment.setChatterBoxMessageFragment(ChatterBoxMessageFragment.newInstance(emailid, roomChannel));
         fragment.setChatterBoxMessageSendFragment(ChatterBoxMessageSendFragment.newInstance(emailid, roomChannel));
         return fragment;
@@ -160,27 +155,28 @@ public class ChatterBoxRoomFragment extends Fragment {
 
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (RoomHost) activity;
+            //mListener = (RoomHost) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement RoomHost");
         }
 
         Intent chatterBoxServiceIntent = new Intent(getActivity(), ChatterBoxService.class);
         getActivity().bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
         configureRoom();
-        configureWhoIsOnLine();
+        //configureWhoIsOnLine();
 
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        chatterBoxServiceClient.removeRoomListener(roomChannel, roomListener);
-        mListener.disconnectingFromRoom(roomChannel);
+        //chatterBoxServiceClient.removeRoomListener(roomChannel, roomListener);
+//        mListener.disconnectingFromRoom(roomChannel);
+        getActivity().unbindService(serviceConnection);
         mListener = null;
 
     }

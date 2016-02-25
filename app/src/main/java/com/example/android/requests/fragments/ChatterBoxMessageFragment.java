@@ -1,16 +1,18 @@
 package com.example.android.requests.fragments;
 
-import android.app.Activity;
+
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,37 +38,44 @@ public class ChatterBoxMessageFragment extends Fragment {
 
     private ChatterBoxClient chatterBoxServiceClient;
     private String emailid;
-
     private String roomName;
-
+    private String roomName1;
     private RecyclerView recyclerView;
     private ScrollView mMessageScrollView;
-
     private ChatAdapter chatAdapter;
     private List<ChatMessage> chatList;
     private DataBaseHelper dataBaseHelper;
     private SQLiteDatabase sqLiteDatabase;
 
+    private void  addincomingtoadapter(ChatMessage fmsg){
+        ChatMessage hey = new ChatMessage(fmsg.getMessageContent(), "N", "Y");
+        chatAdapter.addItem(chatAdapter.getItemCount(), hey);
+    }
 
+    private void  addoutgoingtoadapter(ChatMessage fmsg){
+        ChatMessage hey = new ChatMessage(fmsg.getMessageContent(), "Y", "N");
+        chatAdapter.addItem(chatAdapter.getItemCount(), hey);
+    }
 
-    /**
-     * The Adapter which will be used to populate the ListView/GridView with
-     * Views.
-     */
 
 
     private DefaultChatterBoxCallback roomListener = new DefaultChatterBoxCallback() {
 
         @Override
         public void onMessage(ChatMessage message) {
-            Log.i(Constant.TAG, "received a message");
+            //Log.i(Constant.TAG, "received a message");
             final ChatMessage fmsg = message;
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    //Just add another message to the adapter.
-                    ChatMessage hey = new ChatMessage(fmsg.getMessageContent(), "N", "Y");
-                    chatAdapter.addItem(chatAdapter.getItemCount(),hey);
+                    if (fmsg.getservice().equals(roomName1)) {
+                        if (fmsg.getincoming().equals("Y") && fmsg.getoutgoing().equals("N")) {
+                            addincomingtoadapter(fmsg);
+                        } else if (fmsg.getincoming().equals("N") && fmsg.getoutgoing().equals("Y")) {
+                            addoutgoingtoadapter(fmsg);
+                        }
+                    }
+                    addMessageToDataBase(fmsg.getMessageContent(), fmsg.getservice(), fmsg.getoutgoing(), fmsg.getincoming());
                 }
             });
 
@@ -77,6 +86,18 @@ public class ChatterBoxMessageFragment extends Fragment {
             Log.d(Constant.TAG, "error while listening for message");
         }
     };
+    public void addMessageToDataBase (String message, String message_service, String outgoing, String incoming ){
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("chat_message", message);
+        contentValues.put("message_service", message_service);
+        contentValues.put("outgoing", outgoing);
+        contentValues.put("incoming", incoming);
+        long id = sqLiteDatabase.insert("CHAT_TABLE", null, contentValues);
+        Log.i("TAG", String.valueOf(id));
+        Log.i("TAG", "VALUE IS INSERTED INTO THE DATABASE");
+
+    }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
@@ -85,7 +106,6 @@ public class ChatterBoxMessageFragment extends Fragment {
             if (chatterBoxServiceClient.isConnected() == false) {
                 chatterBoxServiceClient.connect(emailid);
             }
-
             chatterBoxServiceClient.addRoom(roomName, roomListener);
         }
 
@@ -99,11 +119,12 @@ public class ChatterBoxMessageFragment extends Fragment {
 
     }
 
-
     public static ChatterBoxMessageFragment newInstance(String emailid, String roomName) {
         ChatterBoxMessageFragment fragment = new ChatterBoxMessageFragment();
-        fragment.setCurrentUserProfile(emailid);
-        fragment.setRoomName(roomName);
+        Log.i("TAG", emailid);
+        fragment.setCurrentUserEmailid(emailid);
+        fragment.setRoomName(emailid);
+        fragment.setRoomName1(roomName);
         return fragment;
     }
 
@@ -111,17 +132,19 @@ public class ChatterBoxMessageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: Change Adapter to display your content
         //chatAdapter = new ChatMessageListArrayAdapter(getActivity(), R.layout.chat_message_item, chatterMessageArray,
                 //currentUserProfile);
+        dataBaseHelper = new DataBaseHelper(getContext());
+        sqLiteDatabase = dataBaseHelper.getWritableDatabase();
+        chatAdapter = new ChatAdapter(getActivity(), getChatListFromDataBase(roomName1));
 
-        chatAdapter = new ChatAdapter(getActivity(), getChatListFromDataBase("HomeServices"));
 
 
     }
-    public void setCurrentUserProfile(String profile) {
 
-        this.emailid = profile;
+    public void setCurrentUserEmailid(String emailid) {
+
+        this.emailid = emailid;
     }
 
     @Override
@@ -130,17 +153,21 @@ public class ChatterBoxMessageFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_chattmessage_list, container, false);
 
-        // Set the adapter
         recyclerView = (RecyclerView) view.findViewById(R.id.message_list);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(chatAdapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        LinearLayoutManager llm = (new LinearLayoutManager(getActivity()));
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
 
         return view;
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Context context) {
 
-        super.onAttach(activity);
+        super.onAttach(context);
         Intent chatterBoxServiceIntent = new Intent(getActivity(), ChatterBoxService.class);
         getActivity().bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
 
@@ -161,6 +188,10 @@ public class ChatterBoxMessageFragment extends Fragment {
     public void setRoomName(String roomName) {
 
         this.roomName = roomName;
+    }
+    public void setRoomName1(String roomName) {
+
+        this.roomName1 = roomName;
     }
 
 

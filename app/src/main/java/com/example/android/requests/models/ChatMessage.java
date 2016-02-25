@@ -60,16 +60,16 @@ public class ChatMessage {
         //String deviceTag = obj.getString(DEVICETAG);
         String type = obj.getString(TYPE);
         String Service = obj.getString(SERVICE);
-        //String incoming = obj.getString(INCOMING);
-        //String outgoing = obj.getString(OUTGOING);
+        String incoming = obj.getString(INCOMING);
+        String outgoing = obj.getString(OUTGOING);
         //String from = obj.getString(FROM);
         //String emoticon = obj.getString(EMOTICON);
         String messageContent = obj.getString(MESSAGECONTENT);
         //String uuid = obj.getString(SENDERUUID);
 
         //message.setDeviceTag(deviceTag);
-        //message.setincoming(incoming);
-        //message.setoutgoing(outgoing);
+        message.setincoming(incoming);
+        message.setoutgoing(outgoing);
         message.setType(type);
         //message.setFrom(from);
         message.setSentOn(new Date());
