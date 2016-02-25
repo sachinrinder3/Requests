@@ -39,10 +39,10 @@ public class ChatterBoxMessageFragment extends Fragment {
     private ChatterBoxClient chatterBoxServiceClient;
     private String emailid;
     private String roomName;
-    private String roomName1;
-    private RecyclerView recyclerView;
+    private String servicename;
+    public RecyclerView recyclerView;
     private ScrollView mMessageScrollView;
-    private ChatAdapter chatAdapter;
+    public ChatAdapter chatAdapter;
     private List<ChatMessage> chatList;
     private DataBaseHelper dataBaseHelper;
     private SQLiteDatabase sqLiteDatabase;
@@ -68,7 +68,7 @@ public class ChatterBoxMessageFragment extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (fmsg.getservice().equals(roomName1)) {
+                    if (fmsg.getservice().equals(servicename)) {
                         if (fmsg.getincoming().equals("Y") && fmsg.getoutgoing().equals("N")) {
                             addincomingtoadapter(fmsg);
                         } else if (fmsg.getincoming().equals("N") && fmsg.getoutgoing().equals("Y")) {
@@ -119,12 +119,13 @@ public class ChatterBoxMessageFragment extends Fragment {
 
     }
 
-    public static ChatterBoxMessageFragment newInstance(String emailid, String roomName) {
+    public static ChatterBoxMessageFragment newInstance(String emailid, String servicename) {
         ChatterBoxMessageFragment fragment = new ChatterBoxMessageFragment();
         Log.i("TAG", emailid);
         fragment.setCurrentUserEmailid(emailid);
         fragment.setRoomName(emailid);
-        fragment.setRoomName1(roomName);
+        fragment.setServiceName(servicename);
+
         return fragment;
     }
 
@@ -134,9 +135,10 @@ public class ChatterBoxMessageFragment extends Fragment {
 
         //chatAdapter = new ChatMessageListArrayAdapter(getActivity(), R.layout.chat_message_item, chatterMessageArray,
                 //currentUserProfile);
+        Log.i("TAG", servicename+"geetika");
         dataBaseHelper = new DataBaseHelper(getContext());
         sqLiteDatabase = dataBaseHelper.getWritableDatabase();
-        chatAdapter = new ChatAdapter(getActivity(), getChatListFromDataBase(roomName1));
+        chatAdapter = new ChatAdapter(getActivity(), getChatListFromDataBase(servicename));
 
 
 
@@ -189,9 +191,9 @@ public class ChatterBoxMessageFragment extends Fragment {
 
         this.roomName = roomName;
     }
-    public void setRoomName1(String roomName) {
+    public void setServiceName(String servicename) {
 
-        this.roomName1 = roomName;
+        this.servicename = servicename;
     }
 
 

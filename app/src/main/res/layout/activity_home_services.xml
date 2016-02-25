@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-
-            xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:background="#ffffff"
             android:layout_width="match_parent"
@@ -10,19 +9,32 @@
             <include layout="@layout/toolbar">
             </include>
 
-    <FrameLayout
-        android:id="@+id/message_display_fragment"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_gravity="start"
-        android:background="#FFFFFF"/>
-    <!--<FrameLayout-->
-        <!--android:id="@+id/message_send_fragment"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_gravity="start"-->
-        <!--android:background="#FFFFFF"/>-->
+       <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".90">
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/message_display_fragment_container"
+                android:fillViewport="true"
+                >
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".10"
+            android:orientation="horizontal"
+            android:padding="2dp">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/message_input_fragment_container" />
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -24,10 +24,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.android.requests.adapters.ChatAdapter;
-import com.example.android.requests.fragments.ChatterBoxRoomFragment;
-import com.example.android.requests.models.ChatMessage;
-import com.example.android.requests.services.ChatterBoxCallback;
+import com.example.android.requests.fragments.ChatterBoxMessageFragment;
 import com.example.android.requests.services.ChatterBoxService;
 import com.example.android.requests.services.DefaultChatterBoxCallback;
 import com.example.android.requests.services.binder.ChatterBoxClient;
@@ -128,9 +125,9 @@ public class HomeServices extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent i = getIntent();
-        String Service = i.getStringExtra("Service");
+        String service = i.getStringExtra("Service");
 
-        channelName = Service;
+        channelName = service;
         setContentView(R.layout.activity_home_services);
         toolbar = (Toolbar) findViewById(R.id.toolbar1);
         //homeservices_sendButton =(AppCompatButton)findViewById(R.id.homeservices_send_msg);
@@ -138,37 +135,41 @@ public class HomeServices extends AppCompatActivity {
         //homeservice_recList = (RecyclerView)findViewById(R.id.homeservices_message_list);
 //        dataBaseHelper = new DataBaseHelper(this);
 //        sqLiteDatabase = dataBaseHelper.getWritableDatabase();
+        Log.i("TAG", service+"geetika");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle(service);
         //SharedPreferences sharepref =getSharedPreferences("MyPref", MODE_PRIVATE);
        // final String email = sharepref.getString(Constant.EMAIL, "");
-        if (Service.equals("Food")){
-            getSupportActionBar().setTitle("Food");
-        }else if (Service.equals("HomeServices")){
-            getSupportActionBar().setTitle("HomeServices");
-        }else if (Service.equals("AnyThingElse")){
-            getSupportActionBar().setTitle("AnyThingElse");
-        }else if (Service.equals("Travel")){
-            getSupportActionBar().setTitle("Travel");
-        }else if (Service.equals("Cabs")){
-            getSupportActionBar().setTitle("Cabs");
-        }else if (Service.equals("Recharge")){
-            getSupportActionBar().setTitle("Recharge");
-        } else if (Service.equals("Shopping")){
-            getSupportActionBar().setTitle("Shopping");
-        }
+//        if (Service.equals("Food")){
+//        }else if (Service.equals("HomeServices")){
+//            getSupportActionBar().setTitle("HomeServices");
+//        }else if (Service.equals("AnyThingElse")){
+//            getSupportActionBar().setTitle("AnyThingElse");
+//        }else if (Service.equals("Travel")){
+//            getSupportActionBar().setTitle("Travel");
+//        }else if (Service.equals("Cabs")){
+//            getSupportActionBar().setTitle("Cabs");
+//        }else if (Service.equals("Recharge")){
+//            getSupportActionBar().setTitle("Recharge");
+//        } else if (Service.equals("Shopping")){
+//            getSupportActionBar().setTitle("Shopping");
+//        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Log.i("TAG", Service);
+        Log.i("TAG", service);
         SharedPreferences sharepref =getSharedPreferences("MyPref", MODE_PRIVATE);
         emailid = sharepref.getString(Constant.EMAIL, "jaintulsi");
         //Log.i("TAG", emailid);
         emailid="jaintulsi";
         Log.i("TAG", emailid);
-        ChatterBoxRoomFragment roomFragment = ChatterBoxRoomFragment.newInstance(emailid, Service);
-        fragmentTransaction.replace(R.id.message_display_fragment, roomFragment);
+        ChatterBoxMessageFragment roomFragment = ChatterBoxMessageFragment.newInstance(emailid, service);
+        fragmentTransaction.replace(R.id.message_display_fragment_container, roomFragment);
+        ChatterBoxMessageFragment Fragment = ChatterBoxMessageFragment.newInstance(emailid, service);
+        fragmentTransaction.replace(R.id.message_input_fragment_container, Fragment);
         fragmentTransaction.commit();
+
 
 
 

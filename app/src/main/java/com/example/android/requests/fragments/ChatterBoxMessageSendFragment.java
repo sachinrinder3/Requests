@@ -42,6 +42,7 @@ public class ChatterBoxMessageSendFragment extends Fragment {
                     mMessageEditText.setEnabled(true);
                     mBtnSend.setEnabled(true);
                     mMessageEditText.setText("");
+
                 }
             });
 
@@ -62,7 +63,7 @@ public class ChatterBoxMessageSendFragment extends Fragment {
             if(chatterBoxServiceClient.isConnected() == false){
                 chatterBoxServiceClient.connect(emailid);
             }
-            chatterBoxServiceClient.addRoom(roomName,roomListener);
+//            chatterBoxServiceClient.addRoom(roomName,roomListener);
         }
 
         @Override
@@ -132,6 +133,8 @@ public class ChatterBoxMessageSendFragment extends Fragment {
 
                 if (chatterBoxServiceClient.isConnected()) {
                     chatterBoxServiceClient.publish(roomNameF, message);
+                    ChatMessage hey = new ChatMessage(message.getMessageContent(), "Y", "N");
+//                    chatAdapter.addItem(chatAdapter.getItemCount(), hey);
                 }
 
             }
