@@ -1,6 +1,9 @@
 package com.example.android.requests.fragments;
 
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,6 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +25,8 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 
 import com.example.android.requests.R;
+import com.example.android.requests.activities.HomeServices;
+import com.example.android.requests.activities.MainActivity;
 import com.example.android.requests.adapters.ChatAdapter;
 import com.example.android.requests.models.ChatMessage;
 import com.example.android.requests.services.ChatterBoxService;
@@ -39,23 +45,55 @@ public class ChatterBoxMessageFragment extends Fragment {
     private ChatterBoxClient chatterBoxServiceClient;
     private String emailid;
     private String roomName;
-    private String roomName1;
-    private RecyclerView recyclerView;
+    private String servicename;
+    public RecyclerView recyclerView;
     private ScrollView mMessageScrollView;
-    private ChatAdapter chatAdapter;
+    public ChatAdapter chatAdapter;
     private List<ChatMessage> chatList;
     private DataBaseHelper dataBaseHelper;
     private SQLiteDatabase sqLiteDatabase;
 
-    private void  addincomingtoadapter(ChatMessage fmsg){
+    public void  addincomingtoadapter(ChatMessage fmsg){
         ChatMessage hey = new ChatMessage(fmsg.getMessageContent(), "N", "Y");
         chatAdapter.addItem(chatAdapter.getItemCount(), hey);
     }
 
-    private void  addoutgoingtoadapter(ChatMessage fmsg){
-        ChatMessage hey = new ChatMessage(fmsg.getMessageContent(), "Y", "N");
+    public void  addoutgoingtoadapter(ChatMessage fg){
+        ChatMessage hey = new ChatMessage(fg.getMessageContent(), "Y", "N");
         chatAdapter.addItem(chatAdapter.getItemCount(), hey);
+        addMessageToDataBase(fg.getMessageContent(), fg.getservice(), fg.getoutgoing(), fg.getincoming());
+
     }
+
+
+    public void IamSeeing(ChatMessage fmsg){
+        //if (fmsg.getservice().equals(servicename)) {
+            //if (fmsg.getincoming().equals("Y") && fmsg.getoutgoing().equals("N")) {
+            addincomingtoadapter(fmsg);
+            //} else if (fmsg.getincoming().equals("N") && fmsg.getoutgoing().equals("Y")) {
+            //addoutgoingtoadapter(fmsg);
+//            //}
+//        }else {
+//            NotificationCompat.Builder mbuilder = new NotificationCompat.Builder(getContext());
+//            mbuilder.setSmallIcon(R.drawable.hamburger);
+//            mbuilder.setContentText(fmsg.getMessageContent());
+//            mbuilder.setContentTitle(fmsg.getservice());
+//            mbuilder.setAutoCancel(true);
+//            Intent intent = new Intent(getContext(), HomeServices.class);
+//            intent.putExtra("Service",fmsg.getservice());
+//            TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(getActivity());
+//            taskStackBuilder.addParentStack(HomeServices.class);
+//            taskStackBuilder.addNextIntent(intent);
+//            PendingIntent pendingIntent =  taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//            mbuilder.setContentIntent(pendingIntent);
+//            NotificationManager NM = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+//            NM.notify(0, mbuilder.build());
+//
+//        }
+        addMessageToDataBase(fmsg.getMessageContent(), fmsg.getservice(), fmsg.getoutgoing(), fmsg.getincoming());
+    }
+
+
 
 
 
@@ -68,14 +106,7 @@ public class ChatterBoxMessageFragment extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (fmsg.getservice().equals(roomName1)) {
-                        if (fmsg.getincoming().equals("Y") && fmsg.getoutgoing().equals("N")) {
-                            addincomingtoadapter(fmsg);
-                        } else if (fmsg.getincoming().equals("N") && fmsg.getoutgoing().equals("Y")) {
-                            addoutgoingtoadapter(fmsg);
-                        }
-                    }
-                    addMessageToDataBase(fmsg.getMessageContent(), fmsg.getservice(), fmsg.getoutgoing(), fmsg.getincoming());
+                    IamSeeing(fmsg);
                 }
             });
 
@@ -106,7 +137,7 @@ public class ChatterBoxMessageFragment extends Fragment {
             if (chatterBoxServiceClient.isConnected() == false) {
                 chatterBoxServiceClient.connect(emailid);
             }
-            chatterBoxServiceClient.addRoom(roomName, roomListener);
+            //chatterBoxServiceClient.addRoom(roomName, roomListener);
         }
 
         @Override
@@ -119,12 +150,12 @@ public class ChatterBoxMessageFragment extends Fragment {
 
     }
 
-    public static ChatterBoxMessageFragment newInstance(String emailid, String roomName) {
+    public static ChatterBoxMessageFragment newInstance(String emailid, String servicename) {
         ChatterBoxMessageFragment fragment = new ChatterBoxMessageFragment();
         Log.i("TAG", emailid);
         fragment.setCurrentUserEmailid(emailid);
         fragment.setRoomName(emailid);
-        fragment.setRoomName1(roomName);
+        fragment.setServiceName(servicename);
         return fragment;
     }
 
@@ -136,7 +167,7 @@ public class ChatterBoxMessageFragment extends Fragment {
                 //currentUserProfile);
         dataBaseHelper = new DataBaseHelper(getContext());
         sqLiteDatabase = dataBaseHelper.getWritableDatabase();
-        chatAdapter = new ChatAdapter(getActivity(), getChatListFromDataBase(roomName1));
+        chatAdapter = new ChatAdapter(getActivity(), getChatListFromDataBase(servicename));
 
 
 
@@ -180,18 +211,13 @@ public class ChatterBoxMessageFragment extends Fragment {
         getActivity().unbindService(serviceConnection);
     }
 
-
-
-
-
-
     public void setRoomName(String roomName) {
 
         this.roomName = roomName;
     }
-    public void setRoomName1(String roomName) {
+    public void setServiceName(String servicename) {
 
-        this.roomName1 = roomName;
+        this.servicename = servicename;
     }
 
 
@@ -211,24 +237,9 @@ public class ChatterBoxMessageFragment extends Fragment {
             ChatMessage chatMessage = new ChatMessage(message, outgoing, incoming);
             chatList.add(chatMessage);
         }
-        //Log.i("TAG","I AM GETTING CALLED");
         return chatList;
 
     }
-
-
-    /**
-     * The default content for this Fragment has a TextView that is shown when
-     * the list is empty. If you would like to change the text, call this method
-     * to supply the text it should use.
-     */
-//    public void setEmptyText(CharSequence emptyText) {
-//        View emptyView = mListView.getEmptyView();
-//
-//        if (emptyView instanceof TextView) {
-//            ((TextView) emptyView).setText(emptyText);
-//        }
-//    }
 
 
 }

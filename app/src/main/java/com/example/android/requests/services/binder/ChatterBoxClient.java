@@ -54,7 +54,8 @@ public class ChatterBoxClient extends Binder {
             chatterBoxService.getPubNub().publish(channel, messageJSON, new Callback() {
                 @Override
                 public void successCallback(String channel, Object message) {
-                    Log.i("TAG", channel);
+                    //Log.i("TAG", channel);
+                    //Log.i("TAG", "channel");
                     List<ChatterBoxCallback> listeners = chatterBoxService.getListeners().get(channel);
                     //String status = "";
                     Log.i("TAG", String.valueOf(listeners));
@@ -89,14 +90,56 @@ public class ChatterBoxClient extends Binder {
         }
     }
 
+    public void addRoom(final ChatterBoxCallback listener){
+
+
+            int i =0;
+
+
+            List<ChatterBoxCallback> l = null;
+
+            if (!chatterBoxService.getListeners().containsKey("Food")) {
+                l = new ArrayList<>();
+            } else {
+                l = chatterBoxService.getListeners().get("Food");
+            }
+
+            l.add(listener); //add the listener for this room.
+            i = chatterBoxService.getListeners().size();
+            Log.i("TAG", ""+i);
+            chatterBoxService.getListeners().put("Food", l);
+            l = null;
+//            //Log.i("TAG", chatterBoxService.getListeners().containsKey("Food")+"");
+            if (!chatterBoxService.getListeners().containsKey("Shopping")) {
+                l = new ArrayList<>();
+            } else {
+                l = chatterBoxService.getListeners().get("Shopping");
+            }
+
+            l.add(listener); //add the listener for this room.
+
+            chatterBoxService.getListeners().put("Shopping", l);
+            l = null;
+            //Log.i("TAG", chatterBoxService.getListeners().containsKey("Food")+"");
+            if (!chatterBoxService.getListeners().containsKey("HomeServices")) {
+                l = new ArrayList<>();
+            } else {
+                l = chatterBoxService.getListeners().get("HomeServices");
+            }
+
+            l.add(listener); //add the listener for this room.
+
+            chatterBoxService.getListeners().put("HomeServices", l);
+    }
+
     public void addRoom(final String roomName, final ChatterBoxCallback listener) {
 
         if (chatterBoxService.isConnected()) {
-            Log.i("TAG", "CONNECTED");
+            //Log.i("TAG", "CONNECTED");
             boolean bfound = false;
             String[] currentChannels = chatterBoxService.getPubNub().getSubscribedChannelsArray();
             int i =0;
-            Log.i("TAG", String.valueOf(currentChannels.length));
+            //Log.i("TAG", String.valueOf(currentChannels.length));
             for (String c : currentChannels) {
                 Log.i("TAG", c);
                 i=i+1;
@@ -105,35 +148,25 @@ public class ChatterBoxClient extends Binder {
                     break;
                 }
             }
-            Log.i("TAG", String.valueOf(!bfound));
-            if (!bfound) { //no one subscription to this room, add one
+            //Log.i("TAG", String.valueOf(!bfound));
+            if (!bfound) {
                 try {
                     chatterBoxService.getPubNub().subscribe(roomName, new Callback() {
                         @Override
 
                         public void successCallback(String channel, Object message, String timetoken) {
                             try {
-                                //Log.i("TAG", "I AM GETTING CALLED BROTHER");
-                                //Log.i(Constant.TAG, "received message on channel: " + channel);
                                 if (message instanceof JSONObject) {
-                                    //Log.i("TAG", "I AM GETTING CALLED BROTHER another");
                                     JSONObject jmessage = (JSONObject) message;
                                     String messageType = jmessage.getString(ChatMessage.TYPE);
                                     if (messageType.equals("chattmessage")) {
-                                        //Log.i("TAG", "I AM GETTING CALLED BROTHER another two");
-                                        //Log.i("TAG", "MESSAGE HAS BEEN RECEIVED");
+                                        Log.i("TAG", "MESSAGE HAS BEEN RECEIVED");
                                         ChatMessage msg = ChatMessage.create(jmessage, timetoken);
                                         List<ChatterBoxCallback> thisRoomListeners = chatterBoxService.getListeners().get(roomName);
-                                        //Log.i("TAG", roomName);
-                                        //Log.i("TAG", thisRoomListeners.toString()+"");
-                                        //int j = thisRoomListeners.size();
-                                        //Log.i("TAG", "LIST:"+j);
-                                       // int i=0;
-                                        //ChatterBoxCallback l;
+                                        Log.i("TAG", String.valueOf(thisRoomListeners));
                                         for (ChatterBoxCallback l : thisRoomListeners) {
-                                            //Log.i("TAG", "INSIDE FOR LOOP");
 //                                            if (i<1) {
-                                            Log.i("TAG", "I AM GETTING CALLED BROTHER another three");
+                                            Log.i("TAG", "INSIDE FOR LOOP");
                                                 l.onMessage(msg);
 //                                            }
 //                                            i=1;
@@ -191,40 +224,40 @@ public class ChatterBoxClient extends Binder {
 
             }
 
-            List<ChatterBoxCallback> l = null;
-
-            if (!chatterBoxService.getListeners().containsKey("Food")) {
-                l = new ArrayList<>();
-            } else {
-                l = chatterBoxService.getListeners().get("Food");
-            }
-
-            l.add(listener); //add the listener for this room.
-             i = chatterBoxService.getListeners().size();
-            Log.i("TAG", ""+i);
-            chatterBoxService.getListeners().put("Food", l);
-           l = null;
+//            List<ChatterBoxCallback> l = null;
+//
+//            if (!chatterBoxService.getListeners().containsKey("Food")) {
+//                l = new ArrayList<>();
+//            } else {
+//                l = chatterBoxService.getListeners().get("Food");
+//            }
+//
+//            l.add(listener); //add the listener for this room.
+//             i = chatterBoxService.getListeners().size();
+//            Log.i("TAG", ""+i);
+//            chatterBoxService.getListeners().put("Food", l);
+//           l = null;
+////            //Log.i("TAG", chatterBoxService.getListeners().containsKey("Food")+"");
+//            if (!chatterBoxService.getListeners().containsKey("Shopping")) {
+//                l = new ArrayList<>();
+//            } else {
+//                l = chatterBoxService.getListeners().get("Shopping");
+//            }
+//
+//            l.add(listener); //add the listener for this room.
+//
+//            chatterBoxService.getListeners().put("Shopping", l);
+//            l = null;
 //            //Log.i("TAG", chatterBoxService.getListeners().containsKey("Food")+"");
-            if (!chatterBoxService.getListeners().containsKey("Shopping")) {
-                l = new ArrayList<>();
-            } else {
-                l = chatterBoxService.getListeners().get("Shopping");
-            }
-
-            l.add(listener); //add the listener for this room.
-
-            chatterBoxService.getListeners().put("Shopping", l);
-            l = null;
-            //Log.i("TAG", chatterBoxService.getListeners().containsKey("Food")+"");
-            if (!chatterBoxService.getListeners().containsKey("HomeServices")) {
-                l = new ArrayList<>();
-            } else {
-                l = chatterBoxService.getListeners().get("HomeServices");
-            }
-
-            l.add(listener); //add the listener for this room.
-
-            chatterBoxService.getListeners().put("HomeServices", l);
+//            if (!chatterBoxService.getListeners().containsKey("HomeServices")) {
+//                l = new ArrayList<>();
+//            } else {
+//                l = chatterBoxService.getListeners().get("HomeServices");
+//            }
+//
+//            l.add(listener); //add the listener for this room.
+//
+//            chatterBoxService.getListeners().put("HomeServices", l);
 
         }
     }

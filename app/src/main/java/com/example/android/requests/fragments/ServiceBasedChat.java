@@ -1,23 +1,17 @@
 package com.example.android.requests.fragments;
 
-import android.content.ComponentName;
+
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatImageButton;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.android.requests.R;
-//import com.example.android.requests.activities.ChatActivity;
 import com.example.android.requests.activities.HomeServices;
 import com.example.android.requests.services.binder.ChatterBoxClient;
-import com.example.android.requests.utils.Constant;
 
 
 public class ServiceBasedChat extends Fragment {
@@ -147,16 +141,16 @@ public class ServiceBasedChat extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.i(Constant.TAG, "connecting to service");
-            chatterBoxServiceClient = (ChatterBoxClient) service;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            Log.i(Constant.TAG, "disconnecting from service");
-        }
-    };
+//    private ServiceConnection serviceConnection = new ServiceConnection() {
+//        @Override
+//        public void onServiceConnected(ComponentName name, IBinder service) {
+//            Log.i(Constant.TAG, "connecting to service");
+//            chatterBoxServiceClient = (ChatterBoxClient) service;
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName name) {
+//            Log.i(Constant.TAG, "disconnecting from service");
+//        }
+//    };
 }

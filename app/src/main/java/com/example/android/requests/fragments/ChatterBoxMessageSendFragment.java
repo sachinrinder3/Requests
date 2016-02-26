@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.android.requests.R;
+import com.example.android.requests.adapters.ChatAdapter;
 import com.example.android.requests.models.ChatMessage;
 import com.example.android.requests.services.ChatterBoxService;
 import com.example.android.requests.services.DefaultChatterBoxCallback;
@@ -36,12 +37,16 @@ public class ChatterBoxMessageSendFragment extends Fragment {
         @Override
         public void onMessagePublished(String timeToken) {
             Log.i(Constant.TAG, "inside: onMessagePublished for Send fragment");
+            if(getActivity() == null){
+                Log.i("TAG,", "yo man yes it is null");
+            }
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     mMessageEditText.setEnabled(true);
                     mBtnSend.setEnabled(true);
                     mMessageEditText.setText("");
+
                 }
             });
 
@@ -57,14 +62,13 @@ public class ChatterBoxMessageSendFragment extends Fragment {
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.i(Constant.TAG, "connecting to service");
+            Log.i(Constant.TAG, "connecting to service sendfragment");
             chatterBoxServiceClient = (ChatterBoxClient) service;
-            if(chatterBoxServiceClient.isConnected() == false){
+            if (chatterBoxServiceClient.isConnected() == false) {
                 chatterBoxServiceClient.connect(emailid);
             }
-            chatterBoxServiceClient.addRoom(roomName,roomListener);
+            chatterBoxServiceClient.addRoom(roomListener);
         }
-
         @Override
         public void onServiceDisconnected(ComponentName name) {
             Log.i(Constant.TAG, "disconnecting from service");
@@ -118,7 +122,7 @@ public class ChatterBoxMessageSendFragment extends Fragment {
                 ChatMessage message = ChatMessage.create();
                 message.setDeviceTag("android");
                 message.setservice(roomNameF);
-                Log.i("TAG", message.getservice());
+                //Log.i("TAG", message.getservice());
                 //message.setSenderUUID(currentUserProfile.getId());
                 message.setType(ChatMessage.CHATTMESSAGE);
                 message.setMessageContent(txtMsg.getText().toString());
@@ -132,6 +136,11 @@ public class ChatterBoxMessageSendFragment extends Fragment {
 
                 if (chatterBoxServiceClient.isConnected()) {
                     chatterBoxServiceClient.publish(roomNameF, message);
+                    //Log.i("TAG", message.getMessageContent());
+                    ChatterBoxMessageFragment chatterBoxMessageFragment =  (ChatterBoxMessageFragment)getActivity().getSupportFragmentManager().findFragmentByTag("message");
+                    //ChatMessage hey = new ChatMessage(message.getMessageContent(), "Y", "N");
+                    chatterBoxMessageFragment.addoutgoingtoadapter(message);
+                    //chatterBoxMessageFragment.getAdapter().addItem(chatterBoxMessageFragment.getAdapter().getItemCount(), hey);
                 }
 
             }
@@ -154,4 +163,5 @@ public class ChatterBoxMessageSendFragment extends Fragment {
         super.onDetach();
         getActivity().unbindService(serviceConnection);
     }
+
 }

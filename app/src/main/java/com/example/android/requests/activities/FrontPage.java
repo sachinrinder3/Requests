@@ -1,14 +1,24 @@
 package com.example.android.requests.activities;
 
+import android.app.ActivityManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.ComponentName;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +31,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 //import com.livechatinc.inappchat.ChatWindowActivity;
+import com.example.android.requests.fragments.ChatterBoxMessageFragment;
 import com.example.android.requests.fragments.Notification;
 import com.example.android.requests.fragments.SavedAddress;
 import com.example.android.requests.fragments.ChatWithUs;
@@ -29,6 +40,10 @@ import com.example.android.requests.fragments.ServiceBasedChat;
 import com.example.android.requests.fragments.YourOrder;
 import com.example.android.requests.R;
 import com.example.android.requests.fragments.Wallet;
+import com.example.android.requests.models.ChatMessage;
+import com.example.android.requests.services.ChatterBoxService;
+import com.example.android.requests.services.DefaultChatterBoxCallback;
+import com.example.android.requests.services.binder.ChatterBoxClient;
 import com.example.android.requests.utils.Constant;
 import com.example.android.requests.utils.DataBaseHelper;
 import com.google.gson.JsonElement;
@@ -38,6 +53,8 @@ import com.squareup.okhttp.Call;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+
+import java.util.List;
 
 
 public class FrontPage extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
@@ -167,6 +184,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                     AsyncTaskLogout runner = new AsyncTaskLogout();
                     runner.execute(emaillogout, reqidlogout);
                 }
+                chatterBoxServiceClient.leaveRoom("jaintulsi");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -175,12 +193,14 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
 
     @Override
     protected void onPostResume() {
+
         super.onPostResume();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        FrontPage.this.unbindService(serviceConnection);
     }
 
     @Override
@@ -203,7 +223,75 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
     @Override
     protected void onStart() {
         super.onStart();
+         Intent chatterBoxServiceIntent = new Intent(FrontPage.this, ChatterBoxService.class);
+        FrontPage.this.bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+
     }
+    public  ChatterBoxClient chatterBoxServiceClient;
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            chatterBoxServiceClient = (ChatterBoxClient) service;
+            if (chatterBoxServiceClient.isConnected() == false) {
+                chatterBoxServiceClient.connect("jaintulsi");
+            }
+            chatterBoxServiceClient.addRoom("jaintulsi", roomList);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Log.i(Constant.TAG, "disconnecting from service");
+        }
+    };
+    private DefaultChatterBoxCallback roomList = new DefaultChatterBoxCallback() {
+
+        @Override
+        public void onMessage(ChatMessage message) {
+            //Log.i(Constant.TAG, "received a message");
+            final ChatMessage fmsg = message;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //ChatterBoxMessageFragment chatterBoxMessageFragment = (ChatterBoxMessageFragment) getSupportFragmentManager().findFragmentByTag("message");
+                    //ChatterBoxMessageFragment chatterBoxMessageFragment = new ChatterBoxMessageFragment();
+                    String TITLE = getSupportActionBar().getTitle().toString();
+                    Log.i("TAG", TITLE);
+                    ActivityManager am = (ActivityManager) FrontPage.this .getSystemService(ACTIVITY_SERVICE);
+                    List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+                    ComponentName componentInfo = taskInfo.get(0).topActivity;
+                    if (taskInfo.get(0).topActivity.getClassName().equals("com.example.android.requests.activities.HomeServices")){
+                        //chatterBoxMessageFragment.IamSeeing(fmsg);
+                    }
+                    else {
+                        NotificationCompat.Builder mbuilder = new NotificationCompat.Builder(FrontPage.this);
+                        mbuilder.setSmallIcon(R.drawable.hamburger);
+                        mbuilder.setContentText(fmsg.getMessageContent());
+                        mbuilder.setContentTitle(fmsg.getservice());
+                        mbuilder.setAutoCancel(true);
+                        Intent intent = new Intent(FrontPage.this, HomeServices.class);
+                        intent.putExtra("Service", fmsg.getservice());
+                        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(FrontPage.this);
+                        taskStackBuilder.addParentStack(HomeServices.class);
+                        taskStackBuilder.addNextIntent(intent);
+                        PendingIntent pendingIntent =  taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                        mbuilder.setContentIntent(pendingIntent);
+                        NotificationManager NM = (NotificationManager) FrontPage.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                        NM.notify(0, mbuilder.build());
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put("chat_message", fmsg.getMessageContent());
+                        contentValues.put("message_service", fmsg.getservice());
+                        contentValues.put("outgoing", fmsg.getoutgoing());
+                        contentValues.put("incoming", fmsg.getincoming());
+                        long id = sqLiteDatabase.insert("CHAT_TABLE", null, contentValues);
+                        Log.i("TAG", "VALUE IS INSERTED INTO THE DATABASE");
+                    }
+
+                }
+            });
+
+        }
+    };
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig)
@@ -343,7 +431,6 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 Log.i("TAG", "VCFV");
                 sqLiteDatabase = dataBaseHelper.getWritableDatabase();
 				sqLiteDatabase.execSQL("DELETE FROM " + DataBaseHelper.Table_name);
-				sqLiteDatabase.close();
 //                Log.i("TAG", sharepref.getString(Constant.NAME, ""));
 //                Log.i("TAG",sharepref.getString(Constant.PHONE,""));
 //                Log.i("TAG",sharepref.getString(Constant.PASSWORD,""));
