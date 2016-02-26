@@ -99,7 +99,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.HomeServices"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName = ".activities.FrontPage">
+        <meta-data
+            android:name = "android.support.PARENT_ACTIVITY"
+            android:value = ".activities.FrontPage" />
+        </activity>
         <activity
             android:name=".activities.CurrentLocation"
             android:screenOrientation="portrait" />

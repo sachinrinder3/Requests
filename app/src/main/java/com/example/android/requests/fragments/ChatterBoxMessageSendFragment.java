@@ -9,6 +9,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
@@ -16,7 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.android.requests.R;
-import com.example.android.requests.adapters.ChatAdapter;
+import com.example.android.requests.activities.HomeServices;
 import com.example.android.requests.models.ChatMessage;
 import com.example.android.requests.services.ChatterBoxService;
 import com.example.android.requests.services.DefaultChatterBoxCallback;
@@ -32,6 +33,7 @@ public class ChatterBoxMessageSendFragment extends Fragment {
     private AppCompatEditText mMessageEditText;
     private AppCompatButton mBtnSend;
     private String roomName;
+    private AppCompatActivity appCompatActivity;
 
     private DefaultChatterBoxCallback roomListener = new DefaultChatterBoxCallback() {
         @Override
@@ -40,7 +42,7 @@ public class ChatterBoxMessageSendFragment extends Fragment {
             if(getActivity() == null){
                 Log.i("TAG,", "yo man yes it is null");
             }
-            getActivity().runOnUiThread(new Runnable() {
+            appCompatActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     mMessageEditText.setEnabled(true);
@@ -153,6 +155,7 @@ public class ChatterBoxMessageSendFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        this.appCompatActivity=(HomeServices)context;
         Intent chatterBoxServiceIntent = new Intent(getActivity(), ChatterBoxService.class);
         getActivity().bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }

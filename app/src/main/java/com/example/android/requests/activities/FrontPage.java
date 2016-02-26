@@ -211,7 +211,6 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
     @Override
     protected void onPause() {
         super.onPause();
-        sqLiteDatabase.close();
     }
 
     @Override
@@ -282,7 +281,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                         contentValues.put("message_service", fmsg.getservice());
                         contentValues.put("outgoing", fmsg.getoutgoing());
                         contentValues.put("incoming", fmsg.getincoming());
-                        long id = sqLiteDatabase.insert("CHAT_TABLE", null, contentValues);
+                        sqLiteDatabase.insert("CHAT_TABLE", null, contentValues);
                         Log.i("TAG", "VALUE IS INSERTED INTO THE DATABASE");
                     }
 
