@@ -60,7 +60,6 @@ public class ChatWithUs extends Fragment {
     private SQLiteDatabase sqLiteDatabase;
     private BroadcastReceiver recieve_chat;
     private LocalBroadcastManager localBroadcastManager;
-    private LocalBroadcastManager mLocalBroadcastManager;
     private List<ChatMessage> chat_list;
     private RecyclerView recList;
     private AppCompatImageButton stickerButton;

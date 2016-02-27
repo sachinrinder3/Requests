@@ -3,6 +3,7 @@ package com.example.android.requests.services;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.android.requests.R;
+import com.example.android.requests.activities.HomeServices;
 import com.example.android.requests.activities.MainActivity;
 import com.example.android.requests.receivers.GcmBroadcastReceiver;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -69,6 +71,7 @@ public class GcmIntentService extends IntentService {
         }
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
+
     private void sendNotification(String msg) {
         Log.i("TAG", "someone called me 10");
         mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -81,6 +84,30 @@ public class GcmIntentService extends IntentService {
                         .setContentText(msg);
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+
+
+
+//        android.support.v4.app.NotificationCompat.Builder mbuilder = new android.support.v4.app.NotificationCompat.Builder(this);
+//        mbuilder.setSmallIcon(R.drawable.hamburger);
+//        mbuilder.setStyle(new NotificationCompat.BigTextStyle()
+//                .bigText(msg));
+//        mbuilder.setContentText(fmsg.getMessageContent());
+//        mbuilder.setContentTitle(fmsg.getservice());
+//        mbuilder.setAutoCancel(true);
+//        Intent intent = new Intent(this, HomeServices.class);
+//        intent.putExtra("Service", fmsg.getservice());
+//        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
+//        taskStackBuilder.addParentStack(HomeServices.class);
+//        taskStackBuilder.addNextIntent(intent);
+//        PendingIntent pendingIntent =  taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//        mbuilder.setContentIntent(pendingIntent);
+//        NotificationManager NM = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+//        NM.notify(0, mbuilder.build());
+
+
+
+
+
     }
 
     public static void startActionFoo(Context context, String param1, String param2) {

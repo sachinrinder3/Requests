@@ -4,21 +4,25 @@ import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +58,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 
@@ -73,7 +78,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
     private TextView headerusername;
     private DataBaseHelper dataBaseHelper;
     private SQLiteDatabase sqLiteDatabase;
-
+    public LocalBroadcastManager localBroadcastManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +99,16 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         SharedPreferences.Editor editor = sharepref.edit();
         headerusername.setText(sharepref.getString(Constant.NAME, "username"));
         headeremail.setText(sharepref.getString(Constant.EMAIL, "useremail"));
+//        BroadcastReceiver recieve_chat=new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                String received_message = intent.getStringExtra("message");
+//                Log.i("TAG", "hey bro whats up");
+//
+//            }
+//        };
+// localBroadcastManager.getInstance(FrontPage.this).registerReceiver(recieve_chat, new IntentFilter("message_recieved"));
+
 
 
         if (getSupportActionBar() != null) {
@@ -234,7 +249,15 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
             if (chatterBoxServiceClient.isConnected() == false) {
                 chatterBoxServiceClient.connect("jaintulsi");
             }
-            chatterBoxServiceClient.addRoom("jaintulsi", roomList);
+            SharedPreferences prefs = FrontPage.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+            String gcm_id = prefs.getString(Constant.PROPERTY_REG_ID, "");
+            if (!gcm_id.equals("")){
+                chatterBoxServiceClient.addRoom("jaintulsi", roomList, gcm_id);
+            }
+            else{
+
+            }
+
         }
 
         @Override
@@ -242,6 +265,8 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
             Log.i(Constant.TAG, "disconnecting from service");
         }
     };
+
+
     private DefaultChatterBoxCallback roomList = new DefaultChatterBoxCallback() {
 
         @Override
@@ -253,15 +278,36 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 public void run() {
                     //ChatterBoxMessageFragment chatterBoxMessageFragment = (ChatterBoxMessageFragment) getSupportFragmentManager().findFragmentByTag("message");
                     //ChatterBoxMessageFragment chatterBoxMessageFragment = new ChatterBoxMessageFragment();
-                    String TITLE = getSupportActionBar().getTitle().toString();
-                    Log.i("TAG", TITLE);
-                    ActivityManager am = (ActivityManager) FrontPage.this .getSystemService(ACTIVITY_SERVICE);
-                    List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
-                    ComponentName componentInfo = taskInfo.get(0).topActivity;
-                    if (taskInfo.get(0).topActivity.getClassName().equals("com.example.android.requests.activities.HomeServices")){
-                        //chatterBoxMessageFragment.IamSeeing(fmsg);
-                    }
-                    else {
+//                    boolean isInBackground = false;
+//                    ActivityManager am = (ActivityManager) FrontPage.this.getSystemService(Context.ACTIVITY_SERVICE);
+//                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
+//                        List<ActivityManager.RunningAppProcessInfo> runningProcesses = am.getRunningAppProcesses();
+//                        for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
+//                            if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+//                                for (String activeProcess : processInfo.pkgList) {
+//                                    if (activeProcess.equals(HomeServices.class.getPackage())) {
+//                                        isInBackground=true;
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    } else {
+//                        List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+//                        ComponentName componentInfo = taskInfo.get(0).topActivity;
+//                        if (componentInfo.getPackageName().equals(HomeServices.class.getPackage())) {
+//                            isInBackground=true;
+//                        }
+//                    }
+//                    Log.i("TAG", String.valueOf(isInBackground));
+
+//                    ActivityManager am = (ActivityManager) FrontPage.this .getSystemService(ACTIVITY_SERVICE);
+//                    List<ActivityManager.RunningAppProcessInfo> taskInfo = am.getRunningAppProcesses();
+//                    ComponentName componentInfo = taskInfo.get(0).topActivity;
+//                    Log.i("TAG", componentInfo.toString());
+//                    if (taskInfo.get(0).topActivity.getClassName().equals("com.example.android.requests.activities.HomeServices")){
+//                        //chatterBoxMessageFragment.IamSeeing(fmsg);
+//                    }
+//                    else {
                         NotificationCompat.Builder mbuilder = new NotificationCompat.Builder(FrontPage.this);
                         mbuilder.setSmallIcon(R.drawable.hamburger);
                         mbuilder.setContentText(fmsg.getMessageContent());
@@ -283,7 +329,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                         contentValues.put("incoming", fmsg.getincoming());
                         sqLiteDatabase.insert("CHAT_TABLE", null, contentValues);
                         Log.i("TAG", "VALUE IS INSERTED INTO THE DATABASE");
-                    }
+                    //}
 
                 }
             });
@@ -386,7 +432,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 startActivity(location);
                 return true;
             case R.id.dummy2:
-                Intent dummy2 = new Intent(this, ImageUploading.class);
+                Intent dummy2 = new Intent(this, MapsActivity.class);
                 startActivity(dummy2);
 //                Intent intent = new Intent(this, com.livechatinc.inappchat.ChatWindowActivity.class);
 //                intent.putExtra(com.livechatinc.inappchat.ChatWindowActivity.KEY_GROUP_ID, "your_group_id");

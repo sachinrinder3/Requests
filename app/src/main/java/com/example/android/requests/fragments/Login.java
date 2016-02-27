@@ -1,24 +1,19 @@
 package com.example.android.requests.fragments;
 
-import android.content.ComponentName;
 import android.content.Context;
 
 import com.example.android.requests.activities.MainActivity;
-import com.example.android.requests.models.ChatMessage;
-import com.example.android.requests.services.ChatterBoxService;
 import com.example.android.requests.services.DefaultChatterBoxCallback;
 import com.example.android.requests.services.binder.ChatterBoxClient;
 import com.example.android.requests.utils.Constant;
 import com.facebook.CallbackManager;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +27,7 @@ import com.example.android.requests.R;
 import com.example.android.requests.activities.FrontPage;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -90,20 +86,11 @@ public class Login extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //e1="jaintulsi";
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-//        setRoomChannel(e1);
-//        Intent chatterBoxServiceIntent = new Intent(getActivity(), ChatterBoxService.class);
-//        getActivity().bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
-
-//    private void setRoomChannel(String roomChannel){
-//
-//        this.roomChannel = roomChannel;
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,29 +101,27 @@ public class Login extends Fragment {
         Log.i("TAG", String.valueOf(checkPlayServices()));
 
         if (checkPlayServices()) {
-            //gcm = GoogleCloudMessaging.getInstance(getActivity());
-            //regid = getRegistrationId(getActivity());
-            //if (regid.isEmpty()) {
-                //Log.i("TAG", "empty regid");
-                //registerInBackground();
-            //}
+            gcm = GoogleCloudMessaging.getInstance(getActivity());
+            regid = getRegistrationId(getActivity());
+            if (regid.isEmpty()) {
+                Log.i("TAG", "empty regid");
+                registerInBackground();
+            }
         } else {
-            Log.i("pavan", "No valid Google Play Services APK found.");
+            Log.i("TAG", "No valid Google Play Services APK found.");
         }
 
         loginbtn.setOnClickListener(new View.OnClickListener() {
                                         public void onClick(View v) {
-                                            email = (AppCompatEditText)getView().findViewById(R.id.email_login);
-                                            password = (AppCompatEditText)getView().findViewById(R.id.password_login);
-                                            emailstring =  email.getText().toString();
+                                            email = (AppCompatEditText) getView().findViewById(R.id.email_login);
+                                            password = (AppCompatEditText) getView().findViewById(R.id.password_login);
+                                            emailstring = email.getText().toString();
                                             passwordstring = password.getText().toString();
                                             //sendRegistrationIdToBackend();
-                                            regid="hey";
-                                            if (!emailstring.equals("") && !passwordstring.equals("") ){
+                                            if (!emailstring.equals("") && !passwordstring.equals("")) {
                                                 AsyncTaskRunner runner = new AsyncTaskRunner();
-                                                runner.execute(emailstring,passwordstring,regid);
-                                            }
-                                            else {
+                                                runner.execute(emailstring, passwordstring, regid);
+                                            } else {
                                                 Toast.makeText(getActivity(), "Please enter both email and password", Toast.LENGTH_LONG).show();
                                             }
 
@@ -166,27 +151,6 @@ public class Login extends Fragment {
     }
     public DefaultChatterBoxCallback roomListener;
 
-
-//    private ServiceConnection serviceConnection = new ServiceConnection() {
-//
-//        @Override
-//        public void onServiceConnected(ComponentName name, IBinder service) {
-//            Log.i(Constant.TAG, "connecting to service");
-//            mServiceBound = true;
-//            chatterBoxServiceClient = (ChatterBoxClient) service;
-//            if(chatterBoxServiceClient.isConnected() == false){
-//                chatterBoxServiceClient.connect(e1);
-//                Log.i("TAG", String.valueOf(chatterBoxServiceClient.connect(e1)));
-//            }
-//            chatterBoxServiceClient.addRoom(roomChannel,roomListener);
-//        }
-//
-//        @Override
-//        public void onServiceDisconnected(ComponentName name) {
-//            Log.i(Constant.TAG, "disconnecting from service");
-//
-//        }
-//    };
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -228,76 +192,6 @@ public class Login extends Fragment {
             if (result.equals("User Exits")){
                 Toast.makeText(getActivity(), "You are successfully logged-in", Toast.LENGTH_LONG).show();
 
-//                try {
-//                    //pubnub.subscribe(Constant.HOME_SERVICES, new Callback())
-//                    pubnub.subscribe(Constant.HOME_SERVICES, new Callback() {
-//                                @Override
-//                                public void connectCallback(String channel, Object message) {
-//
-//                                    Log.i("TAG", "11");
-//                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-//                                            + " : " + message.getClass() + " : "
-//                                            + message.toString());
-//                                }
-//
-//                                @Override
-//                                public void disconnectCallback(String channel, Object message) {
-//
-//                                    Log.i("TAG", "12");
-//                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-//                                            + " : " + message.getClass() + " : "
-//                                            + message.toString());
-//                                }
-//
-//                                public void reconnectCallback(String channel, Object message) {
-//                                    Log.i("TAG", "13");
-//                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-//                                            + " : " + message.getClass() + " : "
-//                                            + message.toString());
-//                                }
-//
-//                                @Override
-//                                public void successCallback(String channel, Object message) {
-//                                    final Object ob = message;
-//
-//                                    new Thread() {
-//                                        public void run() {
-//                                            getActivity().runOnUiThread(new Runnable() {
-//                                                public void run() {
-//                                                    Toast.makeText(getActivity(), "Hello", Toast.LENGTH_LONG).show();
-//                                                    String received_message = ob.toString();
-//                                                    //ChatMessage hey1 = new ChatMessage(received_message, "N", "Y");
-//                                                    //addMessageToDataBase(received_message, "hey", "N", "Y");
-//                                                    //chatAdapter.addItem(chatAdapter.getItemCount(), hey1);
-//                                                }
-//                                            });
-//                                        }
-//                                    }.start();
-//
-//
-//                                    Log.i("TAG", "14");
-//                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-//                                            + " : " + message.getClass() + " : "
-//                                            + message.toString());
-//
-//                                    //ChatMessage hey2 =  new ChatMessage("vfvdf", "N", "Y");
-//                                    //chatAdapter.addItem(chatAdapter.getItemCount(),hey2);
-//
-//
-//                                }
-//
-//                                @Override
-//                                public void errorCallback(String channel, PubnubError error) {
-//                                    Log.i("TAG", "15");
-//                                    Log.i("TAG", "SUBSCRIBE : CONNECT on channel:" + channel
-//                                            + " : " + error.getClass() + " : "
-//                                            + error.toString());
-//                                }
-//                            }
-//                    );
-//                } catch (PubnubException e) {
-//                    System.out.println(e.toString());
-//                }
                 Intent intentlogin = new Intent(getActivity(), FrontPage.class);
                 startActivity(intentlogin);
             }
@@ -331,7 +225,7 @@ public class Login extends Fragment {
         int resultCode = api.isGooglePlayServicesAvailable(getActivity());
         if (resultCode != ConnectionResult.SUCCESS) {
             if (api.isUserResolvableError(resultCode)) {
-                //GooglePlayServicesUtil.getErrorDialog(resultCode, this, Constant.PLAY_SERVICES_RESOLUTION_REQUEST).show();
+                GooglePlayServicesUtil.getErrorDialog(resultCode, getActivity(), Constant.PLAY_SERVICES_RESOLUTION_REQUEST).show();
                 GoogleApiAvailability.getInstance().getErrorString(resultCode);
             } else {
                 Log.i(MainActivity.TAG, "This device is not supported.");
@@ -342,10 +236,7 @@ public class Login extends Fragment {
     }
 
     private String getRegistrationId(Context context) {
-        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Constant.PROPERTY_REG_ID, "");
-        editor.commit();
+        SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         String registrationId = prefs.getString(Constant.PROPERTY_REG_ID, "");
         if (registrationId.isEmpty()) {
             Log.i(MainActivity.TAG, "Registration not found.");
@@ -372,13 +263,33 @@ public class Login extends Fragment {
     }
 
     private void storeRegistrationId(Context context, String regId) {
-        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         int appVersion = getAppVersion(context);
         Log.i(MainActivity.TAG, "Saving regId on app version " + appVersion);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(Constant.PROPERTY_REG_ID, regId);
         editor.putInt(Constant.PROPERTY_APP_VERSION, appVersion);
         editor.commit();
+    }
+
+    private void registerInBackground() {
+        new AsyncTask() {
+            @Override
+            protected String doInBackground(Object[] params) {
+                try {
+                    if (gcm == null) {
+                        gcm = GoogleCloudMessaging.getInstance(getActivity());
+                    }
+                    regid = gcm.register(Constant.SENDER_ID);
+                    msg = "Device registered, registration ID=" + regid;
+                    storeRegistrationId(getActivity(), regid);
+                } catch (IOException ex) {
+                    msg = "Error :" + ex.getMessage();
+                }
+                Log.i("TAG", msg);
+                return msg;
+            }
+        }.execute();
     }
 
 //    private void storeUserDetails(Context context) {
@@ -440,23 +351,4 @@ public class Login extends Fragment {
 //    }
 
 //
-    private void registerInBackground() {
-        new AsyncTask() {
-            @Override
-            protected String doInBackground(Object[] params) {
-                try {
-                    if (gcm == null) {
-                        gcm = GoogleCloudMessaging.getInstance(getActivity());
-                    }
-                    regid = gcm.register(Constant.SENDER_ID);
-                    msg = "Device registered, registration ID=" + regid;
-                    storeRegistrationId(getActivity(), regid);
-                } catch (IOException ex) {
-                    msg = "Error :" + ex.getMessage();
-                }
-                Log.i("TAG", msg);
-               return msg;
-            }
-        }.execute();
-    }
 }

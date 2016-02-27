@@ -132,12 +132,23 @@ public class ChatterBoxClient extends Binder {
             chatterBoxService.getListeners().put("HomeServices", l);
     }
 
-    public void addRoom(final String roomName, final ChatterBoxCallback listener) {
+    public void addRoom(final String roomName, final ChatterBoxCallback listener, String gcm_id) {
 
         if (chatterBoxService.isConnected()) {
             //Log.i("TAG", "CONNECTED");
             boolean bfound = false;
             String[] currentChannels = chatterBoxService.getPubNub().getSubscribedChannelsArray();
+            chatterBoxService.getPubNub().enablePushNotificationsOnChannel(roomName, gcm_id, new Callback() {
+                @Override
+                public void successCallback(String channel, Object message) {
+                    Log.i("TAG", message.toString());
+                }
+
+                @Override
+                public void errorCallback(String channel, PubnubError error) {
+                    Log.i("TAG", "EFERBCMC");
+                }
+            });
             int i =0;
             //Log.i("TAG", String.valueOf(currentChannels.length));
             for (String c : currentChannels) {
