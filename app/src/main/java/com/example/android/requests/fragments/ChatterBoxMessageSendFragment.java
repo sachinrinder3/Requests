@@ -138,11 +138,8 @@ public class ChatterBoxMessageSendFragment extends Fragment {
 
                 if (chatterBoxServiceClient.isConnected()) {
                     chatterBoxServiceClient.publish(roomNameF, message);
-                    //Log.i("TAG", message.getMessageContent());
                     ChatterBoxMessageFragment chatterBoxMessageFragment =  (ChatterBoxMessageFragment)getActivity().getSupportFragmentManager().findFragmentByTag("message");
-                    //ChatMessage hey = new ChatMessage(message.getMessageContent(), "Y", "N");
                     chatterBoxMessageFragment.addoutgoingtoadapter(message);
-                    //chatterBoxMessageFragment.getAdapter().addItem(chatterBoxMessageFragment.getAdapter().getItemCount(), hey);
                 }
 
             }

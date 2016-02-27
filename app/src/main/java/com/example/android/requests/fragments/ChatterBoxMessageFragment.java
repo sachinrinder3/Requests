@@ -126,7 +126,7 @@ public class ChatterBoxMessageFragment extends Fragment {
         contentValues.put("incoming", incoming);
         long id = sqLiteDatabase.insert("CHAT_TABLE", null, contentValues);
         Log.i("TAG", String.valueOf(id));
-        Log.i("TAG", "VALUE IS INSERTED INTO THE DATABASE");
+        Log.i("TAG", "message IS INSERTED INTO THE DATABASE");
 
     }
 

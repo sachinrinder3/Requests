@@ -23,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.content.SharedPreferences;
 
 import com.example.android.requests.fragments.ChatterBoxMessageFragment;
 import com.example.android.requests.fragments.ChatterBoxMessageSendFragment;
@@ -121,6 +122,11 @@ public class HomeServices extends AppCompatActivity {
         }
     };
 
+    public  FragmentManager getsupport(){
+        return fragmentManager;
+    }
+    FragmentManager fragmentManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +146,10 @@ public class HomeServices extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle(service);
-        //SharedPreferences sharepref =getSharedPreferences("MyPref", MODE_PRIVATE);
+        SharedPreferences shareprefe = this.getSharedPreferences("MyPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = shareprefe.edit();
+        editor.putString("CurrentService", service);
+        editor.commit();
        // final String email = sharepref.getString(Constant.EMAIL, "");
 //        if (Service.equals("Food")){
 //        }else if (Service.equals("HomeServices")){
@@ -156,7 +165,7 @@ public class HomeServices extends AppCompatActivity {
 //        } else if (Service.equals("Shopping")){
 //            getSupportActionBar().setTitle("Shopping");
 //        }
-        FragmentManager fragmentManager = getSupportFragmentManager();
+         fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //Log.i("TAG", service);
         SharedPreferences sharepref =getSharedPreferences("MyPref", MODE_PRIVATE);

@@ -278,6 +278,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 public void run() {
                     //ChatterBoxMessageFragment chatterBoxMessageFragment = (ChatterBoxMessageFragment) getSupportFragmentManager().findFragmentByTag("message");
                     //ChatterBoxMessageFragment chatterBoxMessageFragment = new ChatterBoxMessageFragment();
+
 //                    boolean isInBackground = false;
 //                    ActivityManager am = (ActivityManager) FrontPage.this.getSystemService(Context.ACTIVITY_SERVICE);
 //                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
@@ -308,6 +309,54 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
 //                        //chatterBoxMessageFragment.IamSeeing(fmsg);
 //                    }
 //                    else {
+
+                    ActivityManager am = (ActivityManager) FrontPage.this .getSystemService(ACTIVITY_SERVICE);
+                    List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+                    ComponentName componentInfo = taskInfo.get(0).topActivity;
+                    Log.i("TAG", taskInfo.get(0).topActivity.getClassName());
+                    if (taskInfo.get(0).topActivity.getClassName().equals("com.example.android.requests.activities.HomeServices")){
+                        //Log.i("TAG", "inside first if");
+                        SharedPreferences shareprefe = getSharedPreferences("MyPref", MODE_PRIVATE);
+                        String currentService = shareprefe.getString("CurrentService", "");
+                        String messageService = fmsg.getservice();
+                        //Log.i("TAG", currentService+" "+ messageService);
+                        if (currentService.equals(messageService)){
+                            //Log.i("TAG", "inside nested if");
+                            //Log.i("TAG", "in same service start");
+                           // ChatterBoxMessageFragment chatterBoxMessageFragment =  (ChatterBoxMessageFragment)HomeServices.getsupport().findFragmentById(R.id.message_display_fragment_container);
+                            //chatterBoxMessageFragment.addoutgoingtoadapter(fmsg);
+                            Log.i("TAG", "in same service end");
+                        }
+                        else
+                        {
+                            Log.i("TAG", "inside nested else");
+                            NotificationCompat.Builder mbuilder = new NotificationCompat.Builder(FrontPage.this);
+                            mbuilder.setSmallIcon(R.drawable.hamburger);
+                            mbuilder.setContentText(fmsg.getMessageContent());
+                            mbuilder.setContentTitle(fmsg.getservice());
+                            mbuilder.setAutoCancel(true);
+                            Intent intent = new Intent(FrontPage.this, HomeServices.class);
+                            intent.putExtra("Service", fmsg.getservice());
+                            TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(FrontPage.this);
+                            taskStackBuilder.addParentStack(HomeServices.class);
+                            taskStackBuilder.addNextIntent(intent);
+                            PendingIntent pendingIntent =  taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                            mbuilder.setContentIntent(pendingIntent);
+                            NotificationManager NM = (NotificationManager) FrontPage.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                            NM.notify(0, mbuilder.build());
+                            ContentValues contentValues = new ContentValues();
+                            contentValues.put("chat_message", fmsg.getMessageContent());
+                            contentValues.put("message_service", fmsg.getservice());
+                            contentValues.put("outgoing", fmsg.getoutgoing());
+                            contentValues.put("incoming", fmsg.getincoming());
+                            sqLiteDatabase.insert("CHAT_TABLE", null, contentValues);
+                            Log.i("TAG", "VALUE IS INSERTED INTO THE DATABASE1");
+                        }
+                        //chatterBoxMessageFragment.IamSeeing(fmsg);
+                    }
+                    else {
+                        Log.i("TAG", "inside first else");
+
                         NotificationCompat.Builder mbuilder = new NotificationCompat.Builder(FrontPage.this);
                         mbuilder.setSmallIcon(R.drawable.hamburger);
                         mbuilder.setContentText(fmsg.getMessageContent());
@@ -328,8 +377,10 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                         contentValues.put("outgoing", fmsg.getoutgoing());
                         contentValues.put("incoming", fmsg.getincoming());
                         sqLiteDatabase.insert("CHAT_TABLE", null, contentValues);
-                        Log.i("TAG", "VALUE IS INSERTED INTO THE DATABASE");
-                    //}
+
+                        Log.i("TAG", "VALUE IS INSERTED INTO THE DATABASE2");
+                    }
+
 
                 }
             });
