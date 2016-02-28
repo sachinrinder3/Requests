@@ -325,7 +325,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                             //Log.i("TAG", "in same service start");
                            // ChatterBoxMessageFragment chatterBoxMessageFragment =  (ChatterBoxMessageFragment)HomeServices.getsupport().findFragmentById(R.id.message_display_fragment_container);
                             //chatterBoxMessageFragment.addoutgoingtoadapter(fmsg);
-                            Log.i("TAG", "in same service end");
+                            Log.i("TAG", "Someone else is doing my job brother hahahahaha");
                         }
                         else
                         {

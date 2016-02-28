@@ -170,7 +170,7 @@ public class ChatterBoxClient extends Binder {
                                 if (message instanceof JSONObject) {
                                     JSONObject jmessage = (JSONObject) message;
                                     String messageType = jmessage.getString(ChatMessage.TYPE);
-                                    if (messageType.equals("chattmessage")) {
+                                    if (messageType.equals(ChatMessage.CHATTMESSAGE)) {
                                         Log.i("TAG", "MESSAGE HAS BEEN RECEIVED");
                                         ChatMessage msg = ChatMessage.create(jmessage, timetoken);
                                         List<ChatterBoxCallback> thisRoomListeners = chatterBoxService.getListeners().get(roomName);

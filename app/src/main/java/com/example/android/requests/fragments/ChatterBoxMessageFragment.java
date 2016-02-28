@@ -1,20 +1,20 @@
 package com.example.android.requests.fragments;
 
-
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
+import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,8 +25,6 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 
 import com.example.android.requests.R;
-import com.example.android.requests.activities.HomeServices;
-import com.example.android.requests.activities.MainActivity;
 import com.example.android.requests.adapters.ChatAdapter;
 import com.example.android.requests.models.ChatMessage;
 import com.example.android.requests.services.ChatterBoxService;
@@ -52,6 +50,7 @@ public class ChatterBoxMessageFragment extends Fragment {
     private List<ChatMessage> chatList;
     private DataBaseHelper dataBaseHelper;
     private SQLiteDatabase sqLiteDatabase;
+    private LocalBroadcastManager localBroadcastManager;
 
     public void  addincomingtoadapter(ChatMessage fmsg){
         ChatMessage hey = new ChatMessage(fmsg.getMessageContent(), "N", "Y");
@@ -65,52 +64,35 @@ public class ChatterBoxMessageFragment extends Fragment {
 
     }
 
-
-    public void IamSeeing(ChatMessage fmsg){
-        //if (fmsg.getservice().equals(servicename)) {
-            //if (fmsg.getincoming().equals("Y") && fmsg.getoutgoing().equals("N")) {
-            addincomingtoadapter(fmsg);
-            //} else if (fmsg.getincoming().equals("N") && fmsg.getoutgoing().equals("Y")) {
-            //addoutgoingtoadapter(fmsg);
-//            //}
-//        }else {
-//            NotificationCompat.Builder mbuilder = new NotificationCompat.Builder(getContext());
-//            mbuilder.setSmallIcon(R.drawable.hamburger);
-//            mbuilder.setContentText(fmsg.getMessageContent());
-//            mbuilder.setContentTitle(fmsg.getservice());
-//            mbuilder.setAutoCancel(true);
-//            Intent intent = new Intent(getContext(), HomeServices.class);
-//            intent.putExtra("Service",fmsg.getservice());
-//            TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(getActivity());
-//            taskStackBuilder.addParentStack(HomeServices.class);
-//            taskStackBuilder.addNextIntent(intent);
-//            PendingIntent pendingIntent =  taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-//            mbuilder.setContentIntent(pendingIntent);
-//            NotificationManager NM = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-//            NM.notify(0, mbuilder.build());
-//
-//        }
-        addMessageToDataBase(fmsg.getMessageContent(), fmsg.getservice(), fmsg.getoutgoing(), fmsg.getincoming());
-    }
-
-
-
-
-
     private DefaultChatterBoxCallback roomListener = new DefaultChatterBoxCallback() {
 
         @Override
         public void onMessage(ChatMessage message) {
-            //Log.i(Constant.TAG, "received a message");
+            Log.i(Constant.TAG, "WD UP");
             final ChatMessage fmsg = message;
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    IamSeeing(fmsg);
+
+                    ActivityManager am = (ActivityManager)getContext().getSystemService(Context.ACTIVITY_SERVICE);
+                    List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+                    ComponentName componentInfo = taskInfo.get(0).topActivity;
+                    Log.i("TAG", taskInfo.get(0).topActivity.getClassName());
+                    if (taskInfo.get(0).topActivity.getClassName().equals("com.example.android.requests.activities.HomeServices")) {
+                        //Log.i("TAG", "inside first if");
+                        SharedPreferences shareprefe = getActivity().getSharedPreferences("MyPref",getActivity().MODE_PRIVATE );
+                        String currentService = shareprefe.getString("CurrentService", "");
+                        String messageService = fmsg.getservice();
+                        if (currentService.equals(messageService)) {
+                            addincomingtoadapter(fmsg);
+                            addMessageToDataBase(fmsg.getMessageContent(), fmsg.getservice(), fmsg.getoutgoing(), fmsg.getincoming());
+                        }
+                    }
                 }
             });
-
         }
+
+
 
         @Override
         public void onError(String message) {
@@ -137,7 +119,12 @@ public class ChatterBoxMessageFragment extends Fragment {
             if (chatterBoxServiceClient.isConnected() == false) {
                 chatterBoxServiceClient.connect(emailid);
             }
-            //chatterBoxServiceClient.addRoom(roomName, roomListener);
+            SharedPreferences prefs = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+            String gcm_id = prefs.getString(Constant.PROPERTY_REG_ID, "");
+            if (!gcm_id.equals("")) {
+                Log.i("TAG", "HEY BROTHER I AM CALLED");
+                chatterBoxServiceClient.addRoom(roomName, roomListener,gcm_id );
+            }
         }
 
         @Override
@@ -207,7 +194,7 @@ public class ChatterBoxMessageFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        chatterBoxServiceClient.removeRoomListener(this.roomName, roomListener);
+        //chatterBoxServiceClient.removeRoomListener(this.roomName, roomListener);
         getActivity().unbindService(serviceConnection);
     }
 

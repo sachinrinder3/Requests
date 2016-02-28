@@ -85,6 +85,7 @@ public class ChatMessage {
 
 
     public void setincoming(String inconing) {
+
         this.incoming = inconing;
     }
     public String getincoming() {
@@ -92,6 +93,7 @@ public class ChatMessage {
         return incoming;
     }
     public void setoutgoing(String outgoing) {
+
         this.outgoing = outgoing;
     }
     public String getoutgoing() {
@@ -112,6 +114,7 @@ public class ChatMessage {
 
 
     public String getMessageContent() {
+
         return messageContent;
     }
 
@@ -120,6 +123,7 @@ public class ChatMessage {
     }
 
     public String getFrom() {
+
         return from;
     }
 
@@ -176,38 +180,20 @@ public class ChatMessage {
     }
 
 
+    public ChatMessage(String messageContent, String outgoing, String incmoing){
 
-
-
-
-
-
-    public ChatMessage(String chatmessage, String outgoing, String incmoing){
-
-        this.chatmessage = chatmessage;
+        this.messageContent = messageContent;
         this.incoming = incmoing;
         this.outgoing = outgoing;
     }
 
 
     public String getChatmessage() {
-        return chatmessage;
+        return messageContent;
     }
 
-    public void setChatmessage(String chatmessage) {
+    public void setChatmessage(String messageContent) {
 
-        this.chatmessage = chatmessage;
+        this.messageContent = messageContent;
     }
-
-
-//    public static List<ChatMessage> createChatMessages(int numContacts) {
-//        List<ChatMessage> data = new ArrayList<>();
-//
-//        for (int i = 0; i < numContacts; i++) {
-//            ChatMessage address = new ChatMessage("rahul whats up bcodnbckwdsxsxdwx kpckmdcmd dcmdwklmckldwc");
-//            data.add(address);
-//        }
-//
-//        return data;
-//    }
 }

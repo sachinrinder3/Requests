@@ -161,6 +161,7 @@ public class ChatterBoxMessageSendFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        chatterBoxServiceClient.removeRoomListener(roomName,roomListener);
         getActivity().unbindService(serviceConnection);
     }
 
