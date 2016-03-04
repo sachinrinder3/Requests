@@ -10,11 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.android.requests.R;
-import com.example.android.requests.activities.HomeServices;
+import com.example.android.requests.activities.ChatActivity;
 import com.example.android.requests.services.binder.ChatterBoxClient;
+import com.example.android.requests.utils.Constant;
 
 
-public class ServiceBasedChat extends Fragment {
+public class Home extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -28,7 +29,7 @@ public class ServiceBasedChat extends Fragment {
     private AppCompatImageButton travel;
     private ChatterBoxClient chatterBoxServiceClient;
 
-    public ServiceBasedChat() {
+    public Home() {
         // Required empty public constructor
     }
 
@@ -46,7 +47,7 @@ public class ServiceBasedChat extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v=  inflater.inflate(R.layout.fragment_service_based_chat, container, false);
+        View v=  inflater.inflate(R.layout.fragment_home, container, false);
         shopping = (AppCompatImageButton)v.findViewById(R.id.shopping);
         homeservices = (AppCompatImageButton)v.findViewById(R.id.homeservices);
         foods = (AppCompatImageButton)v.findViewById(R.id.food);
@@ -58,50 +59,50 @@ public class ServiceBasedChat extends Fragment {
             public void onClick(View v) {
 //                Intent shoppingactivity = new Intent(getActivity(), com.example.android.requests.activities.Shopping.class);
 //                startActivity(shoppingactivity);
-                Intent foodactivity = new Intent(getActivity(), HomeServices.class);
-                foodactivity.putExtra("Service", "Shopping");
+                Intent foodactivity = new Intent(getActivity(), ChatActivity.class);
+                foodactivity.putExtra(Constant.SERVICE, Constant.SHOPPING);
                 startActivity(foodactivity);
             }
         });
         homeservices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent homeservicesactivity = new Intent(getActivity(), com.example.android.requests.activities.HomeServices.class);
+//                Intent homeservicesactivity = new Intent(getActivity(), com.example.android.requests.activities.ChatActivity.class);
 //                startActivity(homeservicesactivity);
-                Intent foodactivity = new Intent(getActivity(), HomeServices.class);
-                foodactivity.putExtra("Service", "HomeServices");
-                startActivity(foodactivity);
+                Intent homeservicesactivity = new Intent(getActivity(), ChatActivity.class);
+                homeservicesactivity.putExtra(Constant.SERVICE, Constant.HOME_SERVICES);
+                startActivity(homeservicesactivity);
             }
         });
         foods.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent foodactivity = new Intent(getActivity(), HomeServices.class);
-                foodactivity.putExtra("Service", "Food");
+                Intent foodactivity = new Intent(getActivity(), ChatActivity.class);
+                foodactivity.putExtra(Constant.SERVICE, Constant.FOOD);
                 startActivity(foodactivity);
             }
         });
         recharge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent recharge = new Intent(getActivity(), HomeServices.class);
-                recharge.putExtra("Service", "Recharge");
+                Intent recharge = new Intent(getActivity(), ChatActivity.class);
+                recharge.putExtra(Constant.SERVICE, Constant.RECHARGE);
                 startActivity(recharge);
             }
         });
         cabs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cabs = new Intent(getActivity(), HomeServices.class);
-                cabs.putExtra("Service", "Cabs");
+                Intent cabs = new Intent(getActivity(), ChatActivity.class);
+                cabs.putExtra(Constant.SERVICE, Constant.CABS);
                 startActivity(cabs);
             }
         });
         travel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent travel = new Intent(getActivity(), HomeServices.class);
-                travel.putExtra("Service", "Travel");
+                Intent travel = new Intent(getActivity(), ChatActivity.class);
+                travel.putExtra(Constant.SERVICE, Constant.TRAVEL);
                 startActivity(travel);
             }
         });

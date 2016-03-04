@@ -17,7 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.android.requests.R;
-import com.example.android.requests.activities.HomeServices;
+import com.example.android.requests.activities.ChatActivity;
 import com.example.android.requests.models.ChatMessage;
 import com.example.android.requests.services.ChatterBoxService;
 import com.example.android.requests.services.DefaultChatterBoxCallback;
@@ -152,7 +152,7 @@ public class ChatterBoxMessageSendFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.appCompatActivity=(HomeServices)context;
+        this.appCompatActivity=(ChatActivity)context;
         Intent chatterBoxServiceIntent = new Intent(getActivity(), ChatterBoxService.class);
         getActivity().bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }

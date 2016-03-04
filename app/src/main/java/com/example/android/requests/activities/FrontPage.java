@@ -4,18 +4,15 @@ import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.NavigationView;
@@ -29,21 +26,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 //import com.livechatinc.inappchat.ChatWindowActivity;
-import com.example.android.requests.fragments.ChatterBoxMessageFragment;
 import com.example.android.requests.fragments.Notification;
 import com.example.android.requests.fragments.SavedAddress;
-import com.example.android.requests.fragments.ChatWithUs;
 import com.example.android.requests.fragments.Profile;
-import com.example.android.requests.fragments.ServiceBasedChat;
+import com.example.android.requests.fragments.Home;
 import com.example.android.requests.fragments.YourOrder;
 import com.example.android.requests.R;
-import com.example.android.requests.fragments.Wallet;
+import com.example.android.requests.fragments.ChatHistory;
 import com.example.android.requests.models.ChatMessage;
 import com.example.android.requests.services.ChatterBoxService;
 import com.example.android.requests.services.DefaultChatterBoxCallback;
@@ -58,16 +52,11 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-import java.lang.reflect.Field;
 import java.util.List;
-
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FrontPage extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
-    //private DrawerLayout mdrawerlayout;
-    //private ListView listview;
-    //private DrawerLayoutAdapter drawerLayoutAdapter;
-    // private FrameLayout frameLayout;
-    //private ActionBarDrawerToggle drawerListene
+
 
     private android.support.v4.app.FragmentManager fragmentManager;
     private Toolbar toolbar;
@@ -76,6 +65,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private TextView headeremail;
     private TextView headerusername;
+    private CircleImageView circleImageViewProfileImage;
     private DataBaseHelper dataBaseHelper;
     private SQLiteDatabase sqLiteDatabase;
     public LocalBroadcastManager localBroadcastManager;
@@ -94,23 +84,23 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         setSupportActionBar(toolbar);
         View header = navigationView.getHeaderView(0);
         headerusername = (TextView) header.findViewById(R.id.headerusername);
+        circleImageViewProfileImage = (CircleImageView) header.findViewById(R.id.profile_image);
         headeremail = (TextView) header.findViewById(R.id.headeremail);
         SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharepref.edit();
         headerusername.setText(sharepref.getString(Constant.NAME, "username"));
         headeremail.setText(sharepref.getString(Constant.EMAIL, "useremail"));
-//        BroadcastReceiver recieve_chat=new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                String received_message = intent.getStringExtra("message");
-//                Log.i("TAG", "hey bro whats up");
-//
-//            }
-//        };
-// localBroadcastManager.getInstance(FrontPage.this).registerReceiver(recieve_chat, new IntentFilter("message_recieved"));
-
-
-
+        //circleImageViewProfileImage.setImageURI();
+        circleImageViewProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.closeDrawers();
+                Profile fragment_profile = new Profile();
+                FragmentTransaction ft_profile = getSupportFragmentManager().beginTransaction();
+                ft_profile.replace(R.id.frameholder, fragment_profile);
+                ft_profile.commit();
+            }
+        });
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.title_toolbar);
         }
@@ -133,11 +123,13 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
 
             @Override
             public void onDrawerClosed(View drawerView) {
+
                 super.onDrawerClosed(drawerView);
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
+
                 super.onDrawerOpened(drawerView);
             }
         };
@@ -147,12 +139,20 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
 ////
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-//        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+//      drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         //getSupportActionBar().setIcon(R.drawable.user);
         fragmentManager = getSupportFragmentManager();
-        ServiceBasedChat myFragment0 = new ServiceBasedChat();
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.frameholder, myFragment0);
+        Intent i = getIntent();
+        String isChatHistorytobeloaded = i.getStringExtra(Constant.ISCHATHISTORYTOBELOADED);
+        if (isChatHistorytobeloaded != null  && isChatHistorytobeloaded.equals(Constant.YES)) {
+            ChatHistory chatHistory = new ChatHistory();
+            ft.replace(R.id.frameholder, chatHistory);
+        }
+        else{
+            Home home = new Home();
+            ft.replace(R.id.frameholder, home);
+        }
         ft.addToBackStack("chat_fragment");
         ft.commit();
         //Log.i(MainActivity.TAG, "this is create method last line");
@@ -169,8 +169,8 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Log.i(MainActivity.TAG, "onCreateOptiosnMenu  is called");
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.profile, menu);
+        //MenuInflater inflater = getMenuInflater();
+        //inflater.inflate(R.menu.profile, menu);
         return true;
     }
     @Override
@@ -189,7 +189,6 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 return true;
             case R.id.logoutmenu:
                 SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
-                //SharedPreferences.Editor editor = sharepref.edit();
                 String emaillogout = sharepref.getString(Constant.EMAIL,"");
                 String reqidlogout = sharepref.getString(Constant.PROPERTY_REG_ID,"");
                 reqidlogout="hey";
@@ -286,7 +285,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
 //                        for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
 //                            if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
 //                                for (String activeProcess : processInfo.pkgList) {
-//                                    if (activeProcess.equals(HomeServices.class.getPackage())) {
+//                                    if (activeProcess.equals(ChatActivity.class.getPackage())) {
 //                                        isInBackground=true;
 //                                    }
 //                                }
@@ -295,7 +294,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
 //                    } else {
 //                        List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
 //                        ComponentName componentInfo = taskInfo.get(0).topActivity;
-//                        if (componentInfo.getPackageName().equals(HomeServices.class.getPackage())) {
+//                        if (componentInfo.getPackageName().equals(ChatActivity.class.getPackage())) {
 //                            isInBackground=true;
 //                        }
 //                    }
@@ -305,7 +304,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
 //                    List<ActivityManager.RunningAppProcessInfo> taskInfo = am.getRunningAppProcesses();
 //                    ComponentName componentInfo = taskInfo.get(0).topActivity;
 //                    Log.i("TAG", componentInfo.toString());
-//                    if (taskInfo.get(0).topActivity.getClassName().equals("com.example.android.requests.activities.HomeServices")){
+//                    if (taskInfo.get(0).topActivity.getClassName().equals("com.example.android.requests.activities.ChatActivity")){
 //                        //chatterBoxMessageFragment.IamSeeing(fmsg);
 //                    }
 //                    else {
@@ -314,7 +313,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                     List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
                     ComponentName componentInfo = taskInfo.get(0).topActivity;
                     Log.i("TAG", taskInfo.get(0).topActivity.getClassName());
-                    if (taskInfo.get(0).topActivity.getClassName().equals("com.example.android.requests.activities.HomeServices")){
+                    if (taskInfo.get(0).topActivity.getClassName().equals("com.example.android.requests.activities.ChatActivity")){
                         //Log.i("TAG", "inside first if");
                         SharedPreferences shareprefe = getSharedPreferences("MyPref", MODE_PRIVATE);
                         String currentService = shareprefe.getString("CurrentService", "");
@@ -323,7 +322,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                         if (currentService.equals(messageService)){
                             //Log.i("TAG", "inside nested if");
                             //Log.i("TAG", "in same service start");
-                           // ChatterBoxMessageFragment chatterBoxMessageFragment =  (ChatterBoxMessageFragment)HomeServices.getsupport().findFragmentById(R.id.message_display_fragment_container);
+                           // ChatterBoxMessageFragment chatterBoxMessageFragment =  (ChatterBoxMessageFragment)ChatActivity.getsupport().findFragmentById(R.id.message_display_fragment_container);
                             //chatterBoxMessageFragment.addoutgoingtoadapter(fmsg);
                             Log.i("TAG", "Someone else is doing my job brother hahahahaha");
                         }
@@ -335,10 +334,10 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                             mbuilder.setContentText(fmsg.getMessageContent());
                             mbuilder.setContentTitle(fmsg.getservice());
                             mbuilder.setAutoCancel(true);
-                            Intent intent = new Intent(FrontPage.this, HomeServices.class);
+                            Intent intent = new Intent(FrontPage.this, ChatActivity.class);
                             intent.putExtra("Service", fmsg.getservice());
                             TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(FrontPage.this);
-                            taskStackBuilder.addParentStack(HomeServices.class);
+                            taskStackBuilder.addParentStack(ChatActivity.class);
                             taskStackBuilder.addNextIntent(intent);
                             PendingIntent pendingIntent =  taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
                             mbuilder.setContentIntent(pendingIntent);
@@ -362,10 +361,10 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                         mbuilder.setContentText(fmsg.getMessageContent());
                         mbuilder.setContentTitle(fmsg.getservice());
                         mbuilder.setAutoCancel(true);
-                        Intent intent = new Intent(FrontPage.this, HomeServices.class);
+                        Intent intent = new Intent(FrontPage.this, ChatActivity.class);
                         intent.putExtra("Service", fmsg.getservice());
                         TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(FrontPage.this);
-                        taskStackBuilder.addParentStack(HomeServices.class);
+                        taskStackBuilder.addParentStack(ChatActivity.class);
                         taskStackBuilder.addNextIntent(intent);
                         PendingIntent pendingIntent =  taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
                         mbuilder.setContentIntent(pendingIntent);
@@ -437,11 +436,18 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
 //                ft_chat_with_us.commit();
 //                return true;
 
-            case R.id.service_based_chat:
-                ServiceBasedChat fragment_service_based_chat = new ServiceBasedChat();
-                FragmentTransaction ft_service_based_chat = getSupportFragmentManager().beginTransaction();
-                ft_service_based_chat.replace(R.id.frameholder, fragment_service_based_chat);
-                ft_service_based_chat.commit();
+            case R.id.home:
+                Home fragment_home = new Home();
+                FragmentTransaction ft_home = getSupportFragmentManager().beginTransaction();
+                ft_home.replace(R.id.frameholder, fragment_home);
+                ft_home.commit();
+                return true;
+
+            case R.id.chat_history:
+                ChatHistory fragment_chat_history = new ChatHistory();
+                FragmentTransaction ft_chat_history = getSupportFragmentManager().beginTransaction();
+                ft_chat_history.replace(R.id.frameholder, fragment_chat_history);
+                ft_chat_history.commit();
                 return true;
 
             case R.id.your_order:
@@ -450,12 +456,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 ft_your_order.replace(R.id.frameholder, fragment_your_order);
                 ft_your_order.commit();
                 return true;
-            case R.id.wallet:
-                Wallet fragment_wallet = new Wallet();
-                FragmentTransaction ft_wallet = getSupportFragmentManager().beginTransaction();
-                ft_wallet.replace(R.id.frameholder, fragment_wallet);
-                ft_wallet.commit();
-                return true;
+
             case R.id.saved_address:
                 SavedAddress fragment_saved_address = new SavedAddress();
                 FragmentTransaction ft_saved_address = getSupportFragmentManager().beginTransaction();
@@ -478,18 +479,27 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 startActivity(Intent.createChooser(sendIntent,"Share With"));
                 return true;
 
-            case R.id.dummy:
-                Intent location = new Intent(this, CurrentLocation.class);
-                startActivity(location);
+            case R.id.logout:
+                SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
+                String emaillogout = sharepref.getString(Constant.EMAIL,"");
+                String reqidlogout = sharepref.getString(Constant.PROPERTY_REG_ID,"");
+                reqidlogout="hey";
+                Log.i("TAG", emaillogout);
+                Log.i("TAG", reqidlogout);
+                if(!emaillogout.equals("")) {
+                    AsyncTaskLogout runner = new AsyncTaskLogout();
+                    runner.execute(emaillogout, reqidlogout);
+                }
+                chatterBoxServiceClient.leaveRoom("jaintulsi");
                 return true;
-            case R.id.dummy2:
-                Intent dummy2 = new Intent(this, MapsActivity.class);
-                startActivity(dummy2);
+//            case R.id.dummy2:
+//                Intent dummy2 = new Intent(this, MapsActivity.class);
+//                startActivity(dummy2);
 //                Intent intent = new Intent(this, com.livechatinc.inappchat.ChatWindowActivity.class);
 //                intent.putExtra(com.livechatinc.inappchat.ChatWindowActivity.KEY_GROUP_ID, "your_group_id");
 //                intent.putExtra(com.livechatinc.inappchat.ChatWindowActivity.KEY_LICENSE_NUMBER, "your_license_number");
 //                startActivity(intent);
-                return true;
+                //return true;
             default:
             Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
             return true;

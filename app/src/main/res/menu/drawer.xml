@@ -9,51 +9,63 @@
                 <!--android:icon="@drawable/user"-->
                 <!--android:title="@string/chat_with_us" />-->
         <item
-            android:id="@+id/service_based_chat"
+            android:id="@+id/home"
             android:checked="false"
             android:icon="@drawable/user"
-            android:title="@string/service_based_chat" />
+            android:title="@string/home" />
 
-
-        <item
-                android:id="@+id/your_order"
+        <item   android:id="@+id/your_order"
                 android:checked="false"
                 android:icon="@drawable/order"
                 android:title="@string/your_order" />
+        <item
+            android:id="@+id/chat_history"
+            android:checked="false"
+            android:icon="@drawable/wallet"
+            android:title="@string/chat_history" />
 
-            <item
-                android:id="@+id/wallet"
-                android:checked="false"
-                android:icon="@drawable/wallet"
-                android:title="@string/wallet" />
+        <!--<item-->
+            <!--android:id="@+id/wallet"-->
+            <!--android:checked="false"-->
+            <!--android:icon="@drawable/wallet"-->
+            <!--android:title="@string/wallet" />-->
 
-            <item
-                android:id="@+id/saved_address"
-                android:checked="false"
-                android:icon="@drawable/user"
-                android:title="@string/saved_address" />
+        <item
+            android:id="@+id/saved_address"
+            android:checked="false"
+            android:icon="@drawable/user"
+            android:title="@string/saved_address" />
 
 
-            <item
-                android:id="@+id/notification"
-                android:checked="false"
-                android:icon="@drawable/logout"
-                android:title="@string/notification"/>
-           <item
+        <item
+            android:id="@+id/notification"
+            android:checked="false"
+            android:icon="@drawable/logout"
+            android:title="@string/notification"/>
+
+        <item
             android:id="@+id/share"
             android:checked="false"
             android:icon="@drawable/share"
             android:title="@string/share" />
+
         <item
-            android:id="@+id/dummy"
+            android:id="@+id/logout"
             android:checked="false"
-            android:icon="@drawable/share"
-            android:title="Dummy" />
-        <item
-            android:id="@+id/dummy2"
-            android:checked="false"
-            android:icon="@drawable/share"
-            android:title="Dummy2" />
+            android:icon="@drawable/logout"
+            android:title="@string/logout" />
+
+
+        <!--<item-->
+            <!--android:id="@+id/dummy"-->
+            <!--android:checked="false"-->
+            <!--android:icon="@drawable/share"-->
+            <!--android:title="Dummy" />-->
+        <!--<item-->
+            <!--android:id="@+id/dummy2"-->
+            <!--android:checked="false"-->
+            <!--android:icon="@drawable/share"-->
+            <!--android:title="Dummy2" />-->
 
 
         </group>

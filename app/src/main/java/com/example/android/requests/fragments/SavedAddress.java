@@ -97,12 +97,8 @@ public class SavedAddress extends Fragment {
         int [] ids = {1,2,3,4};
         int i;
         for (i=0; i < 3 ; i++ ){
-                Address address = new Address();
-                address.flatno = flat_no[i];
-                address.location = location[i];
-                address.nearby = adress[i];
-            address.id = ids[i];
-              data.add(address);
+            Address address = new Address(flat_no[i], ids[i], location[i], adress[i]);
+            data.add(address);
 
         }
         return data;

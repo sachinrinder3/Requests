@@ -1,12 +1,10 @@
 package com.example.android.requests.fragments;
 
 import android.app.ActivityManager;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -14,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 
 import com.example.android.requests.R;
+import com.example.android.requests.activities.ChatActivity;
 import com.example.android.requests.adapters.ChatAdapter;
 import com.example.android.requests.models.ChatMessage;
 import com.example.android.requests.services.ChatterBoxService;
@@ -50,7 +49,7 @@ public class ChatterBoxMessageFragment extends Fragment {
     private List<ChatMessage> chatList;
     private DataBaseHelper dataBaseHelper;
     private SQLiteDatabase sqLiteDatabase;
-    private LocalBroadcastManager localBroadcastManager;
+    private AppCompatActivity appCompatActivity;
 
     public void  addincomingtoadapter(ChatMessage fmsg){
         ChatMessage hey = new ChatMessage(fmsg.getMessageContent(), "N", "Y");
@@ -70,17 +69,17 @@ public class ChatterBoxMessageFragment extends Fragment {
         public void onMessage(ChatMessage message) {
             Log.i(Constant.TAG, "WD UP");
             final ChatMessage fmsg = message;
-            getActivity().runOnUiThread(new Runnable() {
+            appCompatActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
 
-                    ActivityManager am = (ActivityManager)getContext().getSystemService(Context.ACTIVITY_SERVICE);
+                    ActivityManager am = (ActivityManager) appCompatActivity.getSystemService(Context.ACTIVITY_SERVICE);
                     List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
                     ComponentName componentInfo = taskInfo.get(0).topActivity;
                     Log.i("TAG", taskInfo.get(0).topActivity.getClassName());
-                    if (taskInfo.get(0).topActivity.getClassName().equals("com.example.android.requests.activities.HomeServices")) {
+                    if (taskInfo.get(0).topActivity.getClassName().equals("com.example.android.requests.activities.ChatActivity")) {
                         //Log.i("TAG", "inside first if");
-                        SharedPreferences shareprefe = getActivity().getSharedPreferences("MyPref",getActivity().MODE_PRIVATE );
+                        SharedPreferences shareprefe = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
                         String currentService = shareprefe.getString("CurrentService", "");
                         String messageService = fmsg.getservice();
                         if (currentService.equals(messageService)) {
@@ -184,11 +183,10 @@ public class ChatterBoxMessageFragment extends Fragment {
 
     @Override
     public void onAttach(Context context) {
-
         super.onAttach(context);
+        this.appCompatActivity=(ChatActivity)context;
         Intent chatterBoxServiceIntent = new Intent(getActivity(), ChatterBoxService.class);
         getActivity().bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
-
     }
 
     @Override

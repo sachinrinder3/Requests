@@ -19,15 +19,25 @@
 
     <!-- /Api credentials end -->
 
-    <string name="chat_with_us"> Chat With Us </string>
-    <string name="service_based_chat"> Service Based Chat</string>
+
+    <string name="home"> Home</string>
     <string name="your_order"> Your Orders </string>
+    <string name="chat_history"> Chat History </string>
     <string name="wallet"> Wallet </string>
     <string name="profile"> Profile</string>
     <string name="saved_address"> Saved Address</string>
     <string name="notification">Notification</string>
     <string name="logout"> Logout </string>
     <string name="share"> Share </string>
+
+    <string name="recharge"> Recharge</string>
+    <string name="food"> Food </string>
+    <string name="cabs"> Cabs </string>
+    <string name="travel"> Travel </string>
+    <string name="homeservices"> HomeServices</string>
+    <string name="hirearunner"> Hire a Runner</string>
+    <string name="shopping">Shopping</string>
+    <string name="laundry"> Laundry </string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -47,6 +57,4 @@
     <string name="title_activity_new_address">NewAddress</string>
     <string name="title_activity_edit_profile">EditProfile</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

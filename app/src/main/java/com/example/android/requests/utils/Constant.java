@@ -35,8 +35,19 @@ public class Constant {
 
 
 
+    public static final String SERVICE = "Service";
 
-    public static final String HOME_SERVICES = "HomeServices";
-    public static final String Shopping = "Shopping";
-    //public static final String HOME_SERVICES = "HomeServices";
+    public static final String HOME_SERVICES = "ChatActivity";
+    public static final String SHOPPING = "Shopping";
+    public static final String CABS = "Cabs";
+    public static final String TRAVEL = "Travel";
+    public static final String RECHARGE = "Recharge";
+    public static final String FOOD = "Food";
+
+
+
+    public static final String ISCHATHISTORYTOBELOADED = "IsChatHistoryToBeLoaded";
+    public static final String YES = "Yes";
+    public static final String NO = "No";
+
 }

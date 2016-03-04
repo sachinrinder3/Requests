@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         //Log.i("TAG", "empty regid");
 //                        Startup startup1 = new Startup();
 //                        fragmentManager.beginTransaction().replace(R.id.frameholder1, startup1).commit();
-                        registerInBackground();
+                        //registerInBackground();
                     //}
                 } else {
                     //Log.i("TAG", "No valid Google Play Services APK found.");
@@ -256,35 +256,35 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    }
 
-    private void registerInBackground() {
-
-        new AsyncTask() {
-            @Override
-            protected void onPostExecute(Object o) {
-                AsyncTaskRunner runner = new AsyncTaskRunner();
-                runner.execute(email, password, regid);
-            }
-
-            @Override
-            protected String doInBackground(Object[] params) {
-                String msg = "TRY";
-//                try {
-//                    if (gcm == null) {
-//                        gcm = GoogleCloudMessaging.getInstance(MainActivity.this);
-//                    }
-//                    regid = gcm.register(Constant.SENDER_ID);
-//                      msg = "Device registered, registration ID=" + regid;
-//                    storeRegistrationId(MainActivity.this, regid);
-//                } catch (IOException ex) {
-//                     msg = "Error :" + ex.getMessage();
-//                }
-//                Log.i("TAG", msg);
-                regid="hey";
-                return msg;
-            }
-        }.execute();
-
-    }
+//    private void registerInBackground() {
+//
+//        new AsyncTask() {
+//            @Override
+//            protected void onPostExecute(Object o) {
+//                AsyncTaskRunner runner = new AsyncTaskRunner();
+//                runner.execute(email, password, regid);
+//            }
+//
+//            @Override
+//            protected String doInBackground(Object[] params) {
+//                String msg = "TRY";
+////                try {
+////                    if (gcm == null) {
+////                        gcm = GoogleCloudMessaging.getInstance(MainActivity.this);
+////                    }
+////                    regid = gcm.register(Constant.SENDER_ID);
+////                      msg = "Device registered, registration ID=" + regid;
+////                    storeRegistrationId(MainActivity.this, regid);
+////                } catch (IOException ex) {
+////                     msg = "Error :" + ex.getMessage();
+////                }
+////                Log.i("TAG", msg);
+//                regid="hey";
+//                return msg;
+//            }
+//        }.execute();
+//
+//    }
 //    private void storeRegistrationId(Context context, String regId) {
 //        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 //        int appVersion = getAppVersion(context);

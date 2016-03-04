@@ -45,9 +45,6 @@ public class NetworkUtil {
     public static String userLogin(String email, String password, String reqid){
         OkHttpClient client = new OkHttpClient();
         String uri = Constant.intialUrl + "login?"+Constant.EMAIL+"="+email+"&"+Constant.PASSWORD+"="+password+"&"+Constant.PROPERTY_REG_ID+"="+reqid;
-        Log.i("TAG", "LOGIN");
-        Log.i("TAG", reqid);
-        Log.i("TAG", "LOG");
         Request request = new Request.Builder().url(uri).build();
         //String message = "User does not Exits";
         String message = "User Exits";

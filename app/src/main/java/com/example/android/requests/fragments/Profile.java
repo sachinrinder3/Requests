@@ -6,12 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,10 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.support.v7.widget.AppCompatTextView;
 
-import com.example.android.requests.activities.Dummy;
-import com.example.android.requests.activities.Dummy2;
 import com.example.android.requests.activities.EditProfile;
-import com.example.android.requests.activities.FrontPage;
 
 
 import com.example.android.requests.R;

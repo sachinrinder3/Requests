@@ -46,14 +46,14 @@ public class AddressAdapter extends  RecyclerView.Adapter<AddressAdapter.Address
     @Override
     public void onBindViewHolder(AddressViewHolder holder, int position) {
        final Address adess = data.get(position);
-        holder.t1.setText(adess.flatno);
-        holder.t2.setText(adess.location);
-        holder.t3.setText(adess.nearby);
+        holder.t1.setText(adess.getFlatno());
+        holder.t2.setText(adess.getLocation());
+        holder.t3.setText(adess.getNearby());
         holder.im1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("TAG", "i GOT CLICKLED");
-                int id = adess.id;
+                int id = adess.getId();
                 Intent newAddress = new Intent(c1, com.example.android.requests.activities.NewAddress.class);
                 newAddress.putExtra("address_id", id);
                 c1.startActivity(newAddress);
@@ -65,6 +65,7 @@ public class AddressAdapter extends  RecyclerView.Adapter<AddressAdapter.Address
 
     @Override
     public int getItemCount() {
+
         return data.size();
     }
 

@@ -1,0 +1,29 @@
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_edit"
+            android:id="@+id/chat_history_icon" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:padding="8dp"
+            android:text="cwdcewcw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chat_history_servicename"/>
+
+    </LinearLayout>
+
+
+
+</android.support.v7.widget.CardView>

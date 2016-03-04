@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.android.requests.R;
-import com.example.android.requests.chat.ChatViewHolder;
+import com.example.android.requests.ViewHolder.ChatViewHolder;
 import com.example.android.requests.models.ChatMessage;
 
 import java.util.Collections;

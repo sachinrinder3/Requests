@@ -9,24 +9,20 @@ import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.android.requests.R;
-import com.example.android.requests.activities.HomeServices;
-import com.example.android.requests.activities.MainActivity;
+import com.example.android.requests.activities.ChatActivity;
 import com.example.android.requests.models.ChatMessage;
 import com.example.android.requests.receivers.GcmBroadcastReceiver;
 import com.example.android.requests.utils.DataBaseHelper;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class GcmIntentService extends IntentService {
 
@@ -69,7 +65,7 @@ public class GcmIntentService extends IntentService {
                 if (intent.getStringExtra(ChatMessage.TYPE).equals(ChatMessage.CHATTMESSAGE)) {
 
                     if (!isAppIsInBackground(this)
-                            //&& currentService.equals(messageService) && taskInfo.get(0).topActivity.getClassName().equals("com.example.android.requests.activities.HomeServices")
+                            //&& currentService.equals(messageService) && taskInfo.get(0).topActivity.getClassName().equals("com.example.android.requests.activities.ChatActivity")
                             ) {
 //                                Log.i("TAG", "someone called me 12");
 //                                Intent sendIntent = new Intent("message_recieved");
@@ -150,16 +146,16 @@ public class GcmIntentService extends IntentService {
 
 
         android.support.v4.app.NotificationCompat.Builder mbuilder = new android.support.v4.app.NotificationCompat.Builder(this);
-        mbuilder.setSmallIcon(R.drawable.hamburger);
+        mbuilder.setSmallIcon(R.drawable.user);
         mbuilder.setStyle(new NotificationCompat.BigTextStyle()
                 .bigText(msg.getservice()));
         mbuilder.setContentText(msg.getMessageContent());
         mbuilder.setContentTitle(msg.getservice());
         mbuilder.setAutoCancel(true);
-        Intent intent = new Intent(this, HomeServices.class);
+        Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra("Service", msg.getservice());
         TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
-        taskStackBuilder.addParentStack(HomeServices.class);
+        taskStackBuilder.addParentStack(ChatActivity.class);
         taskStackBuilder.addNextIntent(intent);
         PendingIntent pendingIntent =  taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         mbuilder.setContentIntent(pendingIntent);

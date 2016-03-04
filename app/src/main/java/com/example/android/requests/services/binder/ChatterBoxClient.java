@@ -121,15 +121,15 @@ public class ChatterBoxClient extends Binder {
             chatterBoxService.getListeners().put("Shopping", l);
             l = null;
             //Log.i("TAG", chatterBoxService.getListeners().containsKey("Food")+"");
-            if (!chatterBoxService.getListeners().containsKey("HomeServices")) {
+            if (!chatterBoxService.getListeners().containsKey("ChatActivity")) {
                 l = new ArrayList<>();
             } else {
-                l = chatterBoxService.getListeners().get("HomeServices");
+                l = chatterBoxService.getListeners().get("ChatActivity");
             }
 
             l.add(listener); //add the listener for this room.
 
-            chatterBoxService.getListeners().put("HomeServices", l);
+            chatterBoxService.getListeners().put("ChatActivity", l);
     }
 
     public void addRoom(final String roomName, final ChatterBoxCallback listener, String gcm_id) {
@@ -151,14 +151,14 @@ public class ChatterBoxClient extends Binder {
             });
             int i =0;
             //Log.i("TAG", String.valueOf(currentChannels.length));
-            for (String c : currentChannels) {
-                Log.i("TAG", c);
-                i=i+1;
-                if (c.equals(roomName)) {
-                    bfound = true;
-                    break;
-                }
-            }
+//                for (String c : currentChannels) {
+//                    Log.i("TAG", c);
+//                    i=i+1;
+//                    if (c.equals(roomName)) {
+//                        bfound = true;
+//                        break;
+//                    }
+//                }
             //Log.i("TAG", String.valueOf(!bfound));
             if (!bfound) {
                 try {
@@ -169,10 +169,11 @@ public class ChatterBoxClient extends Binder {
                             try {
                                 if (message instanceof JSONObject) {
                                     JSONObject jmessage = (JSONObject) message;
-                                    String messageType = jmessage.getString(ChatMessage.TYPE);
+                                    JSONObject jmessage1 = (JSONObject)jmessage.getJSONObject("ChatMessage");
+                                    String messageType = jmessage1.getString(ChatMessage.TYPE);
                                     if (messageType.equals(ChatMessage.CHATTMESSAGE)) {
                                         Log.i("TAG", "MESSAGE HAS BEEN RECEIVED");
-                                        ChatMessage msg = ChatMessage.create(jmessage, timetoken);
+                                        ChatMessage msg = ChatMessage.create(jmessage1, timetoken);
                                         List<ChatterBoxCallback> thisRoomListeners = chatterBoxService.getListeners().get(roomName);
                                         Log.i("TAG", String.valueOf(thisRoomListeners));
                                         for (ChatterBoxCallback l : thisRoomListeners) {
@@ -260,15 +261,15 @@ public class ChatterBoxClient extends Binder {
 //            chatterBoxService.getListeners().put("Shopping", l);
 //            l = null;
 //            //Log.i("TAG", chatterBoxService.getListeners().containsKey("Food")+"");
-//            if (!chatterBoxService.getListeners().containsKey("HomeServices")) {
+//            if (!chatterBoxService.getListeners().containsKey("ChatActivity")) {
 //                l = new ArrayList<>();
 //            } else {
-//                l = chatterBoxService.getListeners().get("HomeServices");
+//                l = chatterBoxService.getListeners().get("ChatActivity");
 //            }
 //
 //            l.add(listener); //add the listener for this room.
 //
-//            chatterBoxService.getListeners().put("HomeServices", l);
+//            chatterBoxService.getListeners().put("ChatActivity", l);
 
         }
     }

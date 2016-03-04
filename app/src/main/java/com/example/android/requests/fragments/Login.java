@@ -98,7 +98,7 @@ public class Login extends Fragment {
         View v = inflater.inflate(R.layout.fragment_login, container, false);
 
         AppCompatButton loginbtn = (AppCompatButton)v.findViewById(R.id.login);
-        Log.i("TAG", String.valueOf(checkPlayServices()));
+        Log.i("TAG", "checking");
 
         if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(getActivity());
@@ -124,25 +124,6 @@ public class Login extends Fragment {
                                             } else {
                                                 Toast.makeText(getActivity(), "Please enter both email and password", Toast.LENGTH_LONG).show();
                                             }
-
-
-//                                            Runnable r = new Runnable() {
-//                                                @Override
-//                                                public void run() {
-//                                                    user();
-//                                                }
-//                                            };
-//                                            Thread loginThread = new Thread(r);
-//                                            loginThread.start();
-//                                            new Thread(new Runnable() {
-//                                                @Override
-//                                                public void run() {
-//
-//                                                    user();
-//                                                }
-//                                            }).start();
-//                                            Intent intentlogin = new Intent(getActivity(), FrontPage.class);
-//                                            startActivity(intentlogin);
 
                                         }
                                     }
@@ -249,6 +230,7 @@ public class Login extends Fragment {
             Log.i(MainActivity.TAG, "App version changed.");
             return "";
         }
+        //Log.i("TAG", registrationId);
         return registrationId;
     }
 

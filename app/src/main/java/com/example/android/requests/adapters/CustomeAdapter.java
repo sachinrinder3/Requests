@@ -1,52 +1,60 @@
 package com.example.android.requests.adapters;
 
+
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
-import com.example.android.requests.models.CustomPageEnum;
+import com.example.android.requests.R;
 
-/**
- * Created by tuljain on 1/19/2016.
- */
 public class CustomeAdapter extends PagerAdapter {
 
-    private Context mContext;
+    Context mContext;
+    LayoutInflater mLayoutInflater;
+    int[] mResources = {
+            R.drawable.first,
+            R.drawable.second,
+            R.drawable.first,
+            R.drawable.second,
+            R.drawable.first,
+            R.drawable.second
+
+    };
 
     public CustomeAdapter(Context context) {
         mContext = context;
-    }
-
-    @Override
-    public Object instantiateItem(ViewGroup collection, int position) {
-        CustomPageEnum customPagerEnum = CustomPageEnum.values()[position];
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        ViewGroup layout = (ViewGroup) inflater.inflate(customPagerEnum.getLayoutResId(), collection, false);
-        collection.addView(layout);
-        return layout;
-    }
-
-    @Override
-    public void destroyItem(ViewGroup collection, int position, Object view) {
-        collection.removeView((View) view);
+        mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return CustomPageEnum.values().length;
+
+        return mResources.length;
     }
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view == object;
+        return view == ((LinearLayout) object);
     }
 
     @Override
-    public CharSequence getPageTitle(int position) {
-        CustomPageEnum customPagerEnum = CustomPageEnum.values()[position];
-        return mContext.getString(customPagerEnum.getTitleResId());
+    public Object instantiateItem(ViewGroup container, int position) {
+        View itemView = mLayoutInflater.inflate(R.layout.page_item, container, false);
+
+        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+        imageView.setImageResource(mResources[position]);
+
+        container.addView(itemView);
+
+        return itemView;
     }
 
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((LinearLayout) object);
+    }
 }

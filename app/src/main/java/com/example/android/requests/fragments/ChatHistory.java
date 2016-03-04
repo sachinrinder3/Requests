@@ -1,29 +1,30 @@
 package com.example.android.requests.fragments;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
-import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.requests.R;
-import com.example.android.requests.activities.MainActivity;
-import com.example.android.requests.utils.Constant;
-import com.pubnub.api.Callback;
-import com.pubnub.api.Pubnub;
-import com.pubnub.api.PubnubError;
+import com.example.android.requests.adapters.AddressAdapter;
+import com.example.android.requests.adapters.ChatHistoryAdapter;
+import com.example.android.requests.models.Address;
+import com.example.android.requests.models.ChatMessage;
+import com.example.android.requests.utils.DataBaseHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class Wallet extends Fragment {
+public class ChatHistory extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,10 +33,12 @@ public class Wallet extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private RecyclerView recyclerView;
+    private ChatHistoryAdapter chatHistoryAdapter;
 
     private OnFragmentInteractionListener mListener;
 
-    public Wallet() {
+    public ChatHistory() {
         // Required empty public constructor
     }
 
@@ -45,11 +48,11 @@ public class Wallet extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Wallet.
+     * @return A new instance of fragment ChatHistory.
      */
     // TODO: Rename and change types and number of parameters
-    public static Wallet newInstance(String param1, String param2) {
-        Wallet fragment = new Wallet();
+    public static ChatHistory newInstance(String param1, String param2) {
+        ChatHistory fragment = new ChatHistory();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -74,22 +77,37 @@ public class Wallet extends Fragment {
 //        builder.setMessage("Lorem ipsum dolor...");
 //        builder.setPositiveButton("OK", null);
 //        builder.setNegativeButton("Cancel", null);
+        View v = inflater.inflate(R.layout.fragment_chat_history, container, false);
 //        builder.show();
+        recyclerView = (RecyclerView)v.findViewById(R.id.chat_history_list);
+        recyclerView.setHasFixedSize(true);
+        chatHistoryAdapter= new ChatHistoryAdapter(getActivity(), getdata());
+        recyclerView.setAdapter(chatHistoryAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-//        Callback callback = new Callback() {
-//            public void successCallback(String channel, Object response) {
-//                Log.i("TAG", "SUCCESSFULL SENT");
-//                System.out.println(response.toString());
-//            }
-//            public void errorCallback(String channel, PubnubError error) {
-//                System.out.println(error.toString());
-//                Log.i("TAG", "ERROR IN SENDIND");
-//            }
-//        };
-        //final Pubnub pubnub = new Pubnub("pub-c-0e57abe1-40bd-4357-8754-ec6d0e4a5add", "sub-c-38127c1c-cb42-11e5-a316-0619f8945a4f");
-        //pubnub.publish(Constant.HOME_SERVICES, "fucker" , callback);
-        return inflater.inflate(R.layout.fragment_wallet, container, false);
+        return v;
     }
+
+    public List<com.example.android.requests.models.ChatHistory> getdata (){
+        List<com.example.android.requests.models.ChatHistory> data = new ArrayList<>();
+
+        DataBaseHelper dataBaseHelper;
+        SQLiteDatabase sqLiteDatabase;
+        dataBaseHelper = new DataBaseHelper(getContext());
+        sqLiteDatabase = dataBaseHelper.getWritableDatabase();
+        String[] columns = {  "message_service"};
+
+        Cursor c = sqLiteDatabase.query( true, "CHAT_TABLE", columns, null, null, "message_service",  null, "message_service",null);
+        while (c.moveToNext()){
+            String imagename = c.getString(0).toLowerCase() ;
+            int res = getResources().getIdentifier(imagename, "drawable", getContext().getPackageName());
+            com.example.android.requests.models.ChatHistory chatHistory = new com.example.android.requests.models.ChatHistory( c.getString(0), res);
+            data.add(chatHistory);
+        }
+        return data;
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
