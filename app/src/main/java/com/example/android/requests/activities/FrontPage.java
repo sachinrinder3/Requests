@@ -495,11 +495,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
 //            case R.id.dummy2:
 //                Intent dummy2 = new Intent(this, MapsActivity.class);
 //                startActivity(dummy2);
-//                Intent intent = new Intent(this, com.livechatinc.inappchat.ChatWindowActivity.class);
-//                intent.putExtra(com.livechatinc.inappchat.ChatWindowActivity.KEY_GROUP_ID, "your_group_id");
-//                intent.putExtra(com.livechatinc.inappchat.ChatWindowActivity.KEY_LICENSE_NUMBER, "your_license_number");
-//                startActivity(intent);
-                //return true;
+            //return true;
             default:
             Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
             return true;
@@ -565,14 +561,9 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         protected String doInBackground(String...params) {
             String emaillog = params[0];
             String reqidlog = params[1];
-            Log.i("TAG", "LOGOUT");
             Log.i("TAG", reqidlog);
-            Log.i("TAG", "LOGOUT");
             OkHttpClient client = new OkHttpClient();
             String uri = Constant.intialUrl + "logout?"+Constant.EMAIL+"="+emaillog+"&"+Constant.PROPERTY_REG_ID+"="+reqidlog;
-            Log.i("TAG", "cdsdscds");
-            //Log.i("TAG", uri);
-            Log.i("TAG", "FVFDVFD");
             Request request = new Request.Builder().url(uri).build();
             String message = "Unsuccess";
             try {

@@ -127,7 +127,7 @@ public class ChatActivity extends AppCompatActivity {
         String service = i.getStringExtra("Service");
 
         channelName = service;
-        setContentView(R.layout.activity_home_services);
+        setContentView(R.layout.activity_chat);
         toolbar = (Toolbar) findViewById(R.id.toolbar1);
         //homeservices_sendButton =(AppCompatButton)findViewById(R.id.homeservices_send_msg);
         //homeservices_sendText  =(AppCompatEditText)findViewById(R.id.homeservices_chat_msg);
