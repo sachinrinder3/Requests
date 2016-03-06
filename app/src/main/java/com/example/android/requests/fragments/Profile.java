@@ -71,9 +71,9 @@ public class Profile extends Fragment {
         email = (AppCompatTextView)v.findViewById(R.id.user_email);
         phone = (AppCompatTextView)v.findViewById(R.id.user_phone);
         SharedPreferences sharepref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        name.setText(sharepref.getString(Constant.NAME, "nhi aaya"));
-        email.setText(sharepref.getString(Constant.EMAIL, "nhi aaya"));
-        phone.setText(sharepref.getString(Constant.PHONE, "nhi aaya"));
+        name.setText(sharepref.getString(Constant.FIRST_NAME, "nhi aaya"));
+        email.setText(sharepref.getString(Constant.EMAIL_ID, "nhi aaya"));
+        phone.setText(sharepref.getString(Constant.CONATCT_NUMBER, "nhi aaya"));
 
 
         edit_button = (Button) v.findViewById(R.id.edit_butoon_profile);

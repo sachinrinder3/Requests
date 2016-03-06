@@ -4,15 +4,10 @@ import com.squareup.okhttp.MediaType;
 public class Constant {
     public static final String PROPERTY_REG_ID = "registration_id";
     public static final String PROPERTY_APP_VERSION = "appVersion";
-    public static final String EMAIL = "email";
-    public static final String NAME = "name";
-    public static final String PHONE = "phone";
-    public static final String PASSWORD = "password";
-    public static final String UUID = "uuid";
     public static final String LOGINSTATUS = "loginstatus";
     public final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public final static String SENDER_ID = "32412174253";
-    public static final String intialUrl = "http://192.168.0.101:3000/api/v0/";
+    public static final String intialUrl = "http://192.168.0.5:3000/api/v0/";
     public static final String HEADER_APP_NAME = "app_name";
     public static final String HEADER_APP_VERSION = "app_version";
     public static final String HEADER_LOGIN_AUTH_TOKEN = "login_auth_token";
@@ -31,20 +26,26 @@ public class Constant {
     public static final String MD5 = "MD5";
     public static final String TAG = "TAG";
 
-    //public static final Pubnub pubnub1 = pubnub;
 
 
+    public static final String EMAIL_ID = "email_id";
+    public static final String CONATCT_NUMBER = "contact_number";
+    public static final String PASSWORD = "password";
+    public static final String MESSAGE = "message";
+    public static final String FIRST_NAME = "first_name";
+    public static final String USER_DOES_NOT_EXITS = "User does not Exits";
+    public static final String USER_EXITS = "User Exits";
+
+    public static final String TRUE= "true";
+    public static final String FALSE = "false";
 
     public static final String SERVICE = "Service";
-
-    public static final String HOME_SERVICES = "ChatActivity";
+    public static final String HOME_SERVICES = "HomeServices";
     public static final String SHOPPING = "Shopping";
     public static final String CABS = "Cabs";
     public static final String TRAVEL = "Travel";
     public static final String RECHARGE = "Recharge";
     public static final String FOOD = "Food";
-
-
 
     public static final String ISCHATHISTORYTOBELOADED = "IsChatHistoryToBeLoaded";
     public static final String YES = "Yes";

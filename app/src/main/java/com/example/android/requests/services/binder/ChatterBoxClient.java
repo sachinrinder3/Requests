@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,16 +41,17 @@ public class ChatterBoxClient extends Binder {
             JSONObject messageJSON = new JSONObject();
             //Log.i("TAG", "yahJHJB JH Ju");
             //messageJSON.put(ChatterBoxMessage.DEVICETAG, message.getDeviceTag());
-            messageJSON.put(ChatMessage.SENDERUUID, chatterBoxService.getPubNub().getUUID()); //Set the uuid
+            //messageJSON.put(ChatMessage.SENDERUUID, chatterBoxService.getPubNub().getUUID()); //Set the uuid
             //messageJSON.put(ChatterBoxMessage.EMOTICON, "");
-            messageJSON.put(ChatMessage.FROM, message.getFrom());
+            //messageJSON.put(ChatMessage.FROM, message.getFrom());
+            messageJSON.put(ChatMessage.DEVICETAG, message.getDeviceTag());
             messageJSON.put(ChatMessage.SERVICE, message.getservice());
             messageJSON.put(ChatMessage.INCOMING, message.getincoming());
             messageJSON.put(ChatMessage.OUTGOING, message.getoutgoing());
             messageJSON.put(ChatMessage.SENTON, new Date().getTime());
             messageJSON.put(ChatMessage.TYPE, message.getType());
             messageJSON.put(ChatMessage.MESSAGECONTENT, message.getMessageContent());
-            messageJSON.put(ChatMessage.SENDERUUID, chatterBoxService.getCurrentUserEmailID());
+            //messageJSON.put(ChatMessage.SENDERUUID, chatterBoxService.getCurrentUserEmailID());
 
             chatterBoxService.getPubNub().publish(channel, messageJSON, new Callback() {
                 @Override
@@ -95,41 +97,40 @@ public class ChatterBoxClient extends Binder {
 
             int i =0;
 
+             List<ChatterBoxCallback> l = null;
 
-            List<ChatterBoxCallback> l = null;
-
-            if (!chatterBoxService.getListeners().containsKey("Food")) {
+            if (!chatterBoxService.getListeners().containsKey(Constant.FOOD)) {
                 l = new ArrayList<>();
             } else {
-                l = chatterBoxService.getListeners().get("Food");
+                l = chatterBoxService.getListeners().get(Constant.FOOD);
             }
 
             l.add(listener); //add the listener for this room.
             i = chatterBoxService.getListeners().size();
             Log.i("TAG", ""+i);
-            chatterBoxService.getListeners().put("Food", l);
+            chatterBoxService.getListeners().put(Constant.FOOD, l);
             l = null;
 //            //Log.i("TAG", chatterBoxService.getListeners().containsKey("Food")+"");
-            if (!chatterBoxService.getListeners().containsKey("Shopping")) {
+            if (!chatterBoxService.getListeners().containsKey(Constant.SHOPPING)) {
                 l = new ArrayList<>();
             } else {
-                l = chatterBoxService.getListeners().get("Shopping");
+                l = chatterBoxService.getListeners().get(Constant.SHOPPING);
             }
 
             l.add(listener); //add the listener for this room.
 
-            chatterBoxService.getListeners().put("Shopping", l);
+            chatterBoxService.getListeners().put(Constant.SHOPPING, l);
             l = null;
             //Log.i("TAG", chatterBoxService.getListeners().containsKey("Food")+"");
-            if (!chatterBoxService.getListeners().containsKey("ChatActivity")) {
+            if (!chatterBoxService.getListeners().containsKey(Constant.HOME_SERVICES)) {
                 l = new ArrayList<>();
             } else {
-                l = chatterBoxService.getListeners().get("ChatActivity");
+                l = chatterBoxService.getListeners().get(Constant.HOME_SERVICES);
             }
 
             l.add(listener); //add the listener for this room.
 
-            chatterBoxService.getListeners().put("ChatActivity", l);
+            chatterBoxService.getListeners().put(Constant.HOME_SERVICES, l);
     }
 
     public void addRoom(final String roomName, final ChatterBoxCallback listener, String gcm_id) {
@@ -149,17 +150,28 @@ public class ChatterBoxClient extends Binder {
                     Log.i("TAG", "EFERBCMC");
                 }
             });
-            int i =0;
-            //Log.i("TAG", String.valueOf(currentChannels.length));
-//                for (String c : currentChannels) {
-//                    Log.i("TAG", c);
-//                    i=i+1;
-//                    if (c.equals(roomName)) {
-//                        bfound = true;
-//                        break;
-//                    }
-//                }
-            //Log.i("TAG", String.valueOf(!bfound));
+            List<ChatterBoxCallback> thisRoomListeners = chatterBoxService.getListeners().get(roomName);
+            if (listener.toString().contains("FrontPage")){
+                if (thisRoomListeners != null) {
+                    for (int i = 0; i < thisRoomListeners.size(); i++) {
+                        if (thisRoomListeners.get(i).toString().contains("FrontPage")) {
+                            bfound = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (listener.toString().contains("ChatterBoxMessageFragment")){
+                if (thisRoomListeners != null) {
+                    for (int i = 0; i < thisRoomListeners.size(); i++) {
+                        if (thisRoomListeners.get(i).toString().contains("ChatterBoxMessageFragment")) {
+                            bfound = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
             if (!bfound) {
                 try {
                     chatterBoxService.getPubNub().subscribe(roomName, new Callback() {
@@ -169,19 +181,16 @@ public class ChatterBoxClient extends Binder {
                             try {
                                 if (message instanceof JSONObject) {
                                     JSONObject jmessage = (JSONObject) message;
-                                    JSONObject jmessage1 = (JSONObject)jmessage.getJSONObject("ChatMessage");
+                                    JSONObject jmessage1 = jmessage.getJSONObject("ChatMessage");
                                     String messageType = jmessage1.getString(ChatMessage.TYPE);
                                     if (messageType.equals(ChatMessage.CHATTMESSAGE)) {
                                         Log.i("TAG", "MESSAGE HAS BEEN RECEIVED");
                                         ChatMessage msg = ChatMessage.create(jmessage1, timetoken);
                                         List<ChatterBoxCallback> thisRoomListeners = chatterBoxService.getListeners().get(roomName);
-                                        Log.i("TAG", String.valueOf(thisRoomListeners));
+                                        //Log.i("TAG", String.valueOf(thisRoomListeners));
                                         for (ChatterBoxCallback l : thisRoomListeners) {
-//                                            if (i<1) {
-                                            Log.i("TAG", "INSIDE FOR LOOP");
+                                            //Log.i("TAG", "INSIDE FOR LOOP");
                                                 l.onMessage(msg);
-//                                            }
-//                                            i=1;
                                         }
                                     }
                                 }

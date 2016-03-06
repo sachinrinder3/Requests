@@ -43,8 +43,8 @@ public class EditProfile extends AppCompatActivity {
         name = (AppCompatEditText)findViewById(R.id.user_name);
         email = (AppCompatEditText)findViewById(R.id.user_email);
         SharedPreferences sharepref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        name.setText(sharepref.getString(Constant.NAME, "nhi aaya"));
-        email.setText(sharepref.getString(Constant.EMAIL, "nhi aaya"));
+        name.setText(sharepref.getString(Constant.FIRST_NAME, "nhi aaya"));
+        email.setText(sharepref.getString(Constant.EMAIL_ID, "nhi aaya"));
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

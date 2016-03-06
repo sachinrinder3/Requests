@@ -87,14 +87,13 @@
             android:label="@string/title_activity_edit_profile"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".activities.ChatActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName = ".activities.FrontPage">
-        <meta-data
-            android:name = "android.support.PARENT_ACTIVITY"
-            android:value = ".activities.FrontPage" />
+            android:parentActivityName=".activities.FrontPage"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.FrontPage" />
         </activity>
         <activity
             android:name=".activities.CurrentLocation"
@@ -127,17 +126,19 @@
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="com.example.android.requests" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".services.GcmIntentService"
-            />
+        <service android:name=".services.GcmIntentService" />
         <service
             android:name=".services.MyService"
             android:enabled="true"
             android:exported="true" />
-        <activity android:name=".activities.MyIntro"
+
+        <activity
+            android:name=".activities.MyIntro"
             android:label="app_intro" />
 
         <!-- <service -->
@@ -153,9 +154,12 @@
         <service
             android:name=".services.ChatterBoxService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"></service>
 
-        </service>
+        <activity android:name=".activities.Dummy"></activity>
+        <service
+            android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
+            android:enabled="true" />
     </application>
 
 </manifest>

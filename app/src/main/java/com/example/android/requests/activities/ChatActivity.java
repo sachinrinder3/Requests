@@ -161,10 +161,7 @@ public class ChatActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //Log.i("TAG", service);
         SharedPreferences sharepref =getSharedPreferences("MyPref", MODE_PRIVATE);
-        emailid = sharepref.getString(Constant.EMAIL, "jaintulsi");
-        //Log.i("TAG", emailid);
-        emailid="jaintulsi";
-        //Log.i("TAG", emailid);
+        emailid = sharepref.getString(Constant.EMAIL_ID, "");
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         ChatterBoxMessageFragment roomFragment = ChatterBoxMessageFragment.newInstance(emailid, service);
         transaction.replace(R.id.message_display_fragment_container, roomFragment,"message");

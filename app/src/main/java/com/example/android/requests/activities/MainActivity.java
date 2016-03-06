@@ -46,43 +46,31 @@ public class MainActivity extends AppCompatActivity {
         Intent i = getIntent();
         String fragmentName = i.getStringExtra("fragment");
         String forum = "Login";
-        //Log.e("Test1", "Test1" + fragmentName);
         if (fragmentName != null && fragmentName.equals(forum)) {
-            //Log.i("TAG", "logout is clicked ");
             com.example.android.requests.fragments.Login login = new com.example.android.requests.fragments.Login();
             fragmentManager.beginTransaction().replace(R.id.frameholder1, login).commit();
         } else {
-            //Log.i("TAG", "coming through main page ");
-            //Log.i(TAG, "Else main condition");
             SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
-            email  = sharepref.getString(Constant.EMAIL, "");
+            email  = sharepref.getString(Constant.EMAIL_ID, "");
             String loginStatus = sharepref.getString(Constant.LOGINSTATUS, "");
             password = sharepref.getString(Constant.PASSWORD, "");
-            String regid = sharepref.getString(Constant.PROPERTY_REG_ID, "");
-            //Log.i("TAG", email);
-            //Log.i("TAG", loginStatus);
-            //Log.i("TAG", password);
-            //Log.i("TAG", regid);
-            //Log.i("TAG", "hey it is there");
-
-            //registerInBackground();
 
             if (loginStatus.equals("true") && !email.equals("") && !password.equals("")) {
-                //
-                // Log.i("TAG", "Async task is called");
 
                 if (checkPlayServices()) {
-                    //gcm = GoogleCloudMessaging.getInstance(MainActivity.this);
-                    //regid = getRegistrationId(MainActivity.this);
-                    //reqid ="";
-                    //if (regid.isEmpty()) {
-                        //Log.i("TAG", "empty regid");
-//                        Startup startup1 = new Startup();
-//                        fragmentManager.beginTransaction().replace(R.id.frameholder1, startup1).commit();
-                        //registerInBackground();
-                    //}
+
+
+                    gcm = GoogleCloudMessaging.getInstance(MainActivity.this);
+                    regid = getRegistrationId(MainActivity.this);
+
+                    if (regid.isEmpty()) {
+                        Log.i("TAG", "empty regid");
+                        Startup startup1 = new Startup();
+                        fragmentManager.beginTransaction().replace(R.id.frameholder1, startup1).commit();
+                        registerInBackground();
+                    }
                 } else {
-                    //Log.i("TAG", "No valid Google Play Services APK found.");
+                    Log.i("TAG", "No valid Google Play Services APK found.");
                 }
 
             } else {
@@ -182,10 +170,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             SharedPreferences sharepref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
-            String loginStatus = sharepref.getString(Constant.LOGINSTATUS, "false");
-            //Log.i("TAG", loginStatus);
-            //Log.i("TAG", result);
-            if (loginStatus.equals("true") && result.equals("User Exits")) {
+            String loginStatus = sharepref.getString(Constant.LOGINSTATUS, Constant.FALSE);
+            Log.i("TAG", "HEY BRO");
+            if (loginStatus.equals(Constant.TRUE) && result.equals(Constant.USER_EXITS)) {
                 Toast.makeText(context, "already logged in", Toast.LENGTH_LONG).show();
                 Intent intentlogin = new Intent(context, FrontPage.class);
                 startActivity(intentlogin);
@@ -203,8 +190,7 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String username = params[0];
             String password = params[1];
-            String reqid = params[2];
-            String result = com.example.android.requests.utils.NetworkUtil.userLogin(username, password, reqid );
+            String result = com.example.android.requests.utils.NetworkUtil.userLogin(username, password );
             return result;
         }
     }
@@ -225,75 +211,74 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-//    private String getRegistrationId(Context context) {
-//        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = prefs.edit();
-//        editor.putString(Constant.PROPERTY_REG_ID, "");
-//        editor.commit();
-//        String registrationId = prefs.getString(Constant.PROPERTY_REG_ID, "");
-//
-//        if (registrationId.isEmpty()) {
-//            Log.i(MainActivity.TAG, "Registration not found.");
-//            return "";
-//        }
-//        int registeredVersion = prefs.getInt(Constant.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
-//
-//        int currentVersion = getAppVersion(context);
-//        if (registeredVersion != currentVersion) {
-//            Log.i(MainActivity.TAG, "App version changed.");
-//            return "";
-//        }
-//        return registrationId;
-//    }
+    private String getRegistrationId(Context context) {
+        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(Constant.PROPERTY_REG_ID, "");
+        editor.commit();
+        String registrationId = prefs.getString(Constant.PROPERTY_REG_ID, "");
 
-//    private static int getAppVersion(Context context) {
-//        try {
-//            PackageInfo packageInfo = context.getPackageManager()
-//                    .getPackageInfo(context.getPackageName(), 0);
-//            return packageInfo.versionCode;
-//        } catch (PackageManager.NameNotFoundException e) {
-//            throw new RuntimeException("Could not get package name: " + e);
-//        }
-//    }
+        if (registrationId.isEmpty()) {
+            Log.i(MainActivity.TAG, "Registration not found.");
+            return "";
+        }
+        int registeredVersion = prefs.getInt(Constant.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
 
-//    private void registerInBackground() {
-//
-//        new AsyncTask() {
-//            @Override
-//            protected void onPostExecute(Object o) {
-//                AsyncTaskRunner runner = new AsyncTaskRunner();
-//                runner.execute(email, password, regid);
-//            }
-//
-//            @Override
-//            protected String doInBackground(Object[] params) {
-//                String msg = "TRY";
-////                try {
-////                    if (gcm == null) {
-////                        gcm = GoogleCloudMessaging.getInstance(MainActivity.this);
-////                    }
-////                    regid = gcm.register(Constant.SENDER_ID);
-////                      msg = "Device registered, registration ID=" + regid;
-////                    storeRegistrationId(MainActivity.this, regid);
-////                } catch (IOException ex) {
-////                     msg = "Error :" + ex.getMessage();
-////                }
-////                Log.i("TAG", msg);
-//                regid="hey";
-//                return msg;
-//            }
-//        }.execute();
-//
-//    }
-//    private void storeRegistrationId(Context context, String regId) {
-//        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-//        int appVersion = getAppVersion(context);
-//        Log.i(MainActivity.TAG, "Saving regId on app version " + appVersion);
-//        SharedPreferences.Editor editor = prefs.edit();
-//        editor.putString(Constant.PROPERTY_REG_ID, regId);
-//        editor.putInt(Constant.PROPERTY_APP_VERSION, appVersion);
-//        editor.commit();
-//    }
+        int currentVersion = getAppVersion(context);
+        if (registeredVersion != currentVersion) {
+            Log.i(MainActivity.TAG, "App version changed.");
+            return "";
+        }
+        return registrationId;
+    }
+
+    private static int getAppVersion(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException("Could not get package name: " + e);
+        }
+    }
+
+    private void registerInBackground() {
+
+        new AsyncTask() {
+            @Override
+            protected void onPostExecute(Object o) {
+                AsyncTaskRunner runner = new AsyncTaskRunner();
+                runner.execute(email, password);
+            }
+
+            @Override
+            protected String doInBackground(Object[] params) {
+                String msg;
+                try {
+
+                    if (gcm == null) {
+                        gcm = GoogleCloudMessaging.getInstance(MainActivity.this);
+                    }
+                    regid = gcm.register(Constant.SENDER_ID);
+                      msg = "Device registered, registration ID=" + regid;
+                    storeRegistrationId(MainActivity.this, regid);
+                } catch (IOException ex) {
+                     msg = "Error :" + ex.getMessage();
+                }
+                return msg;
+            }
+        }.execute();
+
+    }
+    private void storeRegistrationId(Context context, String regId) {
+        final SharedPreferences prefs = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        int appVersion = getAppVersion(context);
+        Log.i(MainActivity.TAG, "Saving regId on app version " + appVersion);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(Constant.PROPERTY_REG_ID, regId);
+        editor.putInt(Constant.PROPERTY_APP_VERSION, appVersion);
+        editor.commit();
+    }
 
 
 

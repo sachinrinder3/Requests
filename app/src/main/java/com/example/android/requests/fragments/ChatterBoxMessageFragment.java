@@ -72,17 +72,17 @@ public class ChatterBoxMessageFragment extends Fragment {
             appCompatActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
+                    Log.i(Constant.TAG, "WD UP1");
                     ActivityManager am = (ActivityManager) appCompatActivity.getSystemService(Context.ACTIVITY_SERVICE);
                     List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
                     ComponentName componentInfo = taskInfo.get(0).topActivity;
-                    Log.i("TAG", taskInfo.get(0).topActivity.getClassName());
                     if (taskInfo.get(0).topActivity.getClassName().equals("com.example.android.requests.activities.ChatActivity")) {
-                        //Log.i("TAG", "inside first if");
-                        SharedPreferences shareprefe = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+                        Log.i(Constant.TAG, "WD UP2");
+                        SharedPreferences shareprefe = appCompatActivity.getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
                         String currentService = shareprefe.getString("CurrentService", "");
                         String messageService = fmsg.getservice();
                         if (currentService.equals(messageService)) {
+                            Log.i(Constant.TAG, "WD UP3");
                             addincomingtoadapter(fmsg);
                             addMessageToDataBase(fmsg.getMessageContent(), fmsg.getservice(), fmsg.getoutgoing(), fmsg.getincoming());
                         }
@@ -98,6 +98,7 @@ public class ChatterBoxMessageFragment extends Fragment {
             Log.d(Constant.TAG, "error while listening for message");
         }
     };
+
     public void addMessageToDataBase (String message, String message_service, String outgoing, String incoming ){
 
         ContentValues contentValues = new ContentValues();
@@ -122,7 +123,7 @@ public class ChatterBoxMessageFragment extends Fragment {
             String gcm_id = prefs.getString(Constant.PROPERTY_REG_ID, "");
             if (!gcm_id.equals("")) {
                 Log.i("TAG", "HEY BROTHER I AM CALLED");
-                chatterBoxServiceClient.addRoom(roomName, roomListener,gcm_id );
+                chatterBoxServiceClient.addRoom(roomName, roomListener, gcm_id );
             }
         }
 
@@ -149,8 +150,6 @@ public class ChatterBoxMessageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //chatAdapter = new ChatMessageListArrayAdapter(getActivity(), R.layout.chat_message_item, chatterMessageArray,
-                //currentUserProfile);
         dataBaseHelper = new DataBaseHelper(getContext());
         sqLiteDatabase = dataBaseHelper.getWritableDatabase();
         chatAdapter = new ChatAdapter(getActivity(), getChatListFromDataBase(servicename));
@@ -192,8 +191,8 @@ public class ChatterBoxMessageFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        //chatterBoxServiceClient.removeRoomListener(this.roomName, roomListener);
-        getActivity().unbindService(serviceConnection);
+        appCompatActivity.unbindService(serviceConnection);
+        chatterBoxServiceClient.removeRoomListener(emailid,roomListener);
     }
 
     public void setRoomName(String roomName) {
@@ -210,11 +209,9 @@ public class ChatterBoxMessageFragment extends Fragment {
     public List<ChatMessage> getChatListFromDataBase(String channelName){
 
         chatList =  new ArrayList<>();
-        //String query = "select chat_message from CHAT_TABLE";
         String[] columns = {"_id", "chat_message", "message_service",  "outgoing", "incoming"};
 
         Cursor c = sqLiteDatabase.query("CHAT_TABLE",columns,"message_service=?", new String[] { channelName }, null, null,null,null);
-        //Log.i("TAG",String.valueOf(c.getCount()));
         while (c.moveToNext()){
             String message = c.getString(1);
             String outgoing = c.getString(3);
@@ -225,6 +222,5 @@ public class ChatterBoxMessageFragment extends Fragment {
         return chatList;
 
     }
-
 
 }

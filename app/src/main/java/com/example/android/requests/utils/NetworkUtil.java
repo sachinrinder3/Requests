@@ -42,42 +42,35 @@ import java.util.concurrent.TimeUnit;
 
 public class NetworkUtil {
 
-    public static String userLogin(String email, String password, String reqid){
+    public static String userLogin(String email, String password){
         OkHttpClient client = new OkHttpClient();
-        String uri = Constant.intialUrl + "login?"+Constant.EMAIL+"="+email+"&"+Constant.PASSWORD+"="+password+"&"+Constant.PROPERTY_REG_ID+"="+reqid;
+        String uri = Constant.intialUrl + "login?"+Constant.EMAIL_ID+"="+email+"&"+Constant.PASSWORD+"="+password;
         Request request = new Request.Builder().url(uri).build();
-        //String message = "User does not Exits";
-        String message = "User Exits";
+        String message = Constant.USER_DOES_NOT_EXITS;
+        //String message = Constant.USER_EXITS;
         Context applicationContext = MainActivity.getContextOfApplication();
         try {
             Call call = client.newCall(request);
             Response response = call.execute();
             JsonElement jelement = new JsonParser().parse(response.body().string());
             JsonObject  jobject = jelement.getAsJsonObject();
-            message = jobject.get("message").getAsString();
-            //JSONObject json = new JSONObject(response.body().string());
-            //message = json.getString("message");
-            if (message.equals("User Exits")) {
+            message = jobject.get(Constant.MESSAGE).getAsString();
+            if (message.equals(Constant.USER_EXITS)) {
                 SharedPreferences sharepref = applicationContext.getSharedPreferences("MyPref", applicationContext.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharepref.edit();
                 editor.putString(Constant.LOGINSTATUS, "true");
                 editor.putString(Constant.PASSWORD, password);
-                editor.putString(Constant.NAME, jobject.get("name").getAsString());
-                editor.putString(Constant.EMAIL, jobject.get("email").getAsString());
-                editor.putString(Constant.UUID, jobject.get("uuid").getAsString());
-                editor.putString(Constant.PHONE, jobject.get("phone").getAsString());
-                //editor.putString(Constant.PROPERTY_REG_ID, jobject.get("registration_id").getAsString());
+                editor.putString(Constant.FIRST_NAME, jobject.get(Constant.FIRST_NAME).getAsString());
+                editor.putString(Constant.EMAIL_ID, jobject.get(Constant.EMAIL_ID).getAsString());
+                editor.putString(Constant.CONATCT_NUMBER, jobject.get(Constant.CONATCT_NUMBER).getAsString());
                 editor.commit();
 
-
-                Log.i(MainActivity.TAG, sharepref.getString(Constant.PROPERTY_REG_ID, "no values"));
             }
-            else if (message.equals("User does not Exits")){
+            else if (message.equals(Constant.USER_DOES_NOT_EXITS)){
             }
         }catch (Exception e){
             e.printStackTrace();
         }
-        Log.i("TAG",message);
         return message;
     };
 

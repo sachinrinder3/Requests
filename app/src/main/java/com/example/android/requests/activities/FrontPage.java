@@ -30,7 +30,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-//import com.livechatinc.inappchat.ChatWindowActivity;
 import com.example.android.requests.fragments.Notification;
 import com.example.android.requests.fragments.SavedAddress;
 import com.example.android.requests.fragments.Profile;
@@ -69,6 +68,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
     private DataBaseHelper dataBaseHelper;
     private SQLiteDatabase sqLiteDatabase;
     public LocalBroadcastManager localBroadcastManager;
+    private String email_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,9 +87,8 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         circleImageViewProfileImage = (CircleImageView) header.findViewById(R.id.profile_image);
         headeremail = (TextView) header.findViewById(R.id.headeremail);
         SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharepref.edit();
-        headerusername.setText(sharepref.getString(Constant.NAME, "username"));
-        headeremail.setText(sharepref.getString(Constant.EMAIL, "useremail"));
+        headerusername.setText(sharepref.getString(Constant.FIRST_NAME, "username"));
+        headeremail.setText(sharepref.getString(Constant.EMAIL_ID, "useremail"));
         //circleImageViewProfileImage.setImageURI();
         circleImageViewProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,14 +160,12 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
         //Log.i(MainActivity.TAG, "Post Create of FrontPage Activity");
    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.i(MainActivity.TAG, "onCreateOptiosnMenu  is called");
         //MenuInflater inflater = getMenuInflater();
         //inflater.inflate(R.menu.profile, menu);
         return true;
@@ -182,23 +179,22 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         }
         switch (item.getItemId()) {
             case R.id.profilemenu:
-                Profile fragment_profile = new Profile();
-                FragmentTransaction ft_profile = getSupportFragmentManager().beginTransaction();
-                ft_profile.replace(R.id.frameholder, fragment_profile);
-                ft_profile.commit();
+//                Profile fragment_profile = new Profile();
+//                FragmentTransaction ft_profile = getSupportFragmentManager().beginTransaction();
+//                ft_profile.replace(R.id.frameholder, fragment_profile);
+//                ft_profile.commit();
                 return true;
             case R.id.logoutmenu:
-                SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
-                String emaillogout = sharepref.getString(Constant.EMAIL,"");
-                String reqidlogout = sharepref.getString(Constant.PROPERTY_REG_ID,"");
-                reqidlogout="hey";
-                Log.i("TAG", emaillogout);
-                Log.i("TAG", reqidlogout);
-                if(!emaillogout.equals("")) {
-                    AsyncTaskLogout runner = new AsyncTaskLogout();
-                    runner.execute(emaillogout, reqidlogout);
-                }
-                chatterBoxServiceClient.leaveRoom("jaintulsi");
+//                SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
+//                String emaillogout = sharepref.getString(Constant.EMAIL_ID,"");
+//                String reqidlogout = sharepref.getString(Constant.PROPERTY_REG_ID,"");
+//                Log.i("TAG", emaillogout);
+//                Log.i("TAG", reqidlogout);
+//                if(!emaillogout.equals("")) {
+//                    AsyncTaskLogout runner = new AsyncTaskLogout();
+//                    runner.execute(emaillogout, reqidlogout);
+//                }
+//                chatterBoxServiceClient.leaveRoom(email_id);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -237,21 +233,22 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
     protected void onStart() {
         super.onStart();
          Intent chatterBoxServiceIntent = new Intent(FrontPage.this, ChatterBoxService.class);
-        FrontPage.this.bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+         FrontPage.this.bindService(chatterBoxServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
 
     }
     public  ChatterBoxClient chatterBoxServiceClient;
+
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+            SharedPreferences prefs = FrontPage.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+             email_id = prefs.getString(Constant.EMAIL_ID, "");
             chatterBoxServiceClient = (ChatterBoxClient) service;
             if (chatterBoxServiceClient.isConnected() == false) {
-                chatterBoxServiceClient.connect("jaintulsi");
-            }
-            SharedPreferences prefs = FrontPage.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-            String gcm_id = prefs.getString(Constant.PROPERTY_REG_ID, "");
+                chatterBoxServiceClient.connect(email_id);
+            }String gcm_id = prefs.getString(Constant.PROPERTY_REG_ID, "");
             if (!gcm_id.equals("")){
-                chatterBoxServiceClient.addRoom("jaintulsi", roomList, gcm_id);
+                chatterBoxServiceClient.addRoom(email_id, roomList, gcm_id);
             }
             else{
 
@@ -312,19 +309,14 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                     ActivityManager am = (ActivityManager) FrontPage.this .getSystemService(ACTIVITY_SERVICE);
                     List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
                     ComponentName componentInfo = taskInfo.get(0).topActivity;
-                    Log.i("TAG", taskInfo.get(0).topActivity.getClassName());
                     if (taskInfo.get(0).topActivity.getClassName().equals("com.example.android.requests.activities.ChatActivity")){
-                        //Log.i("TAG", "inside first if");
                         SharedPreferences shareprefe = getSharedPreferences("MyPref", MODE_PRIVATE);
                         String currentService = shareprefe.getString("CurrentService", "");
                         String messageService = fmsg.getservice();
-                        //Log.i("TAG", currentService+" "+ messageService);
                         if (currentService.equals(messageService)){
-                            //Log.i("TAG", "inside nested if");
-                            //Log.i("TAG", "in same service start");
                            // ChatterBoxMessageFragment chatterBoxMessageFragment =  (ChatterBoxMessageFragment)ChatActivity.getsupport().findFragmentById(R.id.message_display_fragment_container);
                             //chatterBoxMessageFragment.addoutgoingtoadapter(fmsg);
-                            Log.i("TAG", "Someone else is doing my job brother hahahahaha");
+                            Log.i("TAG", "Someone else is doing my job");
                         }
                         else
                         {
@@ -351,7 +343,6 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                             sqLiteDatabase.insert("CHAT_TABLE", null, contentValues);
                             Log.i("TAG", "VALUE IS INSERTED INTO THE DATABASE1");
                         }
-                        //chatterBoxMessageFragment.IamSeeing(fmsg);
                     }
                     else {
                         Log.i("TAG", "inside first else");
@@ -376,11 +367,7 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                         contentValues.put("outgoing", fmsg.getoutgoing());
                         contentValues.put("incoming", fmsg.getincoming());
                         sqLiteDatabase.insert("CHAT_TABLE", null, contentValues);
-
-                        Log.i("TAG", "VALUE IS INSERTED INTO THE DATABASE2");
                     }
-
-
                 }
             });
 
@@ -392,7 +379,6 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
     public void onConfigurationChanged(Configuration newConfig)
    {
        super.onConfigurationChanged(newConfig);
-       //actionBarDrawerToggle.onConfigurationChanged(newConfig);
        Log.i(MainActivity.TAG, "onConfigurationChanged is called");
   }
 
@@ -480,18 +466,15 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 return true;
 
             case R.id.logout:
-                SharedPreferences sharepref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
-                String emaillogout = sharepref.getString(Constant.EMAIL,"");
-                String reqidlogout = sharepref.getString(Constant.PROPERTY_REG_ID,"");
-                reqidlogout="hey";
-                Log.i("TAG", emaillogout);
-                Log.i("TAG", reqidlogout);
-                if(!emaillogout.equals("")) {
-                    AsyncTaskLogout runner = new AsyncTaskLogout();
-                    runner.execute(emaillogout, reqidlogout);
-                }
-                chatterBoxServiceClient.leaveRoom("jaintulsi");
-                return true;
+
+//                if(!email_id.equals("")) {
+//                    AsyncTaskLogout runner = new AsyncTaskLogout();
+//                    runner.execute(email_id);
+//                }
+//                chatterBoxServiceClient.leaveRoom(email_id);
+                Intent dummy2 = new Intent(this, Dummy.class);
+                startActivity(dummy2);
+                //return true;
 //            case R.id.dummy2:
 //                Intent dummy2 = new Intent(this, MapsActivity.class);
 //                startActivity(dummy2);
@@ -523,22 +506,14 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
                 SharedPreferences sharepref = getSharedPreferences("MyPref", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharepref.edit();
                 editor.putString(Constant.LOGINSTATUS, "false");
-                editor.remove(Constant.NAME);
-                editor.remove(Constant.EMAIL);
-                editor.remove(Constant.UUID);
-                editor.remove(Constant.PHONE);
+                editor.remove(Constant.FIRST_NAME);
+                editor.remove(Constant.EMAIL_ID);
+                editor.remove(Constant.CONATCT_NUMBER);
                 editor.remove(Constant.PASSWORD);
                 editor.remove(Constant.PROPERTY_REG_ID);
                 editor.apply();
-                Log.i("TAG", "VCFV");
                 sqLiteDatabase = dataBaseHelper.getWritableDatabase();
 				sqLiteDatabase.execSQL("DELETE FROM " + DataBaseHelper.Table_name);
-//                Log.i("TAG", sharepref.getString(Constant.NAME, ""));
-//                Log.i("TAG",sharepref.getString(Constant.PHONE,""));
-//                Log.i("TAG",sharepref.getString(Constant.PASSWORD,""));
-//                Log.i("TAG",sharepref.getString(Constant.UUID,""));
-//                Log.i("TAG",sharepref.getString(Constant.EMAIL,""));
-                //Log.i("TAG",sharepref.getString(Constant.PROPERTY_REG_ID,""));
                 Intent logout = new Intent(FrontPage.this, MainActivity.class);
                 String fragmnet = "Login";
                 logout.putExtra("fragment", fragmnet);
@@ -560,10 +535,8 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
         @Override
         protected String doInBackground(String...params) {
             String emaillog = params[0];
-            String reqidlog = params[1];
-            Log.i("TAG", reqidlog);
             OkHttpClient client = new OkHttpClient();
-            String uri = Constant.intialUrl + "logout?"+Constant.EMAIL+"="+emaillog+"&"+Constant.PROPERTY_REG_ID+"="+reqidlog;
+            String uri = Constant.intialUrl + "logout?"+Constant.EMAIL_ID+"="+emaillog;
             Request request = new Request.Builder().url(uri).build();
             String message = "Unsuccess";
             try {
@@ -578,8 +551,6 @@ public class FrontPage extends AppCompatActivity implements FragmentManager.OnBa
             return message;
         }
     }
-
-
 }
 
 

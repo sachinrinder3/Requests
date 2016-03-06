@@ -204,9 +204,9 @@ public class Register extends Fragment {
         //int appVersion = getAppVersion(context);
         //Log.i(MainActivity.TAG, "Saving regId on app version " + appVersion);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Constant.EMAIL, email.getText().toString());
-        editor.putString(Constant.NAME, name.getText().toString());
-        editor.putString(Constant.PHONE, phone.getText().toString());
+        editor.putString(Constant.EMAIL_ID, email.getText().toString());
+        editor.putString(Constant.FIRST_NAME, name.getText().toString());
+        editor.putString(Constant.CONATCT_NUMBER, phone.getText().toString());
         editor.putString(Constant.PASSWORD, password.getText().toString());
         editor.commit();
     }
@@ -222,7 +222,7 @@ public class Register extends Fragment {
         protected String doInBackground(String... params) {
 
             OkHttpClient client = new OkHttpClient();
-            String uri = Constant.intialUrl+"registration?"+Constant.PROPERTY_REG_ID+"="+regid+"&"+Constant.NAME+"="+nameString+"&"+Constant.EMAIL+"="+emailString+"&"+Constant.PHONE+"="+phoneString+"&"+Constant.PASSWORD+"="+passwordString;
+            String uri = Constant.intialUrl+"?"+Constant.FIRST_NAME+"="+nameString+"&"+Constant.EMAIL_ID+"="+emailString+"&"+Constant.CONATCT_NUMBER+"="+phoneString+"&"+Constant.PASSWORD+"="+passwordString;
             Log.i("TAG", uri);
             Request request = new Request.Builder().url(uri).build();
             String message = "";

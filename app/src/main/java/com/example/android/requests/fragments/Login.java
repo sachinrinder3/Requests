@@ -61,7 +61,6 @@ public class Login extends Fragment {
     private String passwordstring;
     GoogleCloudMessaging gcm;
     String regid;
-    String msg;
     boolean mServiceBound;
     String e1;
 
@@ -120,7 +119,7 @@ public class Login extends Fragment {
                                             //sendRegistrationIdToBackend();
                                             if (!emailstring.equals("") && !passwordstring.equals("")) {
                                                 AsyncTaskRunner runner = new AsyncTaskRunner();
-                                                runner.execute(emailstring, passwordstring, regid);
+                                                runner.execute(emailstring, passwordstring);
                                             } else {
                                                 Toast.makeText(getActivity(), "Please enter both email and password", Toast.LENGTH_LONG).show();
                                             }
@@ -193,8 +192,7 @@ public class Login extends Fragment {
         protected String doInBackground(String...params) {
             String username = params[0];
             String password = params[1];
-            String reqid = params[2];
-            String result = com.example.android.requests.utils.NetworkUtil.userLogin(username, password, reqid);
+            String result = com.example.android.requests.utils.NetworkUtil.userLogin(username, password);
             return result;
         }
     }
@@ -258,6 +256,7 @@ public class Login extends Fragment {
         new AsyncTask() {
             @Override
             protected String doInBackground(Object[] params) {
+                String msg;
                 try {
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(getActivity());
